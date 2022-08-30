@@ -13,7 +13,13 @@ var con = mysql.createConnection({
     password: "",
     database: "tiendas"
   });*/
-var con =  null
+var con =  mysql.connector.connect(
+    host="db-mysql-nyc1-93755-do-user-12336633-0.b.db.ondigitalocean.com",
+    user="doadmin",
+    password="AVNS_fh12ouJEjX8o4mU-0xs",
+    database="tiendas",
+    port= "25060"
+)
 
 
 function upd(id){
@@ -35,13 +41,6 @@ function upd(id){
 var mensajes = []
 function select(id){
     try {
-        con =  mysql.connector.connect(
-            host="db-mysql-nyc1-93755-do-user-12336633-0.b.db.ondigitalocean.com",
-            user="doadmin",
-            password="AVNS_fh12ouJEjX8o4mU-0xs",
-            database="tiendas",
-            port= "25060"
-        )
         var qry = 'SELECT * from tiendas WHERE keey = "'+id+'"'
         console.log(qry)
         con.query(qry, function(err,result) {
