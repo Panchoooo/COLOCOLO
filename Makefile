@@ -62,3 +62,29 @@ run:
 	nohup python3 main3.py Lider 24 &
 	nohup python3 main3.py Lider 25 &
 	nohup python3 main3.py Lider 26 &
+
+	
+	nohup python3 main3.py LaPolar 0 &
+	nohup python3 main3.py LaPolar 1 &
+	nohup python3 main3.py LaPolar 2 &
+	nohup python3 main3.py LaPolar 3 &
+	nohup python3 main3.py LaPolar 4 &
+	nohup python3 main3.py LaPolar 5 &
+	nohup python3 main3.py LaPolar 6 &
+	nohup python3 main3.py LaPolar 7 &
+	nohup python3 main3.py LaPolar 8 &
+	nohup python3 main3.py LaPolar 9 &
+	nohup python3 main3.py LaPolar 10 &
+	nohup python3 main3.py LaPolar 11 &
+	nohup python3 main3.py LaPolar 12 &
+	nohup python3 main3.py LaPolar 13 &
+	nohup python3 main3.py LaPolar 14 &
+	nohup python3 main3.py LaPolar 15 &
+	nohup python3 main3.py LaPolar 16 &
+	nohup python3 main3.py LaPolar 17 &
+	nohup python3 main3.py LaPolar 18 &
+	nohup python3 main3.py LaPolar 19 &
+	nohup python3 main3.py LaPolar 20 &
+	nohup python3 main3.py LaPolar 21 &
+	nohup python3 main3.py LaPolar 22 &
+	nohup python3 main3.py LaPolar 23 &
