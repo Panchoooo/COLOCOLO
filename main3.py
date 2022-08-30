@@ -154,7 +154,7 @@ def Hebra(categoria):
                                     producto.seller
                             )
                             try:
-                                mydb.reconnect()
+                                #mydb.reconnect()
                                 mycursor = mydb.cursor()
                                 sql = 'INSERT INTO tiendas (name, store, category, url, discovery_url,keey, stock, normal_price, offer_price, sku, ean, description,picture_urls,video_urls, seller,fecha) VALUES (%s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,NOW())'
                                 mycursor.execute(sql, val)
