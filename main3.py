@@ -48,6 +48,8 @@ if(tipo == "LaPolar"):
     tienda = LaPolar()
 
 categorias =  tienda.categories()
+
+print(len(categorias))
 if( len( sys.argv ) > 2 != None):
     test = sys.argv[2]
     categorias =  [tienda.categories()[int(test)]]
