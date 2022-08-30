@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "cloudscraper": "^4.6.0",
+    "express": "*",
+    "jsdom": "^20.0.0",
+    "mysql": "^2.18.1",
+    "node-telegram-bot-api": "^0.56.0",
+    "puppeteer": "^13.7.0",
+    "puppeteer-extra": "^3.2.3",
+    "puppeteer-extra-plugin-stealth": "^2.9.0",
+    "twilio": "^3.75.0",
+    "xml2js": "^0.4.23"
+  },
+  "scripts": {
+    "start": "node MonitorCarro.js 15"
+  }
+}
