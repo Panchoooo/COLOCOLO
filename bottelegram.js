@@ -13,7 +13,7 @@ var con = mysql.createConnection({
     password: "",
     database: "tiendas"
   });*/
-var con =  mysql.connector.connect(
+var con = mysql.createConnection(
     host="db-mysql-nyc1-93755-do-user-12336633-0.b.db.ondigitalocean.com",
     user="doadmin",
     password="AVNS_fh12ouJEjX8o4mU-0xs",
