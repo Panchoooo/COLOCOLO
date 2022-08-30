@@ -6,7 +6,7 @@ from storescraper.store import Store
 from storescraper.product import Product
 from storescraper.stores.paris import Paris
 from storescraper.stores.lider import Lider
-from storescraper.stores.hites import Hites
+from storescraper.stores.la_polar import LaPolar
 import mysql.connector
 import sys
 import requests
@@ -44,6 +44,8 @@ if(tipo == "AbcDin"):
     tienda = AbcDin()
 if(tipo == "Hites"):
     tienda = Hites()
+if(tipo == "LaPolar"):
+    tienda = LaPolar()
 
 categorias =  tienda.categories()
 if( len( sys.argv ) > 2 != None):
