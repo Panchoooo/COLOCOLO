@@ -169,8 +169,8 @@ def Hebra(categoria):
 
                                 po = float(producto.offer_price)
                                 pn = float(producto.normal_price)
-                                if( po<pn  and (100-po*100/pn)>30 ):
-                                    enviar(producto.key)
+                                #if( po<pn  and (100-po*100/pn)>30 ):
+                                enviar(producto.key)
                                 sleep(1)
                             except Exception as e: 
                                 print(e)
@@ -179,8 +179,8 @@ def Hebra(categoria):
                         else:
                             po = float(producto.offer_price)
                             pn = float(producto.normal_price)
-                            if( po<pn  and (100-po*100/pn)>30 ):
-                                enviar(producto.key)
+                            #if( po<pn  and (100-po*100/pn)>30 ):
+                            enviar(producto.key)
                     else:
                         print(res)
                         print(categoria+" | 2 No se encontraron elementos" )
