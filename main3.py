@@ -16,7 +16,6 @@ tipo =  sys.argv[1]
 
 tienda = None
 diccionario = []
-print("Conectando...")
 
 mydb = mysql.connector.connect(
     host="db-mysql-nyc1-93755-do-user-12336633-0.b.db.ondigitalocean.com",
@@ -26,7 +25,6 @@ mydb = mysql.connector.connect(
     port= "25060"
 )
 
-print("Conectado ! ")
 
 def is_integer_num(n):
     if isinstance(n, int):
@@ -155,7 +153,12 @@ def Hebra(categoria):
                             )
                             try:
                                 #mydb.reconnect()
-                                mycursor = mydb.cursor()
+                                try:
+                                    mycursor = mydb.cursor()
+                                except:
+                                    mydb.reconnect()
+                                    mycursor = mydb.cursor()
+
                                 sql = 'INSERT INTO tiendas (name, store, category, url, discovery_url,keey, stock, normal_price, offer_price, sku, ean, description,picture_urls,video_urls, seller,fecha) VALUES (%s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,NOW())'
                                 mycursor.execute(sql, val)
                                 mydb.commit()
