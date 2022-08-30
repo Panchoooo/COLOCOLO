@@ -167,11 +167,11 @@ def Hebra(categoria):
                                 pn = float(producto.normal_price)
                                 if( po<pn  and (100-po*100/pn)>30 ):
                                     enviar(producto.key)
-                                sleep(0.5)
+                                #sleep(0.5)
                             except Exception as e: 
                                 print(e)
                                 diccionario.append(producto.key)
-                                sleep(0.5)
+                                #sleep(0.5)
                         else:
                             po = float(producto.offer_price)
                             pn = float(producto.normal_price)
