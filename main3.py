@@ -19,10 +19,11 @@ diccionario = []
 print("Conectando...")
 
 mydb = mysql.connector.connect(
-    host="186.35.182.85",
-    user="root",
-    password="",
+    host="localhost",
+    user="doadmin",
+    password="AVNS_fh12ouJEjX8o4mU-0xs",
     database="tiendas",
+    port= "25060"
     )
 
 print("Conectado ! ")
