@@ -23,7 +23,6 @@ mydb = mysql.connector.connect(
     user="root",
     password="",
     database="tiendas",
-    port="3306"
     )
 
 print("Conectado ! ")
