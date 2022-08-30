@@ -6,13 +6,15 @@ const delay = ms => new Promise(res => setTimeout(res, ms));
 let users = ['-1001672119836'];
 var token = "5703951768:AAEaYU2Jg3R76J1vWr2Us4U1a9BtsL6QOdc" ; 
 var puerto = 5000
-
+/*
 var con = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "",
     database: "tiendas"
-  });
+  });*/
+var con =  null
+
 
 function upd(id){
     try 
@@ -33,6 +35,13 @@ function upd(id){
 var mensajes = []
 function select(id){
     try {
+        con =  mysql.connector.connect(
+            host="db-mysql-nyc1-93755-do-user-12336633-0.b.db.ondigitalocean.com",
+            user="doadmin",
+            password="AVNS_fh12ouJEjX8o4mU-0xs",
+            database="tiendas",
+            port= "25060"
+        )
         var qry = 'SELECT * from tiendas WHERE keey = "'+id+'"'
         console.log(qry)
         con.query(qry, function(err,result) {
@@ -87,12 +96,12 @@ function select(id){
                 catch (error) {
                     console.log(error)
                 }
-                return result; 
             } catch (error) {
-                return -1
             }
 
         });
+
+        con.close()
     } catch (error) {
         console.log(error)
     }
@@ -274,7 +283,6 @@ async function check_ids(){
                 console.log("mensajes encontrados "+ids.length)
                 try {
                     var id = ids.shift()
-                    //upd(id)
                     select(id)
                     await delay(2000)
                 } catch (error) {
