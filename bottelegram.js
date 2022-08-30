@@ -50,6 +50,7 @@ function select(id){
                 var body = ""
                 for(var i = 0; i < result.length ; i++){
                     var name = result[i].name
+                    var store = result[i].store
                     var url = result[i].url
                     var picture_urls = result[i].picture_urls
 
@@ -83,7 +84,7 @@ function select(id){
 
 
                 }
-                body = cat+"\n\nFalabella\n"+
+                body = cat+"\n"+store+"\n"+
                 name+"\
                 \nPrecio: "+normalPrice+" - Oferta: "+ofertaPrice+" \
                 \n\n<a href='"+url+"'><b>PRODUCTO</b></a> - <a href='"+url+"'><b>CATEGORIA</b></a>\n\
