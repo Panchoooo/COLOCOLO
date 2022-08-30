@@ -16,7 +16,7 @@ tipo =  sys.argv[1]
 
 tienda = None
 diccionario = []
-print("Conectanod...")
+print("Conectando...")
 
 mydb = mysql.connector.connect(
     host="186.35.182.85",
