@@ -24,6 +24,8 @@ mydb = mysql.connector.connect(
     port="3306"
     )
 
+print("Conectado ! ")
+
 def is_integer_num(n):
     if isinstance(n, int):
         return True
