@@ -159,6 +159,7 @@ def Hebra(categoria):
                                 sql = 'INSERT INTO tiendas (name, store, category, url, discovery_url,keey, stock, normal_price, offer_price, sku, ean, description,picture_urls,video_urls, seller,fecha) VALUES (%s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,NOW())'
                                 mycursor.execute(sql, val)
                                 mydb.commit()
+                                mycursor.close()
                                 print(mycursor.rowcount, "record inserted.")
                                 flag_delay = False
                                 diccionario.append(producto.key)
