@@ -24,7 +24,7 @@ mydb = mysql.connector.connect(
     password="AVNS_fh12ouJEjX8o4mU-0xs",
     database="tiendas",
     port= "25060"
-    )
+)
 
 print("Conectado ! ")
 
@@ -154,6 +154,7 @@ def Hebra(categoria):
                                     producto.seller
                             )
                             try:
+                                mydb.reconnect()
                                 mycursor = mydb.cursor()
                                 sql = 'INSERT INTO tiendas (name, store, category, url, discovery_url,keey, stock, normal_price, offer_price, sku, ean, description,picture_urls,video_urls, seller,fecha) VALUES (%s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,NOW())'
                                 mycursor.execute(sql, val)
