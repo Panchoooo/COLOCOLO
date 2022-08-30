@@ -153,11 +153,13 @@ def Hebra(categoria):
                             )
                             try:
                                 #mydb.reconnect()
-                                try:
-                                    mycursor = mydb.cursor()
-                                except:
-                                    mydb.reconnect()
-                                    mycursor = mydb.cursor()
+                                mycursor = mydb.cursor()
+
+#                                try:
+#                                    mycursor = mydb.cursor()
+#                                except:
+#                                    #mydb.reconnect()
+#                                    mycursor = mydb.cursor()
 
                                 sql = 'INSERT INTO tiendas (name, store, category, url, discovery_url,keey, stock, normal_price, offer_price, sku, ean, description,picture_urls,video_urls, seller,fecha) VALUES (%s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,NOW())'
                                 mycursor.execute(sql, val)
@@ -169,8 +171,8 @@ def Hebra(categoria):
 
                                 po = float(producto.offer_price)
                                 pn = float(producto.normal_price)
-                                #if( po<pn  and (100-po*100/pn)>30 ):
-                                enviar(producto.key)
+                                if( po<pn  and (100-po*100/pn)>30 ):
+                                    enviar(producto.key)
                                 sleep(1)
                             except Exception as e: 
                                 print(e)
@@ -179,8 +181,8 @@ def Hebra(categoria):
                         else:
                             po = float(producto.offer_price)
                             pn = float(producto.normal_price)
-                            #if( po<pn  and (100-po*100/pn)>30 ):
-                            enviar(producto.key)
+                            if( po<pn  and (100-po*100/pn)>30 ):
+                                enviar(producto.key)
                     else:
                         print(res)
                         print(categoria+" | 2 No se encontraron elementos" )
