@@ -181,6 +181,17 @@ def Hebra(categoria):
                             pn = float(producto.normal_price)
                             if( po<pn  and (100-po*100/pn)>30 ):
                                 enviar(producto.key)
+                                # Update precio al nuevo
+                                try:
+                                    mycursor = mydb.cursor()
+                                except:
+                                    mydb.reconnect()
+                                    mycursor = mydb.cursor()
+
+                                sql = 'UPDATE tiendas SET (offer_price = '+po+')'
+                                mycursor.execute(sql, val)
+                                mydb.commit()
+                                mycursor.close()
                     else:
                         print(res)
                         print(categoria+" | 2 No se encontraron elementos" )
