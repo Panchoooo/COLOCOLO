@@ -1,9 +1,5 @@
-const puppeteer = require('puppeteer');
 const express = require("express");
-var request = require('request');
-const { exec } = require("child_process");
 var mysql = require('mysql');
-const fs = require('fs');
 const TelegramBot = require('node-telegram-bot-api')
 const delay = ms => new Promise(res => setTimeout(res, ms));
 
