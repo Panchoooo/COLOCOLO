@@ -19,8 +19,8 @@ diccionario = []
 
 mydb = mysql.connector.connect(
     host="db-mysql-nyc1-93755-do-user-12336633-0.b.db.ondigitalocean.com",
-    user="doadmin",
-    password="AVNS_fh12ouJEjX8o4mU-0xs",
+    user="diego",
+    password="AVNS__QSFdINp_Fa9wILf0KO",
     database="tiendas",
     port= "25060"
 )
