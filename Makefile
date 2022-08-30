@@ -1,4 +1,6 @@
 run:
+	nohup node bottelegram.js &
+
 	nohup python3 main3.py Paris 0 &
 	nohup python3 main3.py Paris 1 &
 	nohup python3 main3.py Paris 2 &
