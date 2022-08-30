@@ -17,10 +17,11 @@ tipo =  sys.argv[1]
 tienda = None
 diccionario = []
 mydb = mysql.connector.connect(
-    host="localhost",
+    host="186.35.182.85",
     user="root",
     password="",
-    database="tiendas"
+    database="tiendas",
+    port="3306"
     )
 
 def is_integer_num(n):
