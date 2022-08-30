@@ -41,7 +41,7 @@ function upd(id){
 var mensajes = []
 function select(id){
     try {
-        var qry = 'SELECT * from tiendas WHERE keey = "'+id+'"'
+        var qry = "SELECT * from tiendas WHERE keey = '"+id+"'"
         console.log(qry)
         con.query(qry, function(err,result) {
             if(err) throw err
