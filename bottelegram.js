@@ -15,8 +15,8 @@ var con = mysql.createConnection({
   });*/
 var con = mysql.createConnection({
     host:"db-mysql-nyc1-93755-do-user-12336633-0.b.db.ondigitalocean.com",
-    user:"pancho",
-    password:"AVNS_w8HTmve3-a18lVWCX9x",
+    user:"diego",
+    password:"AVNS__QSFdINp_Fa9wILf0KO",
     database:"tiendas",
     port:"25060"
 })
