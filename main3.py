@@ -211,15 +211,18 @@ def Hebra(categoria):
 
     return 
 
-if __name__ == '__main__':
-    if(tienda != None):
-
-        print(categorias)
-        pool = Pool(processes=len(categorias))
-        result = pool.apply_async(Hebra)
-        print (pool.map(Hebra,categorias))
-    else:
-        print("Error tipo")
-
+if(tienda != None):
+    Hebra(categorias[0])
+#
+#if __name__ == '__main__':
+#    if(tienda != None):
+#
+#        print(categorias)
+#        pool = Pool(processes=len(categorias))
+#        result = pool.apply_async(Hebra)
+#        print (pool.map(Hebra,categorias))
+#    else:
+#        print("Error tipo")
+#
 
 
