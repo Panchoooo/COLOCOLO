@@ -256,7 +256,6 @@ class AbcDin(Store):
 
     @classmethod
     def products_for_url(cls, url, category=None, extra_args=None):
-        print(url)
         session = session_with_proxy(extra_args)
         session.headers['User-Agent'] = \
             'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 ' \
@@ -273,7 +272,10 @@ class AbcDin(Store):
 
         if 'brand' in json_data:
             brand_tag = json_data['brand']
-            name = '{} {}'.format(brand_tag.strip(), model)
+            try:
+                name = '{} {}'.format(brand_tag.strip(), model)
+            except:
+                name = model
         else:
             name = model
 

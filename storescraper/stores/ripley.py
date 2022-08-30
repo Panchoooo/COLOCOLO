@@ -195,7 +195,9 @@ class Ripley(Store):
         if extra_args and 'user-agent' in extra_args:
             session.headers['user-agent'] = extra_args['user-agent']
 
-        fast_mode = extra_args.get('fast_mode', False)
+
+        #fast_mode = extra_args.get('fast_mode', False)
+        fast_mode = False
         print('fast_mode', fast_mode)
 
         url_base = 'https://simple.ripley.cl/{}?page={}'

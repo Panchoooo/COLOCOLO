@@ -1,5 +1,6 @@
 import json
 import logging
+from re import M
 
 import time
 
@@ -199,12 +200,10 @@ class Lider(Store):
             if category not in local_categories:
                 continue
 
-            print(category_id)
 
             local_product_entries = {}
 
             for sorter in sorters:
-                print(sorter)
                 query_params = {
                     "categories": category_id,
                     "page": 1,
@@ -276,7 +275,6 @@ class Lider(Store):
 
     @classmethod
     def products_for_url(cls, url, category=None, extra_args=None):
-        print(url)
         session = session_with_proxy(extra_args)
         session.headers = {
             'User-Agent': 'PostmanRuntime/7.28.4'
@@ -304,6 +302,7 @@ class Lider(Store):
 
         if not entry.get('success', True):
             return []
+        
 
         name = '{} {}'.format(entry['brand'], entry['displayName'])
         ean = entry['gtin13']
@@ -311,7 +310,7 @@ class Lider(Store):
         if not check_ean13(ean):
             ean = None
 
-        sku = str(entry['sku'])
+        sku = str(sku_id)
         stock = -1 if entry['available'] else 0
         normal_price = Decimal(entry['price']['BasePriceSales'])
         offer_price_container = entry['price']['BasePriceTLMC']
@@ -341,14 +340,22 @@ class Lider(Store):
         if description:
             description = html_to_markdown(description)
 
-        picture_urls = ['https://images.lider.cl/wmtcl?source=url'
+        try:
+            picture_urls = ['https://images.lider.cl/wmtcl?source=url'
                         '[file:/productos/{}{}]&sink'.format(sku, img)
-                        for img in entry['imagesAvailables']]
+                        for img in entry['images']['availableImages']]
+        except:
+            picture_urls = [""]
+            
 
         # The preflight method verified that the LiveChat widget is being
         # loaded, and the Google Tag Manager logic that Lider uses to trigger
         # the wiodget makes sure that we only need to check for the brand.
-        has_virtual_assistant = entry['brand'] == 'LG'
+        has_virtual_assistant = ""
+        try:
+            has_virtual_assistant = entry['brand'] == 'LG'
+        except:
+            has_virtual_assistant = entry['brand'] == ''
 
         return [Product(
             name,
@@ -361,13 +368,12 @@ class Lider(Store):
             normal_price,
             offer_price,
             'CLP',
-            sku=sku,
-            ean=ean,
-            part_number=part_number,
-            picture_urls=picture_urls,
-            description=description,
-            has_virtual_assistant=has_virtual_assistant
+            sku = sku,
+            picture_urls= picture_urls,
+            ean = ean,
+            description = description
         )]
+
 
     @classmethod
     def banners(cls, extra_args=None):

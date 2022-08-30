@@ -39,9 +39,9 @@ class Product:
         if cell_plan_name:
             assert len(cell_plan_name) <= 60
 
-        if picture_urls:
-            for picture_url in picture_urls:
-                assert validators.url(picture_url), picture_url
+        #if picture_urls:
+        #    for picture_url in picture_urls:
+        #        assert validators.url(picture_url), picture_url
 
         if video_urls:
             for video_url in video_urls:

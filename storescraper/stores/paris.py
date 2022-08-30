@@ -342,7 +342,7 @@ class Paris(Store):
 
     @classmethod
     def _get_product(cls, url, category, extra_args):
-        print(url)
+        #print(url)
         session = session_with_proxy(extra_args)
         session.headers['User-Agent'] = cls.USER_AGENT
         response = session.get(url)
@@ -545,7 +545,7 @@ class Paris(Store):
         for section, subsection, subsection_type, url_suffix in sections_data:
             url = base_url.format(url_suffix)
             response = session.get(url)
-            print(url)
+            #print(url)
             soup = BeautifulSoup(response.text, 'html.parser')
 
             if subsection_type == bs.SUBSECTION_TYPE_MOSAIC:
@@ -633,7 +633,7 @@ class Paris(Store):
 
     @classmethod
     def reviews_for_sku(cls, sku):
-        print(sku)
+        #print(sku)
         session = session_with_proxy(None)
         reviews = []
 
