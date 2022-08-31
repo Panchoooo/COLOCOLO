@@ -144,7 +144,7 @@ class LaPolar(Store):
             ['accesorios-telefonos', ['Wearable'],
              'Inicio > Tecnología > Celulares > Accesorios Teléfonos', 0],
             ['sillas-gamer', [GAMING_CHAIR],
-             'Inicio > Tecnología > Mundo Gamer > Sillas Gamer', 1]
+             'Inicio > Tecnología > Mundo Gamer > Sillas Gamer', 1],
 
             ['mujer/ropa-mujer', "Mujer", '', 1],
             ['mujer/zapatos-mujer', "Mujer", '', 1],
