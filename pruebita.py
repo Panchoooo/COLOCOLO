@@ -82,6 +82,7 @@ def Hebra(lock, identifier, tienda,n):
         diccionario[x[6]] = x[9]
 
     while(True ):
+        try:
             r = tienda.discover_entries_for_category(categoria)
             print("Tienda: "+n+" | Categoria: "+categoria+" | r:"+str(len(r)))
             if(len(r)>0):
@@ -165,14 +166,15 @@ def Hebra(lock, identifier, tienda,n):
                     #else:
                         #print(res)
                         #print(categoria+" | 3 No se encontraron elementos en la url del producto" )
-                #if(flag_delay):
-                    #sleep(30)
+                if(flag_delay):
+                    sleep(10)
                     #print(categoria+" | 2 No se encontraron elementos nuevos en la categoria" )
             else:
                 break
                 #sleep(60)
                 #print(categoria+" | 1 No se encontraron elementos en la categoria" )
-
+        #except:
+        #    Hebra(lock, identifier, tienda,n)
 
 if __name__ == '__main__':
 
