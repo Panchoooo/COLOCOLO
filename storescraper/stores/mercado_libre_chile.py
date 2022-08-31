@@ -734,6 +734,7 @@ class MercadoLibreChile(Store):
 
     @classmethod
     def retrieve_type3_products(cls, data, session, category):
+        print("type3")
         variations = set()
         pickers = data['initialState']['components'].get('variations', {}).get(
             'pickers', None)
@@ -779,7 +780,7 @@ class MercadoLibreChile(Store):
 
             oprice = Decimal(box_winner['price'])
             try:
-                if(box_winner['original_price'] != None and box_winner['original_price'] != "null"):
+                if( (box_winner['original_price'] != None) and ( box_winner['original_price'] != "null" ) ):
                     price = Decimal(box_winner['original_price'])
                 else:
                     price = oprice
@@ -814,6 +815,8 @@ class MercadoLibreChile(Store):
 
     @classmethod
     def retrieve_type2_products(cls, session, url, soup, category, data):
+        print("type2")
+
         seller = data['initialState']['components']['track'][
             'analytics_event']['custom_dimensions'][
             'customDimensions']['officialStore']
