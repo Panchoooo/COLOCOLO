@@ -101,7 +101,6 @@ function select(id){
 
         });
 
-        con.close()
     } catch (error) {
         console.log(error)
     }
