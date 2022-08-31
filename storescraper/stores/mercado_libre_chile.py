@@ -709,29 +709,31 @@ class MercadoLibreChile(Store):
 
         new_mode_data = re.search(
             r'window.__PRELOADED_STATE__ =([\S\s]+?);\n', page_source)
-        data = json.loads(new_mode_data.groups()[0])
+        try:
+            data = json.loads(new_mode_data.groups()[0])
 
-        for entry in data['initialState']['components'].get('head', []):
-            if entry['id'] == 'item_status_message' and 'PAUSADA' in \
-                    entry['body']['text'].upper():
-                return []
+            for entry in data['initialState']['components'].get('head', []):
+                if entry['id'] == 'item_status_message' and 'PAUSADA' in \
+                        entry['body']['text'].upper():
+                    return []
 
-        if url.startswith('https://articulo.mercadolibre.cl/'):
-            return cls.retrieve_type2_products(session, url, soup,
-                                               category, data)
-        elif url.startswith('https://www.mercadolibre.cl/'):
-            return cls.retrieve_type3_products(data, session, category)
-        else:
-            # Another scraper with embedded ML pages
-            try:
+            if url.startswith('https://articulo.mercadolibre.cl/'):
                 return cls.retrieve_type2_products(session, url, soup,
-                                                   category, data)
-            except Exception:
+                                                category, data)
+            elif url.startswith('https://www.mercadolibre.cl/'):
                 return cls.retrieve_type3_products(data, session, category)
+            else:
+                # Another scraper with embedded ML pages
+                try:
+                    return cls.retrieve_type2_products(session, url, soup,
+                                                    category, data)
+                except Exception:
+                    return cls.retrieve_type3_products(data, session, category)
+        except:
+            return []
 
     @classmethod
     def retrieve_type3_products(cls, data, session, category):
-        print('Type3')
         variations = set()
         pickers = data['initialState']['components'].get('variations', {}).get(
             'pickers', None)
@@ -804,7 +806,6 @@ class MercadoLibreChile(Store):
 
     @classmethod
     def retrieve_type2_products(cls, session, url, soup, category, data):
-        print('Type2')
         seller = data['initialState']['components']['track'][
             'analytics_event']['custom_dimensions'][
             'customDimensions']['officialStore']
