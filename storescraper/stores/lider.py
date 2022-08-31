@@ -53,6 +53,15 @@ class Lider(Store):
             GAMING_CHAIR,
             SOLID_STATE_DRIVE,
             DISH_WASHER,
+            DISH_WASHER,
+            "Decohogar",
+            "Muebles",
+            "Dormitorio",
+            "Deportes",
+            "Parrillas",
+            "AireLibre",
+            "Vestuario",
+            "Ferreteria"
         ]
 
     @classmethod
@@ -177,7 +186,81 @@ class Lider(Store):
             ['Electrohogar/Climatización/Ventilación/Aire_Acondicionado',
              [AIR_CONDITIONER],
              'Electrohogar > Climatización > Ventilación > Aire Acondicionado',
-             1.0],
+             1.0]
+
+            , ['Decohogar/Menaje_Cocina', 'Decohogar',"",1]
+            , ['Decohogar/Menaje_Comedor', 'Decohogar',"",1] 
+            , ['Decohogar/Decoración/Alfombras', 'Decohogar',"",1 ]
+            , ['Decohogar/Decoración/Lámparas', 'Decohogar',"",1 ]
+            , ['Decohogar/Decoración/Cortinas', 'Decohogar',"",1 ]
+            , ['Decohogar/Decoración/Espejos', 'Decohogar',"",1 ]
+            , ['Decoración/Accesorios_de_Mesa', 'Decohogar',"",1 ]
+            , ['Decohogar/Decoración/Adornos', 'Decohogar',"",1 ]
+            , ['Decohogar/Decoración/Canastos', 'Decohogar',"",1 ]
+            , ['Decohogar/Decoración/Decoración_de_Muro', 'Decohogar',"",1 ]
+            , ['Decohogar/Lavandería', 'Decohogar',"",1 ]
+            , ['Decohogar/Maletería_y_Accesorios_de_Viaje', 'Decohogar',"",1 ]
+            , ['Decohogar/Menaje_Baño', 'Decohogar',"",1 ]
+            , ['Muebles-/Living_y_Sala_de_Estar',"Muebles","",1]
+            , ['Muebles-/Living_y_Sala_de_Estar/Mesas_de_Centro_y_Arrimos',"Muebles","",1]
+            , ['Muebles-/Living_y_Sala_de_Estar/Racks_y_Centros_de_Entretención',"Muebles","",1]
+            , ['Muebles-/Living_y_Sala_de_Estar/Bar',"Muebles","",1]
+            , ['Muebles-/Living_y_Sala_de_Estar/Alfombras',"Muebles","",1]
+            , ['Muebles-/Living_y_Sala_de_Estar/Sitiales_y_Poltronas',"Muebles","",1]
+            , ['Muebles-/Living_y_Sala_de_Estar/Sofás_-_Bergeres_y_Pouf',"Muebles","",1]
+            , ['Muebles-/Living_y_Sala_de_Estar/Estantes_y_libreros',"Muebles","",1]
+            , ['Muebles-/Living_y_Sala_de_Estar/Juegos_de_Living',"Muebles","",1]
+            , ['Muebles-/Living_y_Sala_de_Estar/Futones_y_Sofás_Cama',"Muebles","",1]
+            , ['Muebles-/Comedor_y_Cocina',"Muebles","",1]
+            , ['Muebles-/Dormitorio/Clósets',"Muebles","",1]
+            , ['Muebles-/Dormitorio/Cómodas',"Muebles","",1]
+            , ['Muebles-/Dormitorio/Respaldos_y_Veladores',"Muebles","",1]
+            , ['Muebles-/Dormitorio/Cunas_y_Camas_Infantiles',"Muebles","",1]
+            , ['Muebles-/Dormitorio/Organizadores',"Muebles","",1]
+            , ['Muebles-/Mundo_Infantil',"Muebles","",1]
+            , ['Muebles-/Home_Office',"Muebles","",1]
+            , ['Muebles-/Terrazas',"Muebles","",1]
+            , ['Muebles-/Complementos',"Muebles","",1]
+            , ['Dormitorio/Colchones_por_Tamaño',"Dormitorio","",1]
+            , ['Dormitorio/Dormitorio_Infantil',"Dormitorio","",1]
+            , ['Dormitorio/Camas_por_Tamaño/1_Plaza',"Dormitorio","",1]
+            , ['Dormitorio/Camas_por_Tamaño/1.5_Plazas',"Dormitorio","",1]
+            , ['Dormitorio/Camas_por_Tamaño/2_Plazas',"Dormitorio","",1]
+            , ['Dormitorio/Camas_por_Tamaño/King',"Dormitorio","",1]
+            , ['Dormitorio/Camas_por_Tamaño/Super_King',"Dormitorio","",1]
+            , ['Dormitorio/Bases_y_Camas_por_Tipo/Box_Spring',"Dormitorio","",1]
+            , ['Dormitorio/Bases_y_Camas_por_Tipo/Camarotes',"Dormitorio","",1]
+            , ['Dormitorio/Bases_y_Camas_por_Tipo/Camas_Americanas',"Dormitorio","",1]
+            , ['Dormitorio/Bases_y_Camas_por_Tipo/Camas_Europeas',"Dormitorio","",1]
+            , ['Dormitorio/Bases_y_Camas_por_Tipo/Divanes_y_Camas_Nido',"Dormitorio","",1]
+            , ['Dormitorio/Ropa_y_Accesorios_de_Cama/Cubrecamas_y_Quilt',"Dormitorio","",1]
+            , ['Dormitorio/Ropa_y_Accesorios_de_Cama/Plumones',"Dormitorio","",1]
+            , ['Dormitorio/Ropa_y_Accesorios_de_Cama/Juego_de_Sábanas',"Dormitorio","",1]
+            , ['Dormitorio/Ropa_y_Accesorios_de_Cama/Mantas_y_Frazadas',"Dormitorio","",1]
+            , ['Dormitorio/Ropa_y_Accesorios_de_Cama/Almohadas',"Dormitorio","",1]
+            , ['Dormitorio/Ropa_y_Accesorios_de_Cama/Cojines',"Dormitorio","",1]
+            , ['Deportes/Bicicletas_y_Scooter_Eléctricos',"Deportes","",1]
+            , ['Deportes/Fitness_y_Ejercicio',"Deportes","",1]
+            , ['Deportes/Accesorios_Bicicletas',"Deportes","",1]
+            , ['Deportes/Disciplinas',"Deportes","",1]
+            , ['Parrillas_y_Jardín/Parrillas_y_Accesorios', "Parrillas","",1]
+            , ['Parrillas_y_Jardín/Cuidado_de_Jardín', "Parrillas","",1]
+            , ['Parrillas_y_Jardín/Decoración_de_Jardín', "Parrillas","",1]
+            , ['Aire_libre/Camping_y_outdoor',"AireLibre","",1]
+            , ['Aire_libre/Juegos_de_exterior',"AireLibre","",1]
+            , ['Aire_libre/Piscinas',"AireLibre","",1]
+            , ['Vestuario/Mujer',"Vestuario","",1]
+            , ['Vestuario/Hombre',"Vestuario","",1]
+            , ['Vestuario/Niña',"Vestuario","",1]
+            , ['Vestuario/Niño',"Vestuario","",1]
+            , ['Vestuario/Bebé',"Vestuario","",1]
+            , ['Vestuario/Pijamas',"Vestuario","",1]
+            , ['Vestuario/Ropa_Interior_y_Calcetines',"Vestuario","",1]
+            , ['Vestuario/Calzado',"Vestuario","",1]
+            , ['Ferretería/Herramientas',"Ferreteria","",1]
+            , ['Ferretería/Almacenamiento_y_Organización',"Ferreteria","",1]
+            , ['Ferretería/Iluminación_y_Electricidad',"Ferreteria","",1 ]
+            , ['Ferretería/Selecciona_tu_Proyecto',"Ferreteria","",1]
         ]
 
         session = session_with_proxy(extra_args)

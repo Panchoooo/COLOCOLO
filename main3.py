@@ -11,6 +11,11 @@ import mysql.connector
 import sys
 import requests
 
+from random import random
+from multiprocessing import Lock
+ 
+
+
 tipo =  sys.argv[1]
 
 
@@ -227,3 +232,21 @@ if __name__ == '__main__':
 
 
 
+# entry point
+if __name__ == '__main__':
+
+    if(tienda != None):
+        while True:
+            # create the shared lock
+            lock = Lock()
+            # create a number of processes with different sleep times
+            processes = [Process(target=task, args=(lock, i, random())) for i in range(10)]
+            # start the processes
+            print(processes)
+            for process in processes:
+                process.start()
+            # wait for all processes to finish
+            for process in processes:
+                process.join()
+    else:
+        print("Error tipo")
