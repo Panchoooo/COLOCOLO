@@ -395,6 +395,8 @@ class Lider(Store):
 
         sku = str(sku_id)
         stock = -1 if entry['available'] else 0
+
+        
         normal_price = Decimal(entry['price']['BasePriceSales'])
         offer_price_container = entry['price']['BasePriceTLMC']
 
@@ -406,7 +408,8 @@ class Lider(Store):
             if offer_price > normal_price:
                 offer_price = normal_price
         else:
-            offer_price = normal_price
+            normal_price = Decimal(entry['price']['BasePriceReference'])
+            offer_price = Decimal(entry['price']['BasePriceSales'])
 
         specs = OrderedDict()
         for spec in entry.get('filters', []):
