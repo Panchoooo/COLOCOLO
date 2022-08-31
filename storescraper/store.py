@@ -379,9 +379,9 @@ class Store:
 
     @classmethod
     def categories(cls):
-        print("A")
-        #raise NotImplementedError('This method must be implemented by '
-        #                          'subclasses of Store')
+        #print("A")
+        raise NotImplementedError('This method must be implemented by '
+                                  'subclasses of Store')
 
     @classmethod
     def discover_urls_for_category(cls, category, extra_args=None):

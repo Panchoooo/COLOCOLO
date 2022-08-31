@@ -159,13 +159,13 @@ def Hebra(categoria):
                             )
                             try:
                                 #mydb.reconnect()
+                                diccionario.append(producto.key)
+
                                 try:
                                     mycursor = mydb.cursor()
                                 except:
                                     mydb.reconnect()
                                     mycursor = mydb.cursor()
-
-                                diccionario.append(producto.key)
                                 sql = 'INSERT INTO tiendas (name, store, category, url, discovery_url,keey, stock, normal_price, offer_price, sku, ean, description,picture_urls,video_urls, seller,fecha) VALUES (%s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,NOW())'
                                 mycursor.execute(sql, val)
                                 mydb.commit()
@@ -214,18 +214,16 @@ def Hebra(categoria):
 
     return 
 
-if(tienda != None):
-    Hebra(categorias[0])
-#
-#if __name__ == '__main__':
-#    if(tienda != None):
-#
-#        print(categorias)
-#        pool = Pool(processes=len(categorias))
-#        result = pool.apply_async(Hebra)
-#        print (pool.map(Hebra,categorias))
-#    else:
-#        print("Error tipo")
-#
+
+if __name__ == '__main__':
+    if(tienda != None):
+
+        print(categorias)
+        pool = Pool(processes=len(categorias))
+        result = pool.apply_async(Hebra)
+        print (pool.map(Hebra,categorias))
+    else:
+        print("Error tipo")
+
 
 
