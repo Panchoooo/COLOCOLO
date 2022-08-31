@@ -702,7 +702,7 @@ class MercadoLibreChile(Store):
 
     @classmethod
     def products_for_url(cls, url, category=None, extra_args=None):
-        #print(url)
+        print(url)
         session = session_with_proxy(extra_args)
         
         page_source = session.get(url).text
@@ -782,10 +782,6 @@ class MercadoLibreChile(Store):
                     official_store_or_seller_filter)
 
             price = Decimal(box_winner['price'])
-            original_price = price
-            if(box_winner['original_price'] != None and box_winner['original_price'] != "null"):
-                original_price = box_winner['original_price']
-
             stock = int(box_winner['available_quantity'])
 
             seller_endpoint = 'https://api.mercadolibre.com/users/' \
@@ -802,7 +798,7 @@ class MercadoLibreChile(Store):
                 url,
                 sku,
                 stock,
-                original_price,
+                price,
                 price,
                 'CLP',
                 sku=sku,
