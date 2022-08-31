@@ -711,7 +711,7 @@ class MercadoLibreChile(Store):
             r'window.__PRELOADED_STATE__ =([\S\s]+?);\n', page_source)
 
         try:
-            print(new_mode_data)
+            print(new_mode_data.groups())
             data = json.loads(new_mode_data.groups()[0])
 
             for entry in data['initialState']['components'].get('head', []):
