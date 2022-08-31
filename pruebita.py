@@ -83,7 +83,7 @@ def Hebra(lock, identifier, tienda,n):
 
     while(True ):
             r = tienda.discover_entries_for_category(categoria)
-            print("Tienda: "+n+" | Categoria: "+categoria+" | r:"+str(len(r)))
+            print(str(identifier)+" | Tienda: "+n+" | Categoria: "+categoria+" | r:"+str(len(r)))
             if(len(r)>0):
                 flag_delay = True
                 for url in r:
