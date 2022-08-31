@@ -208,7 +208,6 @@ class LaPolar(Store):
             ['bano', "Hogar", "", 1],
             ['terraza', "Hogar", "", 1],
             ['playa', "Hogar", "", 1],
-            ['ropa-infantil', "Ninos", "", 1],
             ['zapatos-ninos', "Ninos", "", 1],
             ['espacio-bebe', "Ninos", "", 1],
             ['coches', "Ninos", "", 1],
@@ -327,12 +326,16 @@ class LaPolar(Store):
         if la_polar_card:
             offer_price = highlighted_price
 
-            normal_price = prices.find('p', 'internet').find(
+            normal_price = prices.find('p', 'normal').find(
                 'span', 'price-value').text.strip() \
                 .replace('$', '').replace('.', '')
             normal_price = Decimal(normal_price)
         else:
-            offer_price = normal_price = highlighted_price
+            offer_price = highlighted_price
+            normal_price = prices.find('p', 'internet').find(
+                'span', 'price-value').text.strip() \
+                .replace('$', '').replace('.', '')
+            normal_price = Decimal(normal_price)
 
         description = html_to_markdown(
             str(soup.find('div', 'description-wrapper')))
