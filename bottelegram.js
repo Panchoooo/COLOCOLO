@@ -58,7 +58,8 @@ function select(id){
                     var normalPrice = result[i].normal_price
                     
                     const formatter = new Intl.NumberFormat('cl-CL', {
-                        style: 'currency'
+                        style: 'currency',
+                        currency: 'CLP'
                       })
 
                     var porcentaje = 100-(ofertaPrice*100/normalPrice)
@@ -86,7 +87,7 @@ function select(id){
                 }
                 body = cat+"\n<b>"+store+"</b>\n"+
                 name+"\n\
-                \n$"+normalPrice+" → <b>$"+ofertaPrice+" ("+porcentaje+")</b> \
+                \n"+normalPrice+" → <b>"+ofertaPrice+" ("+porcentaje+")</b> \
                 \n\n<a href='"+url+"'><b>☛ VER PRODUCTO</b></a> \n\
                 <a href='https://www.google.com/search?q="+name+"'>Google</a> - <a href='https://knasta.cl/results?q="+name+"'>Knasta</a> - <a href='https://www.solotodo.cl/search?search="+name+"'>Solotodo</a>"
                 console.log(body)
