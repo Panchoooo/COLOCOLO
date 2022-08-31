@@ -711,7 +711,7 @@ class MercadoLibreChile(Store):
         new_mode_data = re.search(
             r'window.__PRELOADED_STATE__ =([\S\s]+?);\n', page_source)
 
-        #print(new_mode_data)
+        print(new_mode_data)
         try:
             #print(new_mode_data.groups())
             data = json.loads(new_mode_data.groups()[0])
