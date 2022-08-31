@@ -734,6 +734,7 @@ class MercadoLibreChile(Store):
 
     @classmethod
     def retrieve_type3_products(cls, data, session, category):
+        print(data)
         variations = set()
         pickers = data['initialState']['components'].get('variations', {}).get(
             'pickers', None)
