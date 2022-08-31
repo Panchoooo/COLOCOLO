@@ -63,8 +63,8 @@ function select(id){
                       })
 
                     var porcentaje = parseInt(100-(ofertaPrice*100/normalPrice))
-                    normalPrice = formatter.format(normalPrice).replace(",",".") // “$1,000.00”
-                    ofertaPrice = formatter.format(ofertaPrice).replace(",",".") // “$1,000.00”
+                    normalPrice = formatter.format(normalPrice).replace(",",".").replace("CLP","$") // “$1,000.00”
+                    ofertaPrice = formatter.format(ofertaPrice).replace(",",".").replace("CLP","$") // “$1,000.00”
                     
                     cat = ""
                     if(porcentaje >= 90){
