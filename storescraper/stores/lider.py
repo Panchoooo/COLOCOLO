@@ -367,7 +367,10 @@ class Lider(Store):
         query_url = 'https://apps.lider.cl/catalogo/bff/products/{}' \
                     .format(sku_id)
 
-        response = session.get(query_url)
+        try:
+            response = session.get(query_url)
+        except:
+            return []
 
         if response.status_code in [500]:
             parsed_extra_args = extra_args or {}
