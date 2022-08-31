@@ -731,7 +731,7 @@ class MercadoLibreChile(Store):
                 except Exception:
                     return cls.retrieve_type3_products(data, session, category)
         except:
-            return
+            return []
 
     @classmethod
     def retrieve_type3_products(cls, data, session, category):
