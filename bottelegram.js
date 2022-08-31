@@ -37,6 +37,7 @@ function upd(id){
 
 
 
+const formatter = new Intl.NumberFormat('en', { style: 'currency', currency: 'USD' })
 
 var mensajes = []
 function select(id){
@@ -57,15 +58,14 @@ function select(id){
                     var ofertaPrice = result[i].offer_price
                     var normalPrice = result[i].normal_price
                     
-                    const formatter = new Intl.NumberFormat('cl-CL', {
-                        style: 'currency',
-                        currency: 'CLP'
-                      })
 
                     var porcentaje = parseInt(100-(ofertaPrice*100/normalPrice))
-                    normalPrice = formatter.format(normalPrice).replace(",",".").replace("CLP","$") // “$1,000.00”
-                    ofertaPrice = formatter.format(ofertaPrice).replace(",",".").replace("CLP","$") // “$1,000.00”
-                    
+                    //normalPrice = formatter.format(normalPrice).replace(",",".").replace("CLP","$") // “$1,000.00”
+                    //ofertaPrice = formatter.format(ofertaPrice).replace(",",".").replace("CLP","$") // “$1,000.00”
+                    ofertaPrice = formatter.format(ofertaPrice).split(".")[0].replaceAll(",",".");
+                    normalPrice = formatter.format(normalPrice).split(".")[0].replaceAll(",",".");
+
+
                     cat = ""
                     if(porcentaje >= 90){
                         cat = "🔥 SuperOferta 🔥"
