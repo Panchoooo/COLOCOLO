@@ -1,3 +1,4 @@
+from asyncio.windows_events import NULL
 import json
 import logging
 
@@ -777,7 +778,12 @@ class MercadoLibreChile(Store):
                 url += '?pdp_filters={}'.format(
                     official_store_or_seller_filter)
 
-            price = Decimal(box_winner['price'])
+            oprice = Decimal(box_winner['price'])
+            if(box_winner['original_price'] != NULL):
+                price = Decimal(box_winner['original_price'])
+            else:
+                price = oprice
+
             stock = int(box_winner['available_quantity'])
 
             seller_endpoint = 'https://api.mercadolibre.com/users/' \
@@ -795,7 +801,7 @@ class MercadoLibreChile(Store):
                 sku,
                 stock,
                 price,
-                price,
+                oprice,
                 'CLP',
                 sku=sku,
                 seller=seller,
