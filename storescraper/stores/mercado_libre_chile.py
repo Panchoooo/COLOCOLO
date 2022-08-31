@@ -691,7 +691,7 @@ class MercadoLibreChile(Store):
 
     @classmethod
     def discover_urls_for_category(cls, category, extra_args=None):
-       # print(category)
+        print(category)
         session = session_with_proxy(extra_args)
         product_urls = []
         for category_code, category_name, real_category in cls.categories_code:
@@ -702,39 +702,36 @@ class MercadoLibreChile(Store):
 
     @classmethod
     def products_for_url(cls, url, category=None, extra_args=None):
-       # print(url)
+        print(url)
         session = session_with_proxy(extra_args)
         page_source = session.get(url).text
         soup = BeautifulSoup(page_source, 'html.parser')
 
         new_mode_data = re.search(
             r'window.__PRELOADED_STATE__ =([\S\s]+?);\n', page_source)
-        try:
-            data = json.loads(new_mode_data.groups()[0])
+        data = json.loads(new_mode_data.groups()[0])
 
-            for entry in data['initialState']['components'].get('head', []):
-                if entry['id'] == 'item_status_message' and 'PAUSADA' in \
-                        entry['body']['text'].upper():
-                    return []
+        for entry in data['initialState']['components'].get('head', []):
+            if entry['id'] == 'item_status_message' and 'PAUSADA' in \
+                    entry['body']['text'].upper():
+                return []
 
-            if url.startswith('https://articulo.mercadolibre.cl/'):
+        if url.startswith('https://articulo.mercadolibre.cl/'):
+            return cls.retrieve_type2_products(session, url, soup,
+                                               category, data)
+        elif url.startswith('https://www.mercadolibre.cl/'):
+            return cls.retrieve_type3_products(data, session, category)
+        else:
+            # Another scraper with embedded ML pages
+            try:
                 return cls.retrieve_type2_products(session, url, soup,
-                                                category, data)
-            elif url.startswith('https://www.mercadolibre.cl/'):
+                                                   category, data)
+            except Exception:
                 return cls.retrieve_type3_products(data, session, category)
-            else:
-                # Another scraper with embedded ML pages
-                try:
-                    return cls.retrieve_type2_products(session, url, soup,
-                                                    category, data)
-                except Exception:
-                    return cls.retrieve_type3_products(data, session, category)
-        except:
-            return []
 
     @classmethod
     def retrieve_type3_products(cls, data, session, category):
-        print("type3")
+        print('Type3')
         variations = set()
         pickers = data['initialState']['components'].get('variations', {}).get(
             'pickers', None)
@@ -755,7 +752,6 @@ class MercadoLibreChile(Store):
             sku = variation
             endpoint = 'https://api.mercadolibre.com/products/' \
                        '{}'.format(variation)
-            print(endpoint)
 
             if official_store_or_seller_filter:
                 endpoint += '?{}'.format(
@@ -778,14 +774,7 @@ class MercadoLibreChile(Store):
                 url += '?pdp_filters={}'.format(
                     official_store_or_seller_filter)
 
-            oprice = Decimal(box_winner['price'])
-            try:
-                if( (box_winner['original_price'] != None) and ( box_winner['original_price'] != "null" ) ):
-                    price = Decimal(box_winner['original_price'])
-                else:
-                    price = oprice
-            except:
-                price = oprice
+            price = Decimal(box_winner['price'])
             stock = int(box_winner['available_quantity'])
 
             seller_endpoint = 'https://api.mercadolibre.com/users/' \
@@ -803,7 +792,7 @@ class MercadoLibreChile(Store):
                 sku,
                 stock,
                 price,
-                oprice,
+                price,
                 'CLP',
                 sku=sku,
                 seller=seller,
@@ -815,8 +804,7 @@ class MercadoLibreChile(Store):
 
     @classmethod
     def retrieve_type2_products(cls, session, url, soup, category, data):
-        print("type2")
-
+        print('Type2')
         seller = data['initialState']['components']['track'][
             'analytics_event']['custom_dimensions'][
             'customDimensions']['officialStore']
@@ -825,6 +813,9 @@ class MercadoLibreChile(Store):
             'short_description'][0]['title']
         price = Decimal(data['initialState']['schema'][0][
             'offers']['price'])
+
+        description = data['initialState']['components']['description'][
+            'content']
 
         picker = None
         for x in data['initialState']['components']['short_description']:
@@ -876,7 +867,7 @@ class MercadoLibreChile(Store):
                     'CLP',
                     sku=sku,
                     seller=seller,
-                    description='Type2'
+                    description='{} Type2'.format(description)
                 ))
         else:
             picture_urls = [x['data-zoom'] for x in
@@ -896,7 +887,7 @@ class MercadoLibreChile(Store):
                 sku=sku,
                 seller=seller,
                 picture_urls=picture_urls,
-                description='Type2'
+                description='{} Type2'.format(description)
             ))
         return products
 
