@@ -169,8 +169,8 @@ def Hebra(lock, identifier, tienda,n):
                     sleep(10)
                     #print(categoria+" | 2 No se encontraron elementos nuevos en la categoria" )
             else:
-                break
-                #sleep(60)
+                #break
+                sleep(60)
                 #print(categoria+" | 1 No se encontraron elementos en la categoria" )
         #except:
         #    Hebra(lock, identifier, tienda,n)
