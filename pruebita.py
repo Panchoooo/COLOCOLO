@@ -202,7 +202,7 @@ if __name__ == '__main__':
     if( len( sys.argv ) > 2 != None):
         test = sys.argv[2]
         print("test"+test)
-        test.split(";")
+        test.split("-")
         print(test)
         cats = []
         for t in range(len(test)):
