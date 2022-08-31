@@ -82,7 +82,6 @@ def Hebra(lock, identifier, tienda,n):
         diccionario[x[6]] = x[9]
 
     while(True ):
-        try:
             r = tienda.discover_entries_for_category(categoria)
             print("Tienda: "+n+" | Categoria: "+categoria+" | r:"+str(len(r)))
             if(len(r)>0):
