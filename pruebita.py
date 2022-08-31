@@ -71,7 +71,7 @@ def queryInsert(qry,val):
 
 def Hebra(lock, identifier, tienda,n):
 
-    categoria = tienda.categories()[identifier]
+    categoria = identifier
     print("Se ha iniciado Tienda: "+n+" | Categoria: "+categoria)
     diccionario = {}
 
@@ -214,7 +214,7 @@ if __name__ == '__main__':
 
     if(tienda != None):
         lock = Lock()
-        processes = [Process(target=Hebra, args=(lock, i, tienda,tipo)) for i in range(len(categorias))]
+        processes = [Process(target=Hebra, args=(lock, i, tienda,tipo)) for i in categorias]
         for process in processes:
             process.start()
         for process in processes:
