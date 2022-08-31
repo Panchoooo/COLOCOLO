@@ -208,7 +208,7 @@ if __name__ == '__main__':
         cats = []
         for t in test:
             #categorias =  [tienda.categories()[int(test)]]
-            cats.append(categorias[t])
+            cats.append(categorias[int(t)])
         categorias = cats
     print(categorias)
 
