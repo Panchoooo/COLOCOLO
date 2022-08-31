@@ -199,13 +199,14 @@ if __name__ == '__main__':
         tienda = MercadoLibreChile()
 
     categorias =  tienda.categories()
+    print(len(categorias))
     if( len( sys.argv ) > 2 != None):
         test = sys.argv[2]
         print("test"+test)
         test = test.split("-")
         print(test)
         cats = []
-        for t in int(test):
+        for t in test:
             #categorias =  [tienda.categories()[int(test)]]
             cats.append(categorias[t])
         categorias = cats
