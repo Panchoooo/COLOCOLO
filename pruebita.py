@@ -201,6 +201,7 @@ if __name__ == '__main__':
     categorias =  tienda.categories()
     if( len( sys.argv ) > 2 != None):
         test = sys.argv[2].split(";")
+        print(test)
         cats = []
         for t in range(len(test)):
             #categorias =  [tienda.categories()[int(test)]]
