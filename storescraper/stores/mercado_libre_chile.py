@@ -707,11 +707,11 @@ class MercadoLibreChile(Store):
         
         page_source = session.get(url).text
         soup = BeautifulSoup(page_source, 'html.parser')
+        print(page_source)
 
         new_mode_data = re.search(
             r'window.__PRELOADED_STATE__ =([\S\s]+?);\n', page_source)
 
-        print(new_mode_data)
         try:
             #print(new_mode_data.groups())
             data = json.loads(new_mode_data.groups()[0])
