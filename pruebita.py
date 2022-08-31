@@ -12,7 +12,7 @@ from multiprocessing import Lock
 from multiprocessing import Pool
 from multiprocessing import Process, current_process
 from time import sleep
-from COLOCOLO.storescraper import categories
+from storescraper import categories
 from storescraper.store import Store
 from storescraper.product import Product
 from storescraper.stores.paris import Paris
