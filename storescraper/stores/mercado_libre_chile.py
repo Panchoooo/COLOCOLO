@@ -702,7 +702,7 @@ class MercadoLibreChile(Store):
 
     @classmethod
     def products_for_url(cls, url, category=None, extra_args=None):
-        print(url)
+        #print(url)
         session = session_with_proxy(extra_args)
         
         page_source = session.get(url).text
@@ -711,9 +711,9 @@ class MercadoLibreChile(Store):
         new_mode_data = re.search(
             r'window.__PRELOADED_STATE__ =([\S\s]+?);\n', page_source)
 
-        print(new_mode_data)
+        #print(new_mode_data)
         try:
-            print(new_mode_data.groups())
+            #print(new_mode_data.groups())
             data = json.loads(new_mode_data.groups()[0])
 
             for entry in data['initialState']['components'].get('head', []):
