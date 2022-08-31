@@ -60,7 +60,8 @@ class Lider(Store):
             "Parrillas",
             "AireLibre",
             "Vestuario",
-            "Ferreteria"
+            "Ferreteria",
+            "Ferreteria2"
         ]
 
     @classmethod
@@ -258,8 +259,8 @@ class Lider(Store):
             , ['Vestuario/Calzado',"Vestuario","",1]
             , ['Ferretería/Herramientas',"Ferreteria","",1]
             , ['Ferretería/Almacenamiento_y_Organización',"Ferreteria","",1]
-            , ['Ferretería/Iluminación_y_Electricidad',"Ferreteria","",1 ]
-            , ['Ferretería/Selecciona_tu_Proyecto',"Ferreteria","",1]
+            , ['Ferretería/Iluminación_y_Electricidad',"Ferreteria2","",1 ]
+            , ['Ferretería/Selecciona_tu_Proyecto',"Ferreteria2","",1]
         ]
 
         session = session_with_proxy(extra_args)
