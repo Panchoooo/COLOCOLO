@@ -707,7 +707,7 @@ class MercadoLibreChile(Store):
         
         page_source = session.get(url).text
         soup = BeautifulSoup(page_source, 'html.parser')
-        print(page_source)
+        #print(page_source)
 
         new_mode_data = re.search(
             r'window.__PRELOADED_STATE__ =([\S\s]+?);\n', page_source)
