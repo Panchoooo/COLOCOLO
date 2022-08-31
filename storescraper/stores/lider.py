@@ -53,7 +53,6 @@ class Lider(Store):
             GAMING_CHAIR,
             SOLID_STATE_DRIVE,
             DISH_WASHER,
-            DISH_WASHER,
             "Decohogar",
             "Muebles",
             "Dormitorio",
