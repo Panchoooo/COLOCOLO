@@ -86,8 +86,8 @@ function select(id){
                 }
                 body = cat+"\n"+store+"\n"+
                 name+"\
-                \nPrecio: "+normalPrice+" - Oferta: "+ofertaPrice+" \
-                \n\n<a href='"+url+"'><b>PRODUCTO</b></a> - <a href='"+url+"'><b>CATEGORIA</b></a>\n\
+                \nPrecio: "+normalPrice+" - Oferta: <b>"+ofertaPrice+" ("+porcentaje+")</b> \
+                \n\n<a href='"+url+"'><b>PRODUCTO</b></a> \n\
                 \n<a href='https://www.google.com/search?q="+name+"'>Google</a> - <a href='https://knasta.cl/results?q="+name+"'>Knasta</a> - <a href='https://www.solotodo.cl/search?search="+name+"'>Solotodo</a>"
                 console.log(body)
                 try{
