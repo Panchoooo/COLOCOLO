@@ -17,6 +17,7 @@ from storescraper.product import Product
 from storescraper.stores.paris import Paris
 from storescraper.stores.lider import Lider
 from storescraper.stores.la_polar import LaPolar
+from storescraper.stores.mercado_libre_chile import MercadoLibreChile
 import mysql.connector
 import sys
 import requests
@@ -191,6 +192,8 @@ if __name__ == '__main__':
         tienda = Hites()
     if(tipo == "LaPolar"):
         tienda = LaPolar()
+    if(tipo == "MercadoLibre"):
+        tienda = MercadoLibreChile()
 
     categorias =  tienda.categories()
     if( len( sys.argv ) > 2 != None):
