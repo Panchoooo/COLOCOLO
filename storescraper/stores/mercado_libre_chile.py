@@ -734,7 +734,6 @@ class MercadoLibreChile(Store):
 
     @classmethod
     def retrieve_type3_products(cls, data, session, category):
-        print(data)
         variations = set()
         pickers = data['initialState']['components'].get('variations', {}).get(
             'pickers', None)
@@ -755,6 +754,7 @@ class MercadoLibreChile(Store):
             sku = variation
             endpoint = 'https://api.mercadolibre.com/products/' \
                        '{}'.format(variation)
+            print(endpoint)
 
             if official_store_or_seller_filter:
                 endpoint += '?{}'.format(
