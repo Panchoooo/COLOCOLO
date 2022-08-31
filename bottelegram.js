@@ -56,15 +56,19 @@ function select(id){
 
                     var ofertaPrice = result[i].offer_price
                     var normalPrice = result[i].normal_price
-
-                    const formatter = new Intl.NumberFormat('cl-CL', {
+                    
+                    /*const formatter = new Intl.NumberFormat('cl-CL', {
                         style: 'currency',
                         currency: '$'
                       })
-
+*/
                     var porcentaje = 100-(ofertaPrice*100/normalPrice)
-                    normalPrice = formatter.format(normalPrice).replace(",",".") // “$1,000.00”
-                    ofertaPrice = formatter.format(ofertaPrice).replace(",",".") // “$1,000.00”
+                    //normalPrice = formatter.format(normalPrice).replace(",",".") // “$1,000.00”
+                    //ofertaPrice = formatter.format(ofertaPrice).replace(",",".") // “$1,000.00”
+                    normalPrice = "{:,}".format(normalPrice)
+                    ofertaPrice = "{:,}".format(ofertaPrice)
+
+
                     cat = ""
                     if(porcentaje >= 90){
                         cat = "🔥 SuperOferta 🔥"
