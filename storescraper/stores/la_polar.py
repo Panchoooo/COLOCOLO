@@ -43,7 +43,18 @@ class LaPolar(Store):
             'SpaceHeater',
             'AirConditioner',
             'Wearable',
-            GAMING_CHAIR
+            GAMING_CHAIR,
+            "Mujer",
+            "Hombre",
+            "Deportes",
+            "Belleza",
+            "Dormitorio",
+            "Muebles",
+            "Hogar",
+            "Ninos",
+            "Zapatos",
+            "Otras-lineas",
+            "outlet"
         ]
 
     @classmethod
