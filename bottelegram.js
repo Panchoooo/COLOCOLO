@@ -62,8 +62,8 @@ function select(id){
                     var porcentaje = parseInt(100-(ofertaPrice*100/normalPrice))
                     //normalPrice = formatter.format(normalPrice).replace(",",".").replace("CLP","$") // “$1,000.00”
                     //ofertaPrice = formatter.format(ofertaPrice).replace(",",".").replace("CLP","$") // “$1,000.00”
-                    ofertaPrice = formatter.format(ofertaPrice).split(".")[0].replaceAll(",",".");
-                    normalPrice = formatter.format(normalPrice).split(".")[0].replaceAll(",",".");
+                    ofertaPrice = new Intl.NumberFormat('en', { style: 'currency', currency: 'USD' }).format(ofertaPrice).split(".")[0].replaceAll(",",".");
+                    normalPrice = new Intl.NumberFormat('en', { style: 'currency', currency: 'USD' }).format(normalPrice).split(".")[0].replaceAll(",",".");
 
 
                     cat = ""
