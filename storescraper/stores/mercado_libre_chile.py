@@ -778,11 +778,13 @@ class MercadoLibreChile(Store):
                     official_store_or_seller_filter)
 
             oprice = Decimal(box_winner['price'])
-            if(box_winner['original_price'] != None and box_winner['original_price'] != "null"):
-                price = Decimal(box_winner['original_price'])
-            else:
+            try:
+                if(box_winner['original_price'] != None and box_winner['original_price'] != "null"):
+                    price = Decimal(box_winner['original_price'])
+                else:
+                    price = oprice
+            except:
                 price = oprice
-
             stock = int(box_winner['available_quantity'])
 
             seller_endpoint = 'https://api.mercadolibre.com/users/' \
