@@ -161,15 +161,16 @@ def Hebra(lock, identifier, tienda,n):
                                     sql = 'UPDATE tiendas SET (offer_price = '+po+') where key="'+key+'"'
                                     querySelect(sql)
                                     enviar(producto.key)
-                    else:
+                    #else:
                         #print(res)
-                        print(categoria+" | 3 No se encontraron elementos en la url del producto" )
-                if(flag_delay):
+                        #print(categoria+" | 3 No se encontraron elementos en la url del producto" )
+                #if(flag_delay):
                     #sleep(30)
-                    print(categoria+" | 2 No se encontraron elementos nuevos en la categoria" )
+                    #print(categoria+" | 2 No se encontraron elementos nuevos en la categoria" )
             else:
-                print(categoria+" | 1 No se encontraron elementos en la categoria" )
-                sleep(60)
+                break
+                #sleep(60)
+                #print(categoria+" | 1 No se encontraron elementos en la categoria" )
 
 
 if __name__ == '__main__':
