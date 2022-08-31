@@ -59,12 +59,12 @@ function select(id){
 
                     const formatter = new Intl.NumberFormat('cl-CL', {
                         style: 'currency',
-                        currency: 'CLP'
+                        currency: '$'
                       })
 
                     var porcentaje = 100-(ofertaPrice*100/normalPrice)
-                    normalPrice = formatter.format(normalPrice) // “$1,000.00”
-                    ofertaPrice = formatter.format(ofertaPrice) // “$1,000.00”
+                    normalPrice = formatter.format(normalPrice).replace(",",".") // “$1,000.00”
+                    ofertaPrice = formatter.format(ofertaPrice).replace(",",".") // “$1,000.00”
                     cat = ""
                     if(porcentaje >= 90){
                         cat = "🔥 SuperOferta 🔥"
@@ -84,11 +84,11 @@ function select(id){
 
 
                 }
-                body = cat+"\n"+store+"\n"+
-                name+"\
-                \nPrecio: "+normalPrice+" - Oferta: <b>"+ofertaPrice+" ("+porcentaje+")</b> \
-                \n\n<a href='"+url+"'><b>PRODUCTO</b></a> \n\
-                \n<a href='https://www.google.com/search?q="+name+"'>Google</a> - <a href='https://knasta.cl/results?q="+name+"'>Knasta</a> - <a href='https://www.solotodo.cl/search?search="+name+"'>Solotodo</a>"
+                body = cat+"\n<b>"+store+"</b>\n"+
+                name+"\n\
+                \n"+normalPrice+" → <b>"+ofertaPrice+" ("+porcentaje+")</b> \
+                \n\n<a href='"+url+"'><b>☛ VER PRODUCTO</b></a> \n\
+                <a href='https://www.google.com/search?q="+name+"'>Google</a> - <a href='https://knasta.cl/results?q="+name+"'>Knasta</a> - <a href='https://www.solotodo.cl/search?search="+name+"'>Solotodo</a>"
                 console.log(body)
                 try{
                     bot.sendMessage(users[0],body,{disable_web_page_preview:false,parse_mode:"HTML"})
