@@ -12,6 +12,7 @@ from multiprocessing import Lock
 from multiprocessing import Pool
 from multiprocessing import Process, current_process
 from time import sleep
+from COLOCOLO.storescraper import categories
 from storescraper.store import Store
 from storescraper.product import Product
 from storescraper.stores.paris import Paris
@@ -199,9 +200,12 @@ if __name__ == '__main__':
 
     categorias =  tienda.categories()
     if( len( sys.argv ) > 2 != None):
-        test = sys.argv[2]
-        categorias =  [tienda.categories()[int(test)]]
-
+        test = sys.argv[2].split(";")
+        cats = []
+        for t in range(len(test)):
+            #categorias =  [tienda.categories()[int(test)]]
+            cats.append(categorias[t])
+        categorias = cat
     print(categorias)
 
     if(tienda != None):
