@@ -782,6 +782,10 @@ class MercadoLibreChile(Store):
                     official_store_or_seller_filter)
 
             price = Decimal(box_winner['price'])
+            original_price = price
+            if(box_winner['original_price'] != None and box_winner['original_price'] != "null"):
+                original_price = box_winner['original_price']
+
             stock = int(box_winner['available_quantity'])
 
             seller_endpoint = 'https://api.mercadolibre.com/users/' \
@@ -798,7 +802,7 @@ class MercadoLibreChile(Store):
                 url,
                 sku,
                 stock,
-                price,
+                original_price,
                 price,
                 'CLP',
                 sku=sku,
