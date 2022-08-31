@@ -89,6 +89,7 @@ def Hebra(lock, identifier, tienda,n):
                 for url in r:
                     res = tienda.products_for_url(url)
                     if(len(res)>0):
+                        print(res[0])
                         producto = res[0]
                         
                         po = float(producto.offer_price)
