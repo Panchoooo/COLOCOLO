@@ -45,34 +45,39 @@ def enviar(id):
 
 
 def querySelect(qry):
-    mydb = mysql.connector.connect(
-        host="db-mysql-nyc1-93755-do-user-12336633-0.b.db.ondigitalocean.com",
-        user="diego",
-        password="AVNS__QSFdINp_Fa9wILf0KO",
-        database="tiendas",
-        port= "25060"
-    )
-    mycursor = mydb.cursor()
-    mycursor.execute(qry)
-    r = mycursor.fetchall()
-    mydb.close()
-    return r
-
+    try:
+        mydb = mysql.connector.connect(
+            host="db-mysql-nyc1-93755-do-user-12336633-0.b.db.ondigitalocean.com",
+            user="diego",
+            password="AVNS__QSFdINp_Fa9wILf0KO",
+            database="tiendas",
+            port= "25060"
+        )
+        mycursor = mydb.cursor()
+        mycursor.execute(qry)
+        r = mycursor.fetchall()
+        mydb.close()
+        return r
+    except:
+        return []
 
 def queryInsert(qry,val):
-    mydb = mysql.connector.connect(
-        host="db-mysql-nyc1-93755-do-user-12336633-0.b.db.ondigitalocean.com",
-        user="diego",
-        password="AVNS__QSFdINp_Fa9wILf0KO",
-        database="tiendas",
-        port= "25060"
-    )
-    mycursor = mydb.cursor()
-    mycursor.execute(qry, val)
-    mydb.commit()
-    #print(mycursor.rowcount, "record inserted.")
-    mydb.close()
-                        
+    try:
+        mydb = mysql.connector.connect(
+            host="db-mysql-nyc1-93755-do-user-12336633-0.b.db.ondigitalocean.com",
+            user="diego",
+            password="AVNS__QSFdINp_Fa9wILf0KO",
+            database="tiendas",
+            port= "25060"
+        )
+        mycursor = mydb.cursor()
+        mycursor.execute(qry, val)
+        mydb.commit()
+        #print(mycursor.rowcount, "record inserted.")
+        mydb.close()
+        return 1
+    except:
+        return -1
 
 def Hebra(lock, identifier, tienda,n):
 
@@ -93,9 +98,8 @@ def Hebra(lock, identifier, tienda,n):
                             producto.key = producto.key.replace('"','')
                         key = producto.key
 
-                        with lock:
-                            qr = querySelect("SELECT offer_price,normal_price FROM tiendas WHERE keey = '"+key+"'")
-
+                        qr = querySelect("SELECT offer_price,normal_price,name FROM tiendas WHERE keey = '"+key+"'")
+                        #print(qr[0][2])
                         if(len(qr)==0):
                             video = ''
                             picture_urls = ''
@@ -142,19 +146,18 @@ def Hebra(lock, identifier, tienda,n):
                             )
                             flag_delay = False
                             try:
-                                with lock:
-                                    sql = 'INSERT INTO tiendas (name, store, category, url, discovery_url,keey, stock, normal_price, offer_price, sku, ean, description,picture_urls,video_urls, seller,fecha) VALUES (%s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,NOW())'
-                                    queryInsert(sql,val)
-                                    if( po<pn  and (100-po*100/pn)>30 ):
-                                        enviar(producto.key)
+                                sql = 'INSERT INTO tiendas (name, store, category, url, discovery_url,keey, stock, normal_price, offer_price, sku, ean, description,picture_urls,video_urls, seller,fecha) VALUES (%s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,NOW())'
+                                queryInsert(sql,val)
+                                if( po<pn  and (100-po*100/pn)>30 ):
+                                    enviar(producto.key)
                             except Exception as e: 
                                 print(e)
                         else:
-                            if( po<qr[0][0] and ( 100-po*100/qr[0][1].offer_price )>30 ):
-                                with lock:
-                                    sql = 'UPDATE tiendas SET (offer_price = '+po+') where key="'+key+'"'
-                                    querySelect(sql)
-                                    enviar(producto.key)
+                            if( po<qr[0][0] and ((100-(po*100/qr[0][1]))>30) ):
+                                flag_delay = False
+                                sql = 'UPDATE tiendas SET (offer_price = '+po+') where key="'+key+'"'
+                                querySelect(sql)
+                                enviar(producto.key)
                     #else:
                         #print(res)
                         #print(categoria+" | 3 No se encontraron elementos en la url del producto" )
