@@ -384,7 +384,7 @@ async function refresh3(page,a){
 async function enviarMSJ(nombre,sku){
     var options = null;
     try {
-        if(nombre == null){
+        if(nombre == null || nombre == ""){
             nombre = "nulo";
         }
         
