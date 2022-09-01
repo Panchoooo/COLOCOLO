@@ -37,10 +37,10 @@ def is_integer_num(n):
 
 def enviar(id):
     try: 
-        print('http://localhost:5000/send/'+str(id))
+        #print('http://localhost:5000/send/'+str(id))
         r = requests.get('http://localhost:5000/send/'+str(id))
-        print(r.json())
-        print("Finalizado\n")
+        #print(r.json())
+        #print("Finalizado\n")
     except Exception as e: print(e)
 
 
@@ -70,21 +70,20 @@ def queryInsert(qry,val):
     mycursor = mydb.cursor()
     mycursor.execute(qry, val)
     mydb.commit()
-    print(mycursor.rowcount, "record inserted.")
+    #print(mycursor.rowcount, "record inserted.")
     mydb.close()
                         
 
 def Hebra(lock, identifier, tienda,n):
 
-    categoria = identifier
-    print("Se ha iniciado Tienda: "+n+" | Categoria: "+categoria)
+    #print("Se ha iniciado Tienda: "+n+" | Categoria: "+categoria)
     while(True ):
-            r = tienda.discover_entries_for_category(categoria)
-            print(str(identifier)+" | Tienda: "+n+" | Categoria: "+categoria+" | r:"+str(len(r)))
+            r = tienda.discover_entries_for_category(identifier)
+            #print(str(identifier)+" | Tienda: "+n+" | Categoria: "+categoria+" | r:"+str(len(r)))
             if(len(r)>0):
                 flag_delay = True
                 for url in r:
-                    print(url)
+                    #print(url)
                     res = tienda.products_for_url(url)
                     if(len(res)>0):
                         producto = res[0]
@@ -95,7 +94,7 @@ def Hebra(lock, identifier, tienda,n):
                         key = producto.key
 
                         with lock:
-                            qr = querySelect("SELECT offer_price FROM tiendas WHERE keey = '"+key+"'")
+                            qr = querySelect("SELECT offer_price,normal_price FROM tiendas WHERE keey = '"+key+"'")
 
                         if(len(qr)==0):
                             video = ''
@@ -127,7 +126,7 @@ def Hebra(lock, identifier, tienda,n):
                             val = (
                                     producto.name,
                                     producto.store,
-                                    categoria,
+                                    identifier,
                                     producto.url,
                                     producto.discovery_url,
                                     key,
@@ -151,7 +150,7 @@ def Hebra(lock, identifier, tienda,n):
                             except Exception as e: 
                                 print(e)
                         else:
-                            if( po<qr[0][0] and ( 100-po*100/qr[0][0].offer_price )>30 ):
+                            if( po<qr[0][0] and ( 100-po*100/qr[0][1].offer_price )>30 ):
                                 with lock:
                                     sql = 'UPDATE tiendas SET (offer_price = '+po+') where key="'+key+'"'
                                     querySelect(sql)
@@ -176,18 +175,18 @@ if __name__ == '__main__':
 
     tienda = get_store_class_by_name(tipo)
     categorias =  tienda.categories()
-    print(len(categorias))
+    #print(len(categorias))
     if( len( sys.argv ) > 2 != None):
         test = sys.argv[2]
-        print("test"+test)
+        #print("test"+test)
         test = test.split("-")
-        print(test)
+        #print(test)
         cats = []
         for t in test:
             #categorias =  [tienda.categories()[int(test)]]
             cats.append(categorias[int(t)])
         categorias = cats
-    print(categorias)
+    #print(categorias)
 
     if(tienda != None):
         lock = Lock()
