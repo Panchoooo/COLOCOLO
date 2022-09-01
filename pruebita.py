@@ -18,10 +18,15 @@ from storescraper.product import Product
 from storescraper.stores.paris import Paris
 from storescraper.stores.lider import Lider
 from storescraper.stores.la_polar import LaPolar
+from storescraper.stores.absolutec import Absolutec
 from storescraper.stores.mercado_libre_chile import MercadoLibreChile
+from storescraper.stores import *
 import mysql.connector
 import sys
 import requests
+
+from storescraper.utils import get_store_class_by_name, chunks
+
 
 def is_integer_num(n):
     if isinstance(n, int):
@@ -183,21 +188,7 @@ if __name__ == '__main__':
     tienda = None
     diccionario = []
 
-    if(tipo == "Lider"):
-        tienda = Lider()
-    if(tipo == "Paris"):
-        tienda = Paris()
-    if(tipo == "Ripley"):
-        tienda = Ripley()
-    if(tipo == "AbcDin"):
-        tienda = AbcDin()
-    if(tipo == "Hites"):
-        tienda = Hites()
-    if(tipo == "LaPolar"):
-        tienda = LaPolar()
-    if(tipo == "MercadoLibre"):
-        tienda = MercadoLibreChile()
-
+    tienda = get_store_class_by_name(tipo)
     categorias =  tienda.categories()
     print(len(categorias))
     if( len( sys.argv ) > 2 != None):
