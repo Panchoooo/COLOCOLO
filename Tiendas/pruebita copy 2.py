@@ -78,26 +78,33 @@ def Hebra(lock, identifier, tienda,n):
 
     categoria = identifier
     print("Se ha iniciado Tienda: "+n+" | Categoria: "+categoria)
+    diccionario = {}
+
+    myresult = []
+    with lock:
+        myresult = querySelect( "Select * from tiendas where (store = '"+n+"' and category = '"+categoria+"') " )
+
+    for x in myresult:
+        diccionario[x[6]] = x[9]
+
     while(True ):
             r = tienda.discover_entries_for_category(categoria)
             print(str(identifier)+" | Tienda: "+n+" | Categoria: "+categoria+" | r:"+str(len(r)))
             if(len(r)>0):
                 flag_delay = True
                 for url in r:
-                    print(url)
                     res = tienda.products_for_url(url)
                     if(len(res)>0):
+                        #print(res[0])
                         producto = res[0]
+                        
                         po = float(producto.offer_price)
                         pn = float(producto.normal_price)
                         if( (producto.key is not None ) and ('"' in producto.key )):
                             producto.key = producto.key.replace('"','')
                         key = producto.key
 
-                        with lock:
-                            qr = querySelect("SELECT offer_price FROM tiendas WHERE keey = '"+key+"'")
-
-                        if(len(qr)==0):
+                        if(not( producto.key in diccionario )):
                             video = ''
                             picture_urls = ''
 
@@ -142,6 +149,7 @@ def Hebra(lock, identifier, tienda,n):
                                     producto.seller
                             )
                             flag_delay = False
+                            diccionario[producto.key] = po
                             try:
                                 with lock:
                                     sql = 'INSERT INTO tiendas (name, store, category, url, discovery_url,keey, stock, normal_price, offer_price, sku, ean, description,picture_urls,video_urls, seller,fecha) VALUES (%s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,NOW())'
@@ -149,9 +157,14 @@ def Hebra(lock, identifier, tienda,n):
                                     if( po<pn  and (100-po*100/pn)>30 ):
                                         enviar(producto.key)
                             except Exception as e: 
-                                print(e)
+                                if("Duplicate entry" in str(e)):
+                                    if( po<diccionario[producto.key]  and ( 100-po*100/diccionario[producto.key] )>30 ):
+                                        with lock:
+                                            sql = 'UPDATE tiendas SET (offer_price = '+po+') where key="'+key+'"'
+                                            querySelect(sql)
+                                            enviar(producto.key)
                         else:
-                            if( po<qr[0][0] and ( 100-po*100/qr[0][0].offer_price )>30 ):
+                            if( po<diccionario[producto.key]  and ( 100-po*100/diccionario[producto.key] )>30 ):
                                 with lock:
                                     sql = 'UPDATE tiendas SET (offer_price = '+po+') where key="'+key+'"'
                                     querySelect(sql)
@@ -173,6 +186,7 @@ if __name__ == '__main__':
 
     tipo =  sys.argv[1]
     tienda = None
+    diccionario = []
 
     tienda = get_store_class_by_name(tipo)
     categorias =  tienda.categories()
