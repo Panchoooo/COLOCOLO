@@ -19,7 +19,7 @@ var skus = [];
 var limite_sku = 20;
 var carrito = [];
 var banned = 0;
-var ips = [ "http://192.168.0.99:8000","http://diegomonitor.ddns.net:8000"]
+var ips = [ "http://snkrpancho.ddns.net:8000","http://diegomonitor.ddns.net:8000"]
 //var ips = [ "http://diegomonitor.ddns.net:8000"]
 
 change_monitor(process.argv[2],process.argv[3]);
