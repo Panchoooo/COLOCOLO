@@ -3,7 +3,7 @@ var mysql = require('mysql');
 const TelegramBot = require('node-telegram-bot-api')
 const delay = ms => new Promise(res => setTimeout(res, ms));
 
-let users = ['-1001672119836'];
+let users = ['-1001672119836','-1001665102492'];
 var token = "5703951768:AAEaYU2Jg3R76J1vWr2Us4U1a9BtsL6QOdc" ; 
 var puerto = 5000
 /*
@@ -66,7 +66,7 @@ function select(id){
                     normalPrice = new Intl.NumberFormat('en', { style: 'currency', currency: 'USD' }).format(normalPrice).split(".")[0].replace(",",".");
 
 
-                    cat = ""
+                    var cat = ""
                     if(porcentaje >= 90){
                         cat = "🔥 SuperOferta 🔥"
                     }
@@ -95,6 +95,9 @@ function select(id){
                 }
                 catch (error) {
                     console.log(error)
+                }
+                if(porcentaje >= 60){
+                    bot.sendMessage(users[1],body,{disable_web_page_preview:false,parse_mode:"HTML"})
                 }
             } catch (error) {
                 console.log(error)
