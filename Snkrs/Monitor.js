@@ -385,7 +385,7 @@ async function enviarMSJ(nombre,sku){
     var options = null;
     try {
         if(nombre == null || nombre == ""){
-            nombre = "nulo";
+            nombre = nombre_producto;
         }
         
         if(nombre.includes("/")){
