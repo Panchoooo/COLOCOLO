@@ -155,7 +155,7 @@ def Hebra(lock, identifier, tienda,n):
                         else:
                             if( po<qr[0][0] and ((100-(po*100/qr[0][1]))>30) ):
                                 flag_delay = False
-                                sql = 'UPDATE tiendas SET (offer_price = '+po+') where key="'+key+'"'
+                                sql = 'UPDATE tiendas SET (offer_price = '+str(po)+') where key="'+key+'"'
                                 querySelect(sql)
                                 enviar(producto.key)
                     #else:
