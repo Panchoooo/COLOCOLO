@@ -5,7 +5,6 @@ const xml2js = require('xml2js');
 const parser = new xml2js.Parser({ attrkey: "ATTR" });
 const delay = ms => new Promise(res => setTimeout(res, ms));
 const fs = require('fs');
-const Monitor = require('twilio/lib/rest/Monitor');
 var portbot = 5000;
 var flag_nombre = false;
 
