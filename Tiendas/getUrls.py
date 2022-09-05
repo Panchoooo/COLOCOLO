@@ -86,7 +86,7 @@ def Hebra( identifier, tienda,n):
         for url in r:
             #print(url)
             val.append((n,identifier,url))
-        sql = 'INSERT IGNORE INTO tiendas ( store, category, url,fecha,last_date) VALUES (%s,%s, %s,NOW(),NOW() )'
+        sql = 'INSERT IGNORE INTO tiendas ( store, category, url,fecha) VALUES (%s,%s, %s,NOW() )'
         queryInsert(sql,val)
         #print(categoria+" | 1 No se encontraron elementos en la categoria" )
 
