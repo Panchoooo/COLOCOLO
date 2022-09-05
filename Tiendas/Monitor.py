@@ -91,7 +91,7 @@ def Hebra( identifier, tienda,n):
         queryInsert(sql,val)
         #print(categoria+" | 1 No se encontraron elementos en la categoria" )
 
-def HebraCat(lock, cat, tienda,tipo):
+def HebraCatByCat(lock, cat, tienda,tipo):
     vals = []
     try:
         while True:
@@ -174,6 +174,79 @@ def HebraCat(lock, cat, tienda,tipo):
     except KeyboardInterrupt:
         pass
 
+
+def HebraCat(tienda,tipo):
+    try:
+        while True:
+            add = 0
+            upd = 0
+            res = querySelect("SELECT * from tiendas where store = '"+tipo+"' ")
+
+            for r in res:
+                url = r[4]
+                cargado = r[14]
+                cat = r[3]
+
+                producto = tienda.products_for_url(url)[0]
+                np = float(producto.normal_price)
+                op = float(producto.offer_price)
+                bp = np
+                if(op<np):
+                    bp = op
+
+                if(cargado == 0 ):
+                    add +=1
+                    print(cat+ " | Nuevo producto | key: "+producto.key)
+                    picture_urls = ""
+                    if( not(producto.picture_urls  is None ) and len(producto.picture_urls) > 0):
+                        picture_urls = producto.picture_urls[0].replace('"','')
+                    sql = "UPDATE tiendas SET name = %s, stock = %s, keey=%s, normal_price = %s, offer_price = %s, best_price = %s, sku = %s, picture_urls =%s, seller=%s, fecha = NOW(), cargado = 1 WHERE url = '"+url+"'"
+                    queryInsert2(sql,[(
+                        producto.name,
+                        producto.stock,
+                        producto.key,
+                        np,
+                        op,
+                        bp,
+                        producto.sku,
+                        picture_urls,
+                        producto.seller
+                    )])
+                else:
+                    print(cat+ " | Producto existente | key: "+producto.key)
+
+                    if(bp < r[9]):
+                        upd +=1
+                        #print("Nueva Oferta !")
+
+                        if( not(producto.picture_urls  is None ) and len(producto.picture_urls) > 0):
+                            picture_urls = producto.picture_urls[0].replace('"','')
+                    
+                        sql = "UPDATE tiendas SET name = %s, stock = %s, keey=%s, normal_price = %s, offer_price = %s, best_price = %s, sku = %s, picture_urls =%s, seller=%s, fecha = NOW(), cargado = 1 WHERE url = '"+url+"'"
+                        sql2 = 'INSERT IGNORE INTO tiendas_log ( store, category, keey,price,fecha) VALUES (%s,%s, %s,%s,NOW())'
+                        queryInsert2(sql,[(
+                            producto.name,
+                            producto.stock,
+                            producto.key,
+                            np,
+                            op,
+                            bp,
+                            producto.sku,
+                            picture_urls,
+                            producto.seller
+                        )])
+                        queryInsert2(sql2,[(
+                            tipo,
+                            cat,
+                            producto.key,
+                            bp
+                        )])
+                    #else:
+                        #print("Mantiene su precio")
+            print("Categoria "+cat+" | Añadidos: "+str(add)+" | Actualizados: "+str(upd)+" | Leidos: "+str(len(res)))
+    except KeyboardInterrupt:
+        pass
+
 if __name__ == '__main__':
 
     tipo =  sys.argv[1]
@@ -183,10 +256,11 @@ if __name__ == '__main__':
     lock = Lock()
     #HebraCat(lock,categorias[0],tienda,tipo)
     
+    HebraCat(tienda,tipo)
     
-    processes = [Process(target=HebraCat, args=(lock, i, tienda,tipo)) for i in categorias]
-    for process in processes:
-        process.start()
-    for process in processes:
-        process.join()
-    exit(1)            
+    #processes = [Process(target=HebraCat, args=(lock, i, tienda,tipo)) for i in categorias]
+    #for process in processes:
+    #    process.start()
+    #for process in processes:
+    #    process.join()
+    #exit(1)            
