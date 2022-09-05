@@ -166,7 +166,6 @@ def HebraCat(lock, cat, tienda,tipo):
                         #else:
                             #print("Mantiene su precio")
                 print("Categoria "+cat+" | Añadidos: "+str(add)+" | Actualizados: "+str(upd)+" | Leidos: "+str(len(res)))
-                print("\n\nCargando "+cat+" denuevo....")
 
             else:
                 print("\n\nNo se encontraron datos de la categoria "+cat)
