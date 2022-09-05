@@ -176,7 +176,7 @@ def HebraCat(tienda,tipo):
         while True:
             add = 0
             upd = 0
-            res = querySelect("SELECT * from tiendas where store = '"+tipo+"' order by last_date limit 50 ")
+            res = querySelect("SELECT * from tiendas where store = '"+tipo+"' order by last_date asc limit 50 ")
 
             for r in res:
                 url = r[4]
@@ -201,7 +201,7 @@ def HebraCat(tienda,tipo):
                     picture_urls = ""
                     if( not(producto.picture_urls  is None ) and len(producto.picture_urls) > 0):
                         picture_urls = producto.picture_urls[0].replace('"','')
-                    sql = "UPDATE tiendas SET name = %s, stock = %s, keey=%s, normal_price = %s, offer_price = %s, best_price = %s, sku = %s, picture_urls =%s, seller=%s, fecha = NOW(), cargado = 1,last_date=NOW() WHERE url = '"+url+"'"
+                    sql = "UPDATE tiendas SET name = %s, stock = %s, keey=%s, normal_price = %s, offer_price = %s, best_price = %s, sku = %s, picture_urls =%s, seller=%s,  cargado = 1,last_date=NOW() WHERE url = '"+url+"'"
                     queryInsert2(sql,[(
                         producto.name,
                         producto.stock,
