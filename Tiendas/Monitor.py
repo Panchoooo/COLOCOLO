@@ -24,10 +24,18 @@ def enviar(id):
 
 def querySelect(qry):
     try:
+        mydb = mysql.connector.connect(
+            host="db-mysql-nyc1-93755-do-user-12336633-0.b.db.ondigitalocean.com",
+            user="diego",
+            password="AVNS__QSFdINp_Fa9wILf0KO",
+            database="tiendas",
+            port= "25060"
+        )
         mycursor = mydb.cursor()
         mycursor.execute(qry)
         r = mycursor.fetchall()
         mydb.commit()
+        mydb.close()
         return r
     except Exception as e: 
         print(e)
