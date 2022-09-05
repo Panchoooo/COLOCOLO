@@ -77,7 +77,10 @@ def queryInsert2(qry,val):
 def Hebra( identifier, tienda,n):
 
     #print("Se ha iniciado Tienda: "+n+" | Categoria: "+identifier)
-    r = tienda.discover_entries_for_category(identifier)
+    try:
+        r = tienda.discover_entries_for_category(identifier)
+    except:
+        return
     if(len(r)>0):
         val = []
         for url in r:
