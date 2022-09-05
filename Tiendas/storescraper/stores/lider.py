@@ -302,9 +302,13 @@ class Lider(Store):
                 }
                 serialized_params = json.dumps(query_params,
                                                ensure_ascii=False)
-                response = session.post(query_url,
-                                        serialized_params.encode('utf-8'))
-                data = json.loads(response.text)
+
+                try:
+                    response = session.post(query_url,
+                                            serialized_params.encode('utf-8'))
+                    data = json.loads(response.text)
+                except:
+                    return []
 
                 if not data['products']:
                     logging.warning('Empty category: ' + category_id)
