@@ -332,8 +332,9 @@ class Hites(Store):
         if offer_price_container:
             offer_price = Decimal(offer_price_container.text.strip()
                                   .replace('$', '').replace('.', ''))
+            
 
-        normal_price_container = prices.find('span', 'sales')
+        normal_price_container = prices.find('span', 'list')
         if not normal_price_container:
             normal_price_container = prices.find('span', 'list')
 
@@ -344,7 +345,13 @@ class Hites(Store):
             normal_price_container.find('span', 'value')['content'])
 
         if not offer_price:
-            offer_price = normal_price
+            
+            offer_price_container = prices.find('span', 'sales')
+            if offer_price_container:
+                offer_price = Decimal(
+                                        offer_price_container.find('span', 'value')['content'])
+            else:
+                offer_price = normal_price
 
         has_virtual_assistant = \
             'cdn.livechatinc.com/tracking.js' in response.text
