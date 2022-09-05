@@ -76,7 +76,7 @@ def queryInsert2(qry,val):
 
 def Hebra( identifier, tienda,n):
 
-    print("Se ha iniciado Tienda: "+n+" | Categoria: "+identifier)
+    #print("Se ha iniciado Tienda: "+n+" | Categoria: "+identifier)
     try:
         r = tienda.discover_entries_for_category(identifier)
     except:
@@ -84,7 +84,7 @@ def Hebra( identifier, tienda,n):
     if(len(r)>0):
         val = []
         for url in r:
-            print(url)
+            #print(url)
             val.append((n,identifier,url))
         sql = 'INSERT IGNORE INTO tiendas ( store, category, url,fecha,last_date) VALUES (%s,%s, %s,NOW(),NOW() )'
         queryInsert(sql,val)

@@ -171,7 +171,7 @@ def HebraCatByCat(lock, cat, tienda,tipo):
 
 
 def HebraCat(tienda,tipo):
-    print(tipo)
+    #print(tipo)
     try:
         while True:
             add = 0
@@ -180,14 +180,14 @@ def HebraCat(tienda,tipo):
 
             for r in res:
                 url = r[4]
-                print(url)
+                #print(url)
                 cargado = r[14]
                 cat = r[3]
 
                 try:
                     producto = tienda.products_for_url(url)[0]
                 except:
-                    print("ups")
+                    #print("ups")
                     continue
                 np = float(producto.normal_price)
                 op = float(producto.offer_price)
@@ -197,7 +197,7 @@ def HebraCat(tienda,tipo):
 
                 if(cargado == 0 ):
                     add +=1
-                    print(cat+ " | Nuevo producto | key: "+producto.key)
+                    #print(cat+ " | Nuevo producto | key: "+producto.key)
                     picture_urls = ""
                     if( not(producto.picture_urls  is None ) and len(producto.picture_urls) > 0):
                         picture_urls = producto.picture_urls[0].replace('"','')
@@ -217,7 +217,7 @@ def HebraCat(tienda,tipo):
                     if( 100-(bp*100/np) > 30 ):
                         enviar(producto.key)
                 else:
-                    print(cat+ " | Producto existente | key: "+producto.key)
+                    #print(cat+ " | Producto existente | key: "+producto.key)
 
                     if(bp < r[9]):
                         upd +=1
