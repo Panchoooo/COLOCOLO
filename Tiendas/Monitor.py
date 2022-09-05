@@ -15,7 +15,13 @@ import requests
 from storescraper.utils import get_store_class_by_name, chunks
 
 from multiprocessing import Lock
-
+mydb = mysql.connector.connect(
+    host="db-mysql-nyc1-93755-do-user-12336633-0.b.db.ondigitalocean.com",
+    user="diego",
+    password="AVNS__QSFdINp_Fa9wILf0KO",
+    database="tiendas",
+    port= "25060"
+)
 
 def enviar(id):
     try: 
@@ -24,14 +30,11 @@ def enviar(id):
 
 def querySelect(qry):
     try:
-        mydb = mysql.connector.connect(
-            host="db-mysql-nyc1-93755-do-user-12336633-0.b.db.ondigitalocean.com",
-            user="diego",
-            password="AVNS__QSFdINp_Fa9wILf0KO",
-            database="tiendas",
-            port= "25060"
-        )
-        mycursor = mydb.cursor()
+        try:
+            mycursor = mydb.cursor()
+        except:
+            mydb.reconnect()
+            mycursor = mydb.cursor()
         mycursor.execute(qry)
         r = mycursor.fetchall()
         mydb.commit()
@@ -42,15 +45,11 @@ def querySelect(qry):
         return []
 
 def queryInsert(qry,val):
-
-    mydb = mysql.connector.connect(
-        host="db-mysql-nyc1-93755-do-user-12336633-0.b.db.ondigitalocean.com",
-        user="diego",
-        password="AVNS__QSFdINp_Fa9wILf0KO",
-        database="tiendas",
-        port= "25060"
-    )
-    mycursor = mydb.cursor()
+    try:
+        mycursor = mydb.cursor()
+    except:
+        mydb.reconnect()
+        mycursor = mydb.cursor()
     mycursor.executemany(qry, val)
     mydb.commit()
     print(mycursor.rowcount, "Record inserted successfully into table")
@@ -59,15 +58,11 @@ def queryInsert(qry,val):
 
 def queryInsert2(qry,val):
     try:
-
-        mydb = mysql.connector.connect(
-            host="db-mysql-nyc1-93755-do-user-12336633-0.b.db.ondigitalocean.com",
-            user="diego",
-            password="AVNS__QSFdINp_Fa9wILf0KO",
-            database="tiendas",
-            port= "25060"
-        )
-        mycursor = mydb.cursor()
+        try:
+            mycursor = mydb.cursor()
+        except:
+            mydb.reconnect()
+            mycursor = mydb.cursor()
         mycursor.executemany(qry, val)
         mydb.commit()
         #print( "Record inserted successfully into table")
