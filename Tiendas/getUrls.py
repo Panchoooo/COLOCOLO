@@ -54,7 +54,7 @@ def queryInsert(qry,val):
             
         mycursor.executemany(qry, val)
         mydb.commit()
-        #print(mycursor.rowcount, "Record inserted successfully into table")
+        print(mycursor.rowcount, "Record inserted successfully into table")
     except:
         return
         #print("error")
@@ -76,7 +76,7 @@ def queryInsert2(qry,val):
 
 def Hebra( identifier, tienda,n):
 
-    #print("Se ha iniciado Tienda: "+n+" | Categoria: "+identifier)
+    print("Se ha iniciado Tienda: "+n+" | Categoria: "+identifier)
     try:
         r = tienda.discover_entries_for_category(identifier)
     except:
@@ -86,7 +86,7 @@ def Hebra( identifier, tienda,n):
         for url in r:
             #print(url)
             val.append((n,identifier,url))
-        sql = 'INSERT IGNORE INTO tiendas ( store, category, url,fecha) VALUES (%s,%s, %s,NOW() )'
+        sql = 'INSERT INTO tiendas ( store, category, url,fecha) VALUES (%s,%s, %s,NOW() ) on duplicate key update fecha = now() '
         queryInsert(sql,val)
         #print(categoria+" | 1 No se encontraron elementos en la categoria" )
 
