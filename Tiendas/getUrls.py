@@ -69,7 +69,7 @@ if __name__ == '__main__':
     categorias =  tienda.categories()
     print(categorias)
 
-    f = False
+    f = True
     if(f):
         for c in categorias:
             val = (
