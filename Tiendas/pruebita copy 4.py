@@ -2,7 +2,6 @@
 # SuperFastPython.com
 # example of a mutual exclusion (mutex) lock for processes
 from time import sleep
-from multiprocessing import Lock
 from multiprocessing import Pool
 from multiprocessing import Process, current_process
 from time import sleep
@@ -119,10 +118,5 @@ if __name__ == '__main__':
         categorias = cats
     print(categorias)
 
-    if(tienda != None):
-        lock = Lock()
-        processes = [Process(target=Hebra, args=(lock, i, tienda,tipo)) for i in categorias]
-        for process in processes:
-            process.start()
-        for process in processes:
-            process.join()
+    for c in categorias:
+        Hebra( c, tienda,tipo)
