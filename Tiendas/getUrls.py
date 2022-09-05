@@ -51,11 +51,10 @@ def Hebra( identifier, tienda,n):
 
     print("Se ha iniciado Tienda: "+n+" | Categoria: "+identifier)
     r = tienda.discover_entries_for_category(identifier)
-    print(str(identifier)+" | Tienda: "+n+" | Categoria: "+identifier+" | r:"+str(len(r)))
     if(len(r)>0):
         val = []
         for url in r:
-            print(url)
+            #print(url)
             val.append((n,identifier,url))
         sql = 'INSERT IGNORE INTO tiendas ( store, category, url,fecha) VALUES (%s,%s, %s,NOW())'
         queryInsert(sql,val)
