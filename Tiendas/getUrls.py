@@ -41,7 +41,12 @@ def querySelect(qry):
 
 def queryInsert(qry,val):
     try:
-        mycursor = mydb.cursor()
+        try:
+            mycursor = mydb.cursor()
+        except:
+            mydb.reconnect()
+            mycursor = mydb.cursor()
+            
         mycursor.executemany(qry, val)
         mydb.commit()
         print(mycursor.rowcount, "Record inserted successfully into table")
@@ -51,7 +56,11 @@ def queryInsert(qry,val):
 
 def queryInsert2(qry,val):
     try:
-        mycursor = mydb.cursor()
+        try:
+            mycursor = mydb.cursor()
+        except:
+            mydb.reconnect()
+            mycursor = mydb.cursor()
         mycursor.execute(qry, val)
         mydb.commit()
         print(mycursor.rowcount, "Record inserted successfully into table")
