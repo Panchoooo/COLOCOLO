@@ -78,7 +78,7 @@ if __name__ == '__main__':
                 tipo+"-"+c
             )
             sql = 'INSERT INTO tienda_categorias (store,category,keyuniqe,last_date) VALUES (%s,%s,%s,NOW())'
-            queryInsert(sql,val)
+            queryInsert(sql,[val])
             print("Categoria "+c+" agregada")
 
     
