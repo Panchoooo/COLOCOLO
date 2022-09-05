@@ -46,6 +46,16 @@ def queryInsert(qry,val):
     print(mycursor.rowcount, "Record inserted successfully into table")
     #print(mycursor.rowcount, "record inserted.")
 
+def queryInsert2(qry,val):
+    try:
+        mycursor = mydb.cursor()
+        mycursor.execute(qry, val)
+        mydb.commit()
+        print(mycursor.rowcount, "Record inserted successfully into table")
+        #print(mycursor.rowcount, "record inserted.")
+    except:
+        print("duplicado")
+
 
 def Hebra( identifier, tienda,n):
 
@@ -78,7 +88,7 @@ if __name__ == '__main__':
                 tipo+"-"+c
             )
             sql = 'INSERT INTO tienda_categorias (store,category,keyuniqe,last_date) VALUES (%s,%s,%s,NOW())'
-            queryInsert(sql,[val])
+            queryInsert(sql,val)
             print("Categoria "+c+" agregada")
 
     
