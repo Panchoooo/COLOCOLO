@@ -25,11 +25,14 @@ class LiderSupermarket(Store):
         session.headers['User-Agent'] = 'solotodobot'
 
         # Get a starting page just to get the section IDs
-        url = 'https://www.lider.cl/supermercado/category/a/_/N-qs16h7'
-        res = session.get(url)
-        soup = BeautifulSoup(res.text, 'html.parser')
-        sections = soup.find(
-            'div', 'sidebar-categorias').findAll('div', 'panel-group')
+        try:
+            url = 'https://www.lider.cl/supermercado/category/a/_/N-qs16h7'
+            res = session.get(url)
+            soup = BeautifulSoup(res.text, 'html.parser')
+            sections = soup.find(
+                'div', 'sidebar-categorias').findAll('div', 'panel-group')
+        except:
+            return []
 
         product_urls = []
 
