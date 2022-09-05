@@ -92,7 +92,7 @@ def HebraCat(lock, cat, tienda,tipo):
                         bp = op
 
                     if(cargado == 0 ):
-                        print("Nuevo producto | key: "+producto.key)
+                        print(tipo+ " | Nuevo producto | key: "+producto.key)
                         picture_urls = ""
                         if( not(producto.picture_urls  is None ) and len(producto.picture_urls) > 0):
                             picture_urls = producto.picture_urls[0].replace('"','')
@@ -111,7 +111,7 @@ def HebraCat(lock, cat, tienda,tipo):
                                 producto.seller
                             )])
                     else:
-                        print("Producto existente | key: "+producto.key)
+                        print(tipo+ " | Producto existente | key: "+producto.key)
 
                         if(bp < r[9]):
                             #print("Nueva Oferta !")
