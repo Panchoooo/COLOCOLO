@@ -97,6 +97,8 @@ def HebraCat(lock, cat, tienda,tipo):
         while True:
             with lock:
                 vals = []
+                add = 0
+                upd = 0
                 res = querySelect("SELECT * from tiendas where store = '"+tipo+"' and category='"+cat+"'")
             if(len(res)>0):
                 for r in res:
@@ -111,7 +113,8 @@ def HebraCat(lock, cat, tienda,tipo):
                         bp = op
 
                     if(cargado == 0 ):
-                        print(cat+ " | Nuevo producto | key: "+producto.key)
+                        add +=1
+                        #print(cat+ " | Nuevo producto | key: "+producto.key)
                         picture_urls = ""
                         if( not(producto.picture_urls  is None ) and len(producto.picture_urls) > 0):
                             picture_urls = producto.picture_urls[0].replace('"','')
@@ -130,9 +133,10 @@ def HebraCat(lock, cat, tienda,tipo):
                                 producto.seller
                             )])
                     else:
-                        print(cat+ " | Producto existente | key: "+producto.key)
+                        #print(cat+ " | Producto existente | key: "+producto.key)
 
                         if(bp < r[9]):
+                            upd +=1
                             #print("Nueva Oferta !")
 
                             if( not(producto.picture_urls  is None ) and len(producto.picture_urls) > 0):
@@ -161,8 +165,9 @@ def HebraCat(lock, cat, tienda,tipo):
                                 )])
                         #else:
                             #print("Mantiene su precio")
-                                
+                print("Categoria "+cat+" | Añadidos: "+add+" | Actualizados: "+upd+" | Leidos: "+len(res))
                 print("\n\nCargando "+cat+" denuevo....")
+
             else:
                 print("\n\nNo se encontraron datos de la categoria "+cat)
                 sleep(30)
