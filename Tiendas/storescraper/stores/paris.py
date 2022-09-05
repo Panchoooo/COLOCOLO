@@ -384,6 +384,10 @@ class Paris(Store):
                 return []
             normal_price = Decimal(remove_words(price_text))
             offer_price = normal_price
+
+            price_tags2 = soup.findAll('div', 'price__text-sm')
+            if len(price_tags2) > 0:
+                normal_price =  Decimal(remove_words(price_tags2[0].text))
         else:
             raise Exception('Invalid number of tags')
 
