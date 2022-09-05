@@ -70,7 +70,7 @@ def queryInsert2(qry,val):
         mycursor = mydb.cursor()
         mycursor.executemany(qry, val)
         mydb.commit()
-        print( "Record inserted successfully into table")
+        #print( "Record inserted successfully into table")
         mydb.close()
         #print(mycursor.rowcount, "record inserted.")
     except mysql.connector.Error as my_error:
