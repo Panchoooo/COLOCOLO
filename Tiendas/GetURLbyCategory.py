@@ -86,7 +86,7 @@ if __name__ == '__main__':
     while True:
         for c in categorias:
             Hebra(c,tienda,tipo)
-            sql = 'UPDATE tienda_categorias SET last_date = NOW() where store="'+tipo+'" AND category = "'+c+'"'
+            sql = "UPDATE tienda_categorias SET last_date = NOW() where store='"+tipo+"' AND category = '"+c+"'"
             querySelect(sql)
 
 
