@@ -291,10 +291,16 @@ class AbcDin(Store):
                 offer_price = normal_price
         else:
 
-            offer_price_tag =  Decimal(remove_words(prices_box.find(
-            'span', 'internet-price').find('span', 'price').text))
+            offer_price_tag =  prices_box.find('span', 'internet-price')
             if offer_price_tag:
                 offer_price = normal_price
+            else:
+                if offer_price > normal_price:
+                    offer_price = normal_price
+                else:
+                    offer_price = Decimal(remove_words(prices_box.find(
+            'span', 'internet-price').find('span', 'price').text))
+            
 
         if soup.find('button', {'id': 'product-addtocart-button'}):
             stock = -1
