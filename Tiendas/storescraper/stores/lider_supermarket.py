@@ -69,7 +69,10 @@ class LiderSupermarket(Store):
         print(url)
         session = session_with_proxy(extra_args)
         session.headers['User-Agent'] = 'solotodobot'
-        res = session.get(url)
+        try:
+            res = session.get(url)
+        except:
+            return []
         soup = BeautifulSoup(res.text, 'html.parser')
         name = soup.find('h1').text.strip()
 
