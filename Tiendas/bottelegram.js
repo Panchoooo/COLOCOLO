@@ -86,7 +86,7 @@ function select(id){
 
                 }
                 if(store == "Lider"){
-                    picture_urls = picture_urls.spli("https://images.lider.cl")[1]
+                    picture_urls = picture_urls.split("https://images.lider.cl")[1]
                     picture_urls = "https://images.lider.cl/"+picture_urls
                 }
 
