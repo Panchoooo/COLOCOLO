@@ -97,17 +97,19 @@ def HebraCat(lock, cat, tienda,tipo):
                         if( not(producto.picture_urls  is None ) and len(producto.picture_urls) > 0):
                             picture_urls = producto.picture_urls[0].replace('"','')
                         sql = "UPDATE tiendas SET name = %s, stock = %s, keey=%s, normal_price = %s, offer_price = %s, best_price = %s, sku = %s, picture_urls =%s, seller=%s, fecha = NOW(), cargado = 1 WHERE url = '"+url+"'"
-                        queryInsert2(sql,[(
-                            producto.name,
-                            producto.stock,
-                            producto.key,
-                            np,
-                            op,
-                            bp,
-                            producto.sku,
-                            picture_urls,
-                            producto.seller
-                        )])
+                        
+                        with lock:
+                            queryInsert2(sql,[(
+                                producto.name,
+                                producto.stock,
+                                producto.key,
+                                np,
+                                op,
+                                bp,
+                                producto.sku,
+                                picture_urls,
+                                producto.seller
+                            )])
                     else:
                         print("Producto existente | key: "+producto.key)
 
@@ -129,13 +131,15 @@ def HebraCat(lock, cat, tienda,tipo):
                             ))
                             sql = "UPDATE tiendas SET name = %s, stock = %s, keey=%s, normal_price = %s, offer_price = %s, best_price = %s, sku = %s, picture_urls =%s, seller=%s, fecha = NOW(), cargado = 1 WHERE url = '"+url+"'"
                             sql2 = 'INSERT IGNORE INTO tiendas_log ( store, category, keey,price,fecha) VALUES (%s,%s, %s,%s,NOW())'
-                            queryInsert2(sql,vals)
-                            queryInsert2(sql2,[(
-                                tipo,
-                                cat,
-                                producto.key,
-                                bp
-                            )])
+                            
+                            with lock:
+                                queryInsert2(sql,vals)
+                                queryInsert2(sql2,[(
+                                    tipo,
+                                    cat,
+                                    producto.key,
+                                    bp
+                                )])
                         #else:
                             #print("Mantiene su precio")
                                 
