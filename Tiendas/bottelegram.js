@@ -88,7 +88,7 @@ function select(id){
                 body = cat+"\n<b>"+store+"</b>\n"+
                 name+"\
                 \n"+normalPrice+" → <b>"+ofertaPrice+" ( "+porcentaje+"% )</b> \
-                \n\n<a href='"+picture_urls+"'><b></b></a> <a href='"+url+"'><b>👉🏻 VER PRODUCTO</b></a>\n\n<a href='https://www.google.com/search?q="+name+"'>Google</a> - <a href='https://knasta.cl/results?q="+name+"'>Knasta</a> - <a href='https://www.solotodo.cl/search?search="+name+"'>Solotodo</a>"
+                \n\n<a href='"+picture_urls+"'>aa<b></b></a> <a href='"+url+"'><b>👉🏻 VER PRODUCTO</b></a>\n\n<a href='https://www.google.com/search?q="+name+"'>Google</a> - <a href='https://knasta.cl/results?q="+name+"'>Knasta</a> - <a href='https://www.solotodo.cl/search?search="+name+"'>Solotodo</a>"
                 console.log(body)
                 try{
                     bot.sendMessage(users[0],body,{disable_web_page_preview:false,parse_mode:"HTML"})
