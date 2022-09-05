@@ -40,11 +40,14 @@ def querySelect(qry):
         return []
 
 def queryInsert(qry,val):
-    mycursor = mydb.cursor()
-    mycursor.executemany(qry, val)
-    mydb.commit()
-    print(mycursor.rowcount, "Record inserted successfully into table")
-    #print(mycursor.rowcount, "record inserted.")
+    try:
+        mycursor = mydb.cursor()
+        mycursor.executemany(qry, val)
+        mydb.commit()
+        print(mycursor.rowcount, "Record inserted successfully into table")
+        #print(mycursor.rowcount, "record inserted.")
+    except:
+        print("error")
 
 def queryInsert2(qry,val):
     try:
