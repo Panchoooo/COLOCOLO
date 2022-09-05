@@ -176,7 +176,7 @@ def HebraCat(tienda,tipo):
         while True:
             add = 0
             upd = 0
-            res = querySelect("SELECT * from tiendas where store = '"+tipo+"' order by last_date,id asc limit 50 ")
+            res = querySelect("SELECT * from tiendas where store = '"+tipo+"' order by last_date,id asc limit 10 ")
 
             for r in res:
                 url = r[4]
