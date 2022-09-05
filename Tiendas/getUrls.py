@@ -76,7 +76,7 @@ def queryInsert2(qry,val):
 
 def Hebra( identifier, tienda,n):
 
-    #print("Se ha iniciado Tienda: "+n+" | Categoria: "+identifier)
+    print("Se ha iniciado Tienda: "+n+" | Categoria: "+identifier)
     try:
         r = tienda.discover_entries_for_category(identifier)
     except:
@@ -84,7 +84,7 @@ def Hebra( identifier, tienda,n):
     if(len(r)>0):
         val = []
         for url in r:
-            #print(url)
+            print(url)
             val.append((n,identifier,url))
         sql = 'INSERT IGNORE INTO tiendas ( store, category, url,fecha) VALUES (%s,%s, %s,NOW())'
         queryInsert(sql,val)
@@ -99,7 +99,11 @@ if __name__ == '__main__':
     categorias =  tienda.categories()
     print(categorias)
 
-    f = True
+    f = False
+    if( len( sys.argv ) > 2 != None):
+        if(sys.argv[2]=="1"):
+            f=  True
+
     if(f):
         for c in categorias:
             val = (
@@ -111,11 +115,13 @@ if __name__ == '__main__':
             queryInsert2(sql,val)
             #print("Categoria "+c+" agregada")
 
-    
-    while True:
-        for c in categorias:
-            Hebra(c,tienda,tipo)
-            sql = "UPDATE tienda_categorias SET last_date = NOW() where store='"+tipo+"' AND category = '"+c+"'"
-            querySelect(sql)
+    try:
+        while True:
+            for c in categorias:
+                Hebra(c,tienda,tipo)
+                sql = "UPDATE tienda_categorias SET last_date = NOW() where store='"+tipo+"' AND category = '"+c+"'"
+                querySelect(sql)
+    except KeyboardInterrupt:
+        pass
 
 
