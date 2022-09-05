@@ -111,7 +111,7 @@ def HebraCat(lock, cat, tienda,tipo):
                                 producto.seller
                             )])
                     else:
-                        print(tipo+ " | Producto existente | key: "+producto.key)
+                        print(cat+ " | Producto existente | key: "+producto.key)
 
                         if(bp < r[9]):
                             #print("Nueva Oferta !")
