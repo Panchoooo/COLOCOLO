@@ -249,7 +249,6 @@ def HebraCat(tienda,tipo):
                             enviar(producto.key)
                     #else:
                         #print("Mantiene su precio")
-            print("Categoria "+cat+" | Añadidos: "+str(add)+" | Actualizados: "+str(upd)+" | Leidos: "+str(len(res)))
     except KeyboardInterrupt:
         pass
 
