@@ -1,29 +1,14 @@
 run:
 	nohup node bottelegram.js &
-	nohup python3 pruebita.py Lider 0 &
-	nohup python3 pruebita.py Lider 1 &
-	nohup python3 pruebita.py Lider 2 &
-	nohup python3 pruebita.py Lider 3 &
-	nohup python3 pruebita.py Lider 4 &
-	nohup python3 pruebita.py Lider 5 &
-	nohup python3 pruebita.py Lider 6 &
-	nohup python3 pruebita.py Lider 7 &
-	nohup python3 pruebita.py Lider 8 &
-	nohup python3 pruebita.py Lider 9 &
-	nohup python3 pruebita.py Lider 10 &
-	nohup python3 pruebita.py Lider 11 &
-	nohup python3 pruebita.py Lider 12 &
-	nohup python3 pruebita.py Lider 13 &
-	nohup python3 pruebita.py Lider 14 &
-	nohup python3 pruebita.py Lider 15 &
-	nohup python3 pruebita.py Lider 16 &
-	nohup python3 pruebita.py Lider 17 &
-	nohup python3 pruebita.py Lider 18 &
-	nohup python3 pruebita.py Lider 19 &
-	nohup python3 pruebita.py Lider 20 &
-	nohup python3 pruebita.py Lider 21 &
-	nohup python3 pruebita.py Lider 22 &
-	nohup python3 pruebita.py Lider 23 &
-	nohup python3 pruebita.py Lider 24 &
-	nohup python3 pruebita.py Lider 25 &
-	nohup python3 pruebita.py Lider 26 &
+	
+	nohup python3 getUrls.py Lider &
+	nohup python3 getUrls.py LiderSuperMarket &
+	nohup python3 getUrls.py AbcDin &
+	nohup python3 getUrls.py Hites &
+	nohup python3 getUrls.py Paris &
+
+	nohup python3 Monitor.py Lider &
+	nohup python3 Monitor.py LiderSuperMarket &
+	nohup python3 Monitor.py AbcDin &
+	nohup python3 Monitor.py Hites &
+	nohup python3 Monitor.py Paris &

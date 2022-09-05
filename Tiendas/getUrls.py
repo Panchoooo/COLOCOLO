@@ -25,18 +25,23 @@ mydb = mysql.connector.connect(
 
 def enviar(id):
     try: 
-        r = requests.get('http://localhost:5000/send/'+str(id))
+        requests.get('http://localhost:5000/send/'+str(id))
     except Exception as e: print(e)
 
 def querySelect(qry):
     try:
-        mycursor = mydb.cursor()
+        try:
+            mycursor = mydb.cursor()
+        except:
+            mydb.reconnect()
+            mycursor = mydb.cursor()
+            
         mycursor.execute(qry)
         r = mycursor.fetchall()
         mydb.commit()
         return r
     except Exception as e: 
-        print(e)
+        #print(e)
         return []
 
 def queryInsert(qry,val):
@@ -49,10 +54,10 @@ def queryInsert(qry,val):
             
         mycursor.executemany(qry, val)
         mydb.commit()
-        print(mycursor.rowcount, "Record inserted successfully into table")
-        #print(mycursor.rowcount, "record inserted.")
+        #print(mycursor.rowcount, "Record inserted successfully into table")
     except:
-        print("error")
+        return
+        #print("error")
 
 def queryInsert2(qry,val):
     try:
@@ -63,15 +68,15 @@ def queryInsert2(qry,val):
             mycursor = mydb.cursor()
         mycursor.execute(qry, val)
         mydb.commit()
-        print(mycursor.rowcount, "Record inserted successfully into table")
-        #print(mycursor.rowcount, "record inserted.")
+        #print(mycursor.rowcount, "Record inserted successfully into table")
     except:
-        print("duplicado")
+        #print("duplicado")
+        return
 
 
 def Hebra( identifier, tienda,n):
 
-    print("Se ha iniciado Tienda: "+n+" | Categoria: "+identifier)
+    #print("Se ha iniciado Tienda: "+n+" | Categoria: "+identifier)
     r = tienda.discover_entries_for_category(identifier)
     if(len(r)>0):
         val = []
@@ -101,7 +106,7 @@ if __name__ == '__main__':
             )
             sql = 'INSERT INTO tienda_categorias (store,category,keyuniqe,last_date) VALUES (%s,%s,%s,NOW())'
             queryInsert2(sql,val)
-            print("Categoria "+c+" agregada")
+            #print("Categoria "+c+" agregada")
 
     
     while True:
