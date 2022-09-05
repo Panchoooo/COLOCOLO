@@ -16,13 +16,6 @@ from storescraper.utils import get_store_class_by_name, chunks
 
 from multiprocessing import Lock
 
-mydb = mysql.connector.connect(
-    host="db-mysql-nyc1-93755-do-user-12336633-0.b.db.ondigitalocean.com",
-    user="diego",
-    password="AVNS__QSFdINp_Fa9wILf0KO",
-    database="tiendas",
-    port= "25060"
-)
 
 def enviar(id):
     try: 
@@ -41,19 +34,36 @@ def querySelect(qry):
         return []
 
 def queryInsert(qry,val):
+
+    mydb = mysql.connector.connect(
+        host="db-mysql-nyc1-93755-do-user-12336633-0.b.db.ondigitalocean.com",
+        user="diego",
+        password="AVNS__QSFdINp_Fa9wILf0KO",
+        database="tiendas",
+        port= "25060"
+    )
     mycursor = mydb.cursor()
     mycursor.executemany(qry, val)
     mydb.commit()
     print(mycursor.rowcount, "Record inserted successfully into table")
     #print(mycursor.rowcount, "record inserted.")
+    mydb.close()
 
 def queryInsert2(qry,val):
     try:
-        mydb.reconnect()
+
+        mydb = mysql.connector.connect(
+            host="db-mysql-nyc1-93755-do-user-12336633-0.b.db.ondigitalocean.com",
+            user="diego",
+            password="AVNS__QSFdINp_Fa9wILf0KO",
+            database="tiendas",
+            port= "25060"
+        )
         mycursor = mydb.cursor()
         mycursor.executemany(qry, val)
         mydb.commit()
         print( "Record inserted successfully into table")
+        mydb.close()
         #print(mycursor.rowcount, "record inserted.")
     except mysql.connector.Error as my_error:
         print(my_error)
