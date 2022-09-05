@@ -261,7 +261,7 @@ if __name__ == '__main__':
     tipo =  sys.argv[1]
     tienda = get_store_class_by_name(tipo)
     categorias =  tienda.categories()
-
+    print(categorias)
     lock = Lock()
     #HebraCat(lock,categorias[0],tienda,tipo)
     
