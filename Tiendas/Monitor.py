@@ -49,6 +49,7 @@ def queryInsert(qry,val):
 
 def queryInsert2(qry,val):
     try:
+        mydb.reconnect()
         mycursor = mydb.cursor()
         mycursor.executemany(qry, val)
         mydb.commit()
