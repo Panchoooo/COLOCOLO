@@ -168,7 +168,7 @@ def HebraCat(lock, cat, tienda,tipo):
                 print("Categoria "+cat+" | Añadidos: "+str(add)+" | Actualizados: "+str(upd)+" | Leidos: "+str(len(res)))
 
             else:
-                print("\n\nNo se encontraron datos de la categoria "+cat)
+                print("No se encontraron datos de la categoria "+cat)
                 sleep(30)
 
     except KeyboardInterrupt:
