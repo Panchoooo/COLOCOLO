@@ -85,6 +85,12 @@ function select(id){
 
 
                 }
+                if(store == "Lider"){
+                    picture_urls = picture_urls.spli("https://images.lider.cl")[1]
+                    picture_urls = "https://images.lider.cl/"+picture_urls
+                }
+
+
                 body = cat+"\n<b>"+store+"</b>\n"+
                 name+"\
                 \n"+normalPrice+" → <b>"+ofertaPrice+" ( "+porcentaje+"% )</b> \
