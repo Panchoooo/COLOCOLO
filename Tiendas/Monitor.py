@@ -171,20 +171,23 @@ def HebraCatByCat(lock, cat, tienda,tipo):
 
 
 def HebraCat(tienda,tipo):
+    print(tipo)
     try:
         while True:
             add = 0
             upd = 0
-            res = querySelect("SELECT * from tiendas where store = '"+tipo+"' ORDER BY t.name asc")
+            res = querySelect("SELECT * from tiendas where store = '"+tipo+"' order by last_date limit 50 ")
 
             for r in res:
                 url = r[4]
+                print(url)
                 cargado = r[14]
                 cat = r[3]
 
                 try:
                     producto = tienda.products_for_url(url)[0]
                 except:
+                    print("ups")
                     continue
                 np = float(producto.normal_price)
                 op = float(producto.offer_price)
@@ -194,11 +197,11 @@ def HebraCat(tienda,tipo):
 
                 if(cargado == 0 ):
                     add +=1
-                    #print(cat+ " | Nuevo producto | key: "+producto.key)
+                    print(cat+ " | Nuevo producto | key: "+producto.key)
                     picture_urls = ""
                     if( not(producto.picture_urls  is None ) and len(producto.picture_urls) > 0):
                         picture_urls = producto.picture_urls[0].replace('"','')
-                    sql = "UPDATE tiendas SET name = %s, stock = %s, keey=%s, normal_price = %s, offer_price = %s, best_price = %s, sku = %s, picture_urls =%s, seller=%s, fecha = NOW(), cargado = 1 WHERE url = '"+url+"'"
+                    sql = "UPDATE tiendas SET name = %s, stock = %s, keey=%s, normal_price = %s, offer_price = %s, best_price = %s, sku = %s, picture_urls =%s, seller=%s, fecha = NOW(), cargado = 1,last_date=NOW() WHERE url = '"+url+"'"
                     queryInsert2(sql,[(
                         producto.name,
                         producto.stock,
@@ -214,7 +217,7 @@ def HebraCat(tienda,tipo):
                     if( 100-(bp*100/np) > 30 ):
                         enviar(producto.key)
                 else:
-                    #print(cat+ " | Producto existente | key: "+producto.key)
+                    print(cat+ " | Producto existente | key: "+producto.key)
 
                     if(bp < r[9]):
                         upd +=1
@@ -223,7 +226,7 @@ def HebraCat(tienda,tipo):
                         if( not(producto.picture_urls  is None ) and len(producto.picture_urls) > 0):
                             picture_urls = producto.picture_urls[0].replace('"','')
                     
-                        sql = "UPDATE tiendas SET name = %s, stock = %s, keey=%s, normal_price = %s, offer_price = %s, best_price = %s, sku = %s, picture_urls =%s, seller=%s, fecha = NOW(), cargado = 1 WHERE url = '"+url+"'"
+                        sql = "UPDATE tiendas SET name = %s, stock = %s, keey=%s, normal_price = %s, offer_price = %s, best_price = %s, sku = %s, picture_urls =%s, seller=%s, last_date = NOW(), cargado = 1 WHERE url = '"+url+"'"
                         sql2 = 'INSERT IGNORE INTO tiendas_log ( store, category, keey,price,fecha) VALUES (%s,%s, %s,%s,NOW())'
                         queryInsert2(sql,[(
                             producto.name,
@@ -245,6 +248,9 @@ def HebraCat(tienda,tipo):
                         
                         if( 100-(bp*100/np) > 30 ):
                             enviar(producto.key)
+                    else:
+                        sql = "UPDATE tiendas SET last_date = NOW() WHERE keey = '"+producto.key+"'"
+                        querySelect(sql)
                     #else:
                         #print("Mantiene su precio")
     except KeyboardInterrupt:
