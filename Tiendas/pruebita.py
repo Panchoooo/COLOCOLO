@@ -2,174 +2,101 @@
 # SuperFastPython.com
 # example of a mutual exclusion (mutex) lock for processes
 from time import sleep
-from random import random
-from multiprocessing import Process
-from multiprocessing import Lock
- 
-
-
-
 from multiprocessing import Pool
 from multiprocessing import Process, current_process
 from time import sleep
-from storescraper import categories
-from storescraper.store import Store
-from storescraper.product import Product
-from storescraper.stores.paris import Paris
-from storescraper.stores.lider import Lider
-from storescraper.stores.la_polar import LaPolar
-from storescraper.stores.absolutec import Absolutec
-from storescraper.stores.mercado_libre_chile import MercadoLibreChile
 from storescraper.stores import *
 import mysql.connector
 import sys
 import requests
-
 from storescraper.utils import get_store_class_by_name, chunks
 
-
-def is_integer_num(n):
-    if isinstance(n, int):
-        return True
-    if isinstance(n, float):
-        return n.is_integer()
-    return False
+mydb = mysql.connector.connect(
+    host="db-mysql-nyc1-93755-do-user-12336633-0.b.db.ondigitalocean.com",
+    user="diego",
+    password="AVNS__QSFdINp_Fa9wILf0KO",
+    database="tiendas",
+    port= "25060"
+)
 
 def enviar(id):
     try: 
-        #print('http://localhost:5000/send/'+str(id))
         r = requests.get('http://localhost:5000/send/'+str(id))
-        #print(r.json())
-        #print("Finalizado\n")
     except Exception as e: print(e)
 
 
 def querySelect(qry):
     try:
-        mydb = mysql.connector.connect(
-            host="db-mysql-nyc1-93755-do-user-12336633-0.b.db.ondigitalocean.com",
-            user="diego",
-            password="AVNS__QSFdINp_Fa9wILf0KO",
-            database="tiendas",
-            port= "25060"
-        )
         mycursor = mydb.cursor()
         mycursor.execute(qry)
         r = mycursor.fetchall()
-        mydb.close()
         return r
     except:
         return []
 
 def queryInsert(qry,val):
     try:
-        mydb = mysql.connector.connect(
-            host="db-mysql-nyc1-93755-do-user-12336633-0.b.db.ondigitalocean.com",
-            user="diego",
-            password="AVNS__QSFdINp_Fa9wILf0KO",
-            database="tiendas",
-            port= "25060"
-        )
         mycursor = mydb.cursor()
         mycursor.execute(qry, val)
         mydb.commit()
         #print(mycursor.rowcount, "record inserted.")
-        mydb.close()
         return 1
     except:
         return -1
 
-def Hebra(lock, identifier, tienda,n):
+def Hebra( identifier, tienda,n):
 
-    #print("Se ha iniciado Tienda: "+n+" | Categoria: "+categoria)
-    while(True ):
-            r = tienda.discover_entries_for_category(identifier)
-            #print(str(identifier)+" | Tienda: "+n+" | Categoria: "+categoria+" | r:"+str(len(r)))
-            if(len(r)>0):
-                flag_delay = True
-                for url in r:
-                    #print(url)
-                    res = tienda.products_for_url(url)
-                    if(len(res)>0):
-                        producto = res[0]
-                        po = float(producto.offer_price)
-                        pn = float(producto.normal_price)
-                        if( (producto.key is not None ) and ('"' in producto.key )):
-                            producto.key = producto.key.replace('"','')
-                        key = producto.key
-
-                        qr = querySelect("SELECT offer_price,normal_price,name FROM tiendas WHERE keey = '"+key+"'")
-                        #print(qr[0][2])
-                        if(len(qr)==0):
-                            video = ''
-                            picture_urls = ''
-
-                            if( not(producto.video_urls  is None ) and len(producto.video_urls) > 0):
-                                video = producto.video_urls[0].replace('"','')
-                            if( not(producto.picture_urls  is None ) and len(producto.picture_urls) > 0):
-                                picture_urls = producto.picture_urls[0].replace('"','')
-                            if( (producto.name is not None ) and ('"' in producto.name )):
-                                producto.name = producto.name.replace('"','')
-                            if( (producto.store is not None ) and ('"' in producto.store )):
-                                producto.store = producto.store.replace('"','')
-                            if( (producto.category is not None ) and ('"' in producto.category )):
-                                producto.category = producto.category.replace('"','')
-                            if( (producto.url is not None ) and ('"' in producto.url )):
-                                producto.url = producto.url.replace('"','')
-                            if( (producto.discovery_url is not None ) and ('"' in producto.discovery_url )):
-                                producto.discovery_url = producto.discovery_url.replace('"','')
-                            if( (producto.sku is not None ) and ('"' in producto.sku )):
-                                producto.sku = producto.sku.replace('"','')
-                            if( (producto.ean is not None ) and ('"' in producto.ean )):
-                                producto.ean = producto.ean.replace('"','')
-                            if( (producto.description is not None ) and ('"' in producto.description )):
-                                producto.description = producto.description.replace('"','')
-                            if( (producto.seller is not None ) and ('"' in producto.seller )):
-                                producto.seller = producto.seller.replace('"','')
-
-                            val = (
-                                    producto.name,
-                                    producto.store,
-                                    identifier,
-                                    producto.url,
-                                    producto.discovery_url,
-                                    key,
-                                    producto.stock,
-                                    float(producto.normal_price),
-                                    float(producto.offer_price),
-                                    producto.sku,
-                                    producto.ean,
-                                    producto.description,
-                                    picture_urls,
-                                    video,
-                                    producto.seller
-                            )
-                            flag_delay = False
-                            try:
-                                sql = 'INSERT INTO tiendas (name, store, category, url, discovery_url,keey, stock, normal_price, offer_price, sku, ean, description,picture_urls,video_urls, seller,fecha) VALUES (%s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,NOW())'
-                                queryInsert(sql,val)
-                                if( po<pn  and (100-po*100/pn)>30 ):
-                                    enviar(producto.key)
-                            except Exception as e: 
-                                print(e)
-                        else:
-                            if( po<qr[0][0] and ((100-(po*100/qr[0][1]))>30) ):
-                                flag_delay = False
-                                sql = 'UPDATE tiendas SET (offer_price = '+str(po)+') where key="'+key+'"'
-                                querySelect(sql)
-                                enviar(producto.key)
-                    #else:
-                        #print(res)
-                        #print(categoria+" | 3 No se encontraron elementos en la url del producto" )
-                if(flag_delay):
-                    sleep(10)
-                    #print(categoria+" | 2 No se encontraron elementos nuevos en la categoria" )
-            else:
-                #break
-                sleep(60)
-                #print(categoria+" | 1 No se encontraron elementos en la categoria" )
-        #except:
-        #    Hebra(lock, identifier, tienda,n)
+    print("Se ha iniciado Tienda: "+n+" | Categoria: "+identifier)
+    r = tienda.discover_entries_for_category(identifier)
+    print(str(identifier)+" | Tienda: "+n+" | Categoria: "+identifier+" | r:"+str(len(r)))
+    if(len(r)>0):
+        for url in r:
+            print(url)
+            res = tienda.products_for_url(url)
+            if(len(res)>0):
+                producto = res[0]
+                po = float(producto.offer_price)
+                pn = float(producto.normal_price)
+                key = producto.key
+                qr = querySelect("SELECT offer_price,normal_price,name FROM tiendas WHERE keey = '"+key+"'")
+                if(len(qr)==0):
+                    video = ''
+                    picture_urls = ''
+                    if( not(producto.video_urls is None ) and len(producto.video_urls) > 0):
+                        video = producto.video_urls[0].replace('"','')
+                    if( not(producto.picture_urls  is None ) and len(producto.picture_urls) > 0):
+                        picture_urls = producto.picture_urls[0].replace('"','')
+                    val = (
+                            producto.name,
+                            producto.store,
+                            identifier,
+                            producto.url,
+                            producto.discovery_url,
+                            key,
+                            producto.stock,
+                            float(producto.normal_price),
+                            float(producto.offer_price),
+                            producto.sku,
+                            producto.ean,
+                            producto.description,
+                            picture_urls,
+                            video,
+                            producto.seller
+                    )
+                    sql = 'INSERT INTO tiendas (name, store, category, url, discovery_url,keey, stock, normal_price, offer_price, sku, ean, description,picture_urls,video_urls, seller,fecha) VALUES (%s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,NOW())'
+                    queryInsert(sql,val)
+                    if( po<pn  and (100-po*100/pn)>30 ):
+                        enviar(producto.key)
+                else:
+                    if( po<qr[0][0] and ((100-(po*100/qr[0][1]))>30) ):
+                        sql = 'UPDATE tiendas SET (offer_price = '+str(po)+') where key="'+key+'"'
+                        querySelect(sql)
+                        enviar(producto.key)
+            #else:
+                #print(categoria+" | 3 No se encontraron elementos en la url del producto" )
+    else:
+        sleep(60)
+        #print(categoria+" | 1 No se encontraron elementos en la categoria" )
 
 if __name__ == '__main__':
 
@@ -189,14 +116,7 @@ if __name__ == '__main__':
             #categorias =  [tienda.categories()[int(test)]]
             cats.append(categorias[int(t)])
         categorias = cats
-    #print(categorias)
+    print(categorias)
 
-    if(tienda != None):
-        lock = Lock()
-        processes = [Process(target=Hebra, args=(lock, i, tienda,tipo)) for i in categorias]
-        for process in processes:
-            process.start()
-        for process in processes:
-            process.join()
-
-    exit(1)            
+    for c in categorias:
+        Hebra( c, tienda,tipo)
