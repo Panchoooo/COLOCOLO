@@ -212,6 +212,9 @@ def HebraCat(tienda,tipo):
                         picture_urls,
                         producto.seller
                     )])
+
+                    if( 100-(bp*100/np) > 30 ):
+                        enviar(producto.key)
                 else:
                     print(cat+ " | Producto existente | key: "+producto.key)
 
@@ -241,6 +244,9 @@ def HebraCat(tienda,tipo):
                             producto.key,
                             bp
                         )])
+                        
+                        if( 100-(bp*100/np) > 30 ):
+                            enviar(producto.key)
                     #else:
                         #print("Mantiene su precio")
             print("Categoria "+cat+" | Añadidos: "+str(add)+" | Actualizados: "+str(upd)+" | Leidos: "+str(len(res)))
