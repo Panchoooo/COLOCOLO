@@ -182,7 +182,10 @@ def HebraCat(tienda,tipo):
                 cargado = r[14]
                 cat = r[3]
 
-                producto = tienda.products_for_url(url)[0]
+                try:
+                    producto = tienda.products_for_url(url)[0]
+                except:
+                    continue
                 np = float(producto.normal_price)
                 op = float(producto.offer_price)
                 bp = np

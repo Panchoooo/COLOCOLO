@@ -98,7 +98,11 @@ class LiderSupermarket(Store):
         stock_url = 'https://www.lider.cl/supermercado/includes/inventory/' \
                     'inventoryInformation.jsp?productNumber={}&' \
                     'consolidate=true'.format(sku)
-        stock_data = session.get(stock_url).json()
+        
+        try:
+            stock_data = session.get(stock_url).json()
+        except:
+            return []
 
         if stock_data[0]['stockLevel'] == '0':
             stock = 0
