@@ -269,6 +269,7 @@ def HebraCat(tienda,tipo):
                         enviar(m)
             else:
                 print("No hay registros")
+                sleep(30)
 
 
     except KeyboardInterrupt:
