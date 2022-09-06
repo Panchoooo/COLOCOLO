@@ -40,7 +40,7 @@ function upd(id){
 const formatter = new Intl.NumberFormat('en', { style: 'currency', currency: 'USD' })
 
 var mensajes = []
-function select(){
+async function select(){
     try {
         
         var id = ids[0]
@@ -296,7 +296,7 @@ async function check_ids(){
             if(ids.length>0){
                 console.log("mensajes encontrados "+ids.length)
                 try {
-                    select()
+                    await select()
                     await delay(2000)
                 } catch (error) {
                     console.log(error)
@@ -307,7 +307,7 @@ async function check_ids(){
                 await delay(5000)
             }     
         } catch (error) {
-            
+            await delay(5000)
         }
 
 
