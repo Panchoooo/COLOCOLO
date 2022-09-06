@@ -191,6 +191,8 @@ class Paris(Store):
     @classmethod
     def categories(cls):
         return [
+            
+            'Projector',
             'Notebook',
             'Television',
             'Tablet',
@@ -206,7 +208,6 @@ class Paris(Store):
             'ExternalStorageDrive',
             'UsbFlashDrive',
             'MemoryCard',
-            'Projector',
             'VideoGameConsole',
             'Monitor',
             'AllInOne',
@@ -280,10 +281,44 @@ class Paris(Store):
                     if 'https' not in product_url:
                         product_url = 'https://www.paris.cl' + product_url
 
+                    seller = container.find('p', 'brand-product-plp').text
+                    name = container.find('span','ellipsis_text').text
+                    key = container.find('div', attrs={'class':'product-tile'})['data-itemid']
+                    picture_url = container.findAll('img', attrs={'class':'img-prod'})[0]["data-src"]
+
+                    price_tags = container.findAll('div', 'price__text')
+                    if len(price_tags) == 2:
+                        offer_price = Decimal(remove_words(price_tags[0].text))
+                        normal_price = Decimal(remove_words(price_tags[1].text))
+                    elif len(price_tags) == 1:
+                        price_text = price_tags[0].text.strip()
+                        if price_text == 'N/A':
+                            return []
+                        normal_price = Decimal(remove_words(price_text))
+                        offer_price = normal_price
+
+                        price_tags2 = container.findAll('div', 'price__text-sm')
+                        if len(price_tags2) > 0:
+                            normal_price =  Decimal(remove_words(price_tags2[0].text))
+                    else:
+                        raise Exception('Invalid number of tags')
+
+                    #print(product_url)
+                    #print(normal_price)
+                    #print(offer_price)
+  
                     product_entries[product_url].append({
                         'category_weight': category_weight,
                         'section_name': section_name,
                         'value': 40 * page + idx + 1,
+
+                        'seller': seller,
+                        'name': name,
+                        'key':key,
+                        'picture_url':picture_url,
+                        "normal_price": normal_price,
+                        'offer_price': offer_price,
+                        'category_url':category_url
                     })
 
                 page += 1

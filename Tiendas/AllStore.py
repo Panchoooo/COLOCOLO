@@ -41,7 +41,23 @@ def querySelect(qry):
         mydb.commit()
         return r
     except Exception as e: 
-        #print(e)
+        print(e)
+        return []
+
+def querySelect2(qry,val):
+    try:
+        try:
+            mycursor = mydb.cursor()
+        except:
+            mydb.reconnect()
+            mycursor = mydb.cursor()
+            
+        mycursor.execute(qry,val)
+        r = mycursor.fetchall()
+        mydb.commit()
+        return r
+    except Exception as e: 
+        print(e)
         return []
 
 def queryInsert(qry,val):
@@ -68,11 +84,10 @@ def queryInsert2(qry,val):
             mycursor = mydb.cursor()
         mycursor.execute(qry, val)
         mydb.commit()
-        #print(mycursor.rowcount, "Record inserted successfully into table")
-    except:
-        #print("duplicado")
-        return
-
+        print(mycursor.rowcount, "Record inserted successfully into table")
+    except Exception as e: 
+        print(e)
+        return []
 
 def Hebra( identifier, tienda,n):
 
@@ -83,13 +98,46 @@ def Hebra( identifier, tienda,n):
         print("Error en discover_entries_for_category")
         return
     if(len(r)>0):
-        val = []
+        val_add = []
+        mensajes = []
         for url in r:
-            #print(url)
-            val.append((n,identifier,url))
-        sql = 'INSERT INTO tiendas ( store, category, url,fecha) VALUES (%s,%s, %s,NOW() ) on duplicate key update fecha = now() '
-        queryInsert(sql,val)
-        #print(categoria+" | 1 No se encontraron elementos en la categoria" )
+            producto = r[url][0]
+            best_price = producto['offer_price']
+            if(producto['offer_price'] > producto['normal_price']):
+                best_price = producto['normal_price']
+
+            sql = "SELECT best_price from tiendasv2 where url = %s"
+            val = [(url)]
+            check = querySelect2(sql,val)
+            if(len(check) == 0): 
+                print("NUEVO "+producto['key'])
+
+                if( 100-(best_price*100/producto["normal_price"]) > 30 ):
+                    mensajes.append(producto["key"])
+
+                sql = 'INSERT INTO tiendasv2 (store, keey,category,seller,name, url, picture_url, category_url, normal_price, offer_price, best_price ,fecha) VALUES (%s,%s,%s, %s, %s,%s,%s,%s,%s,%s,%s,NOW() ) on duplicate key update fecha = now() '
+                queryInsert2(sql,(
+                    n,
+                    producto['key'],
+                    identifier,
+                    producto['seller'],
+                    producto['name'],
+                    url,
+                    producto['picture_url'],
+                    producto['category_url'],
+                    producto["normal_price"],
+                    producto['offer_price'],
+                    best_price
+                ))
+            elif(check[0][0] > best_price):
+                print("Viejo "+producto['key'])
+                sql = "update tiendasv2 set best_price = %s , last_date = NOW() where url = %s"
+                val = (best_price,url)
+                queryInsert2(sql,val_add)
+
+        for m in mensajes:
+            enviar(m)
+
 
 if __name__ == '__main__':
 

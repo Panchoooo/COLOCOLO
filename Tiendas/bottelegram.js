@@ -44,7 +44,7 @@ async function select(){
     try {
         
         var id = ids[0]
-        var qry = "SELECT * from tiendas WHERE keey = '"+id+"'"
+        var qry = "SELECT * from tiendasv2 WHERE keey = '"+id+"'"
         console.log(qry)
         con.query(qry, function(err,result) {
             if(err) throw err
