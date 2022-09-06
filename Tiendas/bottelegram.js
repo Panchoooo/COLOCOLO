@@ -297,7 +297,7 @@ async function check_ids(){
                 console.log("mensajes encontrados "+ids.length)
                 try {
                     await select()
-                    await delay(2000)
+                    await delay(3000)
                 } catch (error) {
                     console.log(error)
                     await delay(5000)                    
