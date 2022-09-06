@@ -43,7 +43,8 @@ var mensajes = []
 async function select(){
     try {
         
-        var id = ids[0]
+        var id = ids.shift()
+
         var qry = "SELECT * from tiendasv2 WHERE keey = '"+id+"'"
         console.log(qry)
         con.query(qry, function(err,result) {
@@ -103,7 +104,6 @@ async function select(){
                     if(porcentaje >= 60){
                         bot.sendMessage(users[1],body,{disable_web_page_preview:false,parse_mode:"HTML"})
                     }
-                    ids.shift()
                 }
                 catch (error) {
                     console.log(error)
