@@ -40,8 +40,10 @@ function upd(id){
 const formatter = new Intl.NumberFormat('en', { style: 'currency', currency: 'USD' })
 
 var mensajes = []
-function select(id){
+function select(){
     try {
+        
+        var id = ids[0]
         var qry = "SELECT * from tiendas WHERE keey = '"+id+"'"
         console.log(qry)
         con.query(qry, function(err,result) {
@@ -98,13 +100,15 @@ function select(id){
                 console.log(body)
                 try{
                     bot.sendMessage(users[0],body,{disable_web_page_preview:false,parse_mode:"HTML"})
+                    if(porcentaje >= 60){
+                        bot.sendMessage(users[1],body,{disable_web_page_preview:false,parse_mode:"HTML"})
+                    }
+                    ids.shift()
                 }
                 catch (error) {
                     console.log(error)
                 }
-                if(porcentaje >= 60){
-                    bot.sendMessage(users[1],body,{disable_web_page_preview:false,parse_mode:"HTML"})
-                }
+
             } catch (error) {
                 console.log(error)
             }
@@ -292,8 +296,7 @@ async function check_ids(){
             if(ids.length>0){
                 console.log("mensajes encontrados "+ids.length)
                 try {
-                    var id = ids.shift()
-                    select(id)
+                    select()
                     await delay(2000)
                 } catch (error) {
                     console.log(error)
