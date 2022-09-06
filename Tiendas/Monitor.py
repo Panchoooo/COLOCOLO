@@ -177,6 +177,7 @@ def HebraCat(tienda,tipo):
             add = 0
             upd = 0
             res = querySelect("SELECT * from tiendas where store = '"+tipo+"' order by last_date,id asc limit 10 ")
+            print(len(res))
             if(len(res) > 0):
                 vals = [] 
                 valsu = []
@@ -184,13 +185,14 @@ def HebraCat(tienda,tipo):
                 mensajes = []
                 for r in res:
                     url = r[4]
-                    #print(url)
+                    print(url)
                     cargado = r[14]
                     cat = r[3]
 
                     try:
                         producto = tienda.products_for_url(url)[0]
                     except:
+                        print("Error products_for_url")
                         continue
                     np = float(producto.normal_price)
                     op = float(producto.offer_price)

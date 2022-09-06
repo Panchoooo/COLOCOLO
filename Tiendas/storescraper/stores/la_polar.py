@@ -323,19 +323,19 @@ class LaPolar(Store):
             .text.strip().replace('$', '').replace('.', '')
         highlighted_price = Decimal(highlighted_price)
 
-        if la_polar_card:
-            offer_price = highlighted_price
-
+        offer_price = highlighted_price
+        try:
             normal_price = prices.find('p', 'normal').find(
                 'span', 'price-value').text.strip() \
                 .replace('$', '').replace('.', '')
             normal_price = Decimal(normal_price)
-        else:
-            offer_price = highlighted_price
+        except:
             normal_price = prices.find('p', 'internet').find(
-                'span', 'price-value').text.strip() \
-                .replace('$', '').replace('.', '')
+            'span', 'price-value').text.strip() \
+            .replace('$', '').replace('.', '')
             normal_price = Decimal(normal_price)
+
+
 
         description = html_to_markdown(
             str(soup.find('div', 'description-wrapper')))
