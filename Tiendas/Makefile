@@ -8,6 +8,4 @@ run:
 #	pm2 start Monitor.py --name "Monitor-AbcDin" --interpreter=python3 -- AbcDin
 #	pm2 start Monitor.py --name "Monitor-Paris" --interpreter=python3 -- Paris
 
-	pm2 start AllStore.py --name "AllStore-Lider" --interpreter=python3 -- Lider
-	pm2 start AllStore.py --name "AllStore-AbcDin" --interpreter=python3 -- AbcDin
 	pm2 start AllStore.py --name "AllStore-Paris" --interpreter=python3 -- Paris
