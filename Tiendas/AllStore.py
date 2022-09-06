@@ -110,34 +110,38 @@ def Hebra( identifier, tienda,n):
             val = [(url)]
             check = querySelect2(sql,val)
             if(len(check) == 0): 
-                print("NUEVO "+producto['key'])
+                try:
+                    print("NUEVO "+producto['key'])
 
-                if( 100-(best_price*100/producto["normal_price"]) > 30 ):
-                    mensajes.append(producto["key"])
+                    if( 100-(best_price*100/producto["normal_price"]) > 30 ):
+                        mensajes.append(producto["key"])
 
-                sql = 'INSERT INTO tiendasv2 (store, keey,category,seller,name, url, picture_url, category_url, normal_price, offer_price, best_price ,fecha) VALUES (%s,%s,%s, %s, %s,%s,%s,%s,%s,%s,%s,NOW() ) on duplicate key update fecha = now() '
-                queryInsert2(sql,(
-                    n,
-                    producto['key'],
-                    identifier,
-                    producto['seller'],
-                    producto['name'],
-                    url,
-                    producto['picture_url'],
-                    producto['category_url'],
-                    producto["normal_price"],
-                    producto['offer_price'],
-                    best_price
-                ))
+                    sql = 'INSERT INTO tiendasv2 (store, keey,category,seller,name, url, picture_url, category_url, normal_price, offer_price, best_price ,fecha) VALUES (%s,%s,%s, %s, %s,%s,%s,%s,%s,%s,%s,NOW() ) on duplicate key update fecha = now() '
+                    queryInsert2(sql,(
+                        n,
+                        producto['key'],
+                        identifier,
+                        producto['seller'],
+                        producto['name'],
+                        url,
+                        producto['picture_url'],
+                        producto['category_url'],
+                        producto["normal_price"],
+                        producto['offer_price'],
+                        best_price
+                    ))
+                except:
+                    print("ERROR Add")
             elif(check[0][0] > best_price):
-                print("Viejo "+producto['key'])
-                sql = "update tiendasv2 set best_price = %s , last_date = NOW() where url = %s"
-                val = (best_price,url)
-                queryInsert2(sql,val_add)
-                if( 100-(float(best_price)*100/float(check[0][0])) > 30 ):
-                    mensajes.append(producto["key"])
-
-
+                try:
+                    print("Viejo "+producto['key'])
+                    sql = "update tiendasv2 set best_price = %s , last_date = NOW() where url = %s"
+                    val = (best_price,url)
+                    queryInsert2(sql,val_add)
+                    if( 100-(float(best_price)*100/float(check[0][0])) > 30 ):
+                        mensajes.append(producto["key"])
+                except:
+                    print("ERROR upd")
         for m in mensajes:
             enviar(m)
 
