@@ -178,8 +178,9 @@ def HebraCat(tienda,tipo):
             upd = 0
             res = querySelect("SELECT * from tiendas where store = '"+tipo+"' order by last_date,id asc limit 50 ")
             if(len(res) > 0):
-                vals = []
+                vals = [] 
                 valsu = []
+                valsupd = []
                 mensajes = []
                 for r in res:
                     url = r[4]
@@ -239,14 +240,14 @@ def HebraCat(tienda,tipo):
                                 producto.seller,
                                 url
                             ))
-                            #sql2 = 'INSERT IGNORE INTO tiendas_log ( store, category, keey,price,fecha) VALUES (%s,%s, %s,%s,NOW())'
-                            #queryInsert2(sql2,[(
-                            #    tipo,
-                            #    cat,
-                            #    producto.key,
-                            #    bp
-                            #)])
-                            
+
+                            valsupd.append(
+                                tipo,
+                                cat,
+                                producto.key,
+                                bp
+                            )
+
                             if( 100-(bp*100/np) > 30 ):
                                 mensajes.append(producto.key)
                         else:
@@ -256,15 +257,19 @@ def HebraCat(tienda,tipo):
                             
 
                 if(len(vals)>0):
-                    print(len(vals))
+                    print("vals:"+str(len(vals)))
                     sql = "UPDATE tiendas SET name = %s, stock = %s, keey=%s, normal_price = %s, offer_price = %s, best_price = %s, sku = %s, picture_urls =%s, seller=%s, cargado = 1 , last_date = NOW() WHERE url = %s"
                     queryInsert(sql,vals)
                 if(len(valsu)>0):
-                    print(len(valsu))
+                    print("valsu:"+str(len(valsu)))
                     sql = "UPDATE tiendas SET last_date = NOW() WHERE url = %s"
                     queryInsert(sql,valsu)
+                if(len(valsupd)>0):
+                    print("valsupd:"+str(len(valsupd)))
+                    sql = "INSERT INTO tiendas_log ( store, category, keey,price,fecha) VALUES (%s,%s, %s,%s,NOW()) "
+                    queryInsert(sql,valsu)
                 if(len(mensajes) > 0 ):
-                    print(len(mensajes))
+                    print("mensajes:"+str(len(mensajes)))
                     for m in mensajes:
                         enviar(m)
             else:
