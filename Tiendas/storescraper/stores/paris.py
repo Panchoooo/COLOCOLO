@@ -244,7 +244,7 @@ class Paris(Store):
 
             while True:
                 if page > 200:
-                    raise Exception('Page overflow: ' + category_path)
+                    break
 
                 category_url = 'https://www.paris.cl/{}/?sz=40&start={}' \
                                ''.format(category_path, page * 40)
