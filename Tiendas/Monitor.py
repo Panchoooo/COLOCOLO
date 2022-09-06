@@ -177,55 +177,34 @@ def HebraCat(tienda,tipo):
             add = 0
             upd = 0
             res = querySelect("SELECT * from tiendas where store = '"+tipo+"' order by last_date,id asc limit 50 ")
-            vals = []
-            valsu = []
-            mensajes = []
-            for r in res:
-                url = r[4]
-                #print(url)
-                cargado = r[14]
-                cat = r[3]
+            if(len(res) > 0):
+                vals = []
+                valsu = []
+                mensajes = []
+                for r in res:
+                    url = r[4]
+                    #print(url)
+                    cargado = r[14]
+                    cat = r[3]
 
-                try:
-                    producto = tienda.products_for_url(url)[0]
-                except:
-                    continue
-                np = float(producto.normal_price)
-                op = float(producto.offer_price)
-                bp = np
-                if(op<np):
-                    bp = op
-
-                if(cargado == 0 ):
-                    add +=1
-                    print(cat+ " | Nuevo producto | key: "+producto.key)
                     try:
-                        picture_urls = producto.picture_urls[0].replace('"','')
+                        producto = tienda.products_for_url(url)[0]
                     except:
-                        picture_urls = ""
-                    
-                    vals.append((
-                        producto.name,
-                        producto.stock,
-                        producto.key,
-                        np,
-                        op,
-                        bp,
-                        producto.sku,
-                        picture_urls,
-                        producto.seller,
-                        url
-                    ))
-                    if( 100-(bp*100/np) > 30 ):
-                        mensajes.append(producto.key)
-                else:
-                    print(cat+ " | Producto existente | key: "+producto.key)
-                    if(bp < r[9]):
-                        upd +=1
+                        continue
+                    np = float(producto.normal_price)
+                    op = float(producto.offer_price)
+                    bp = np
+                    if(op<np):
+                        bp = op
+
+                    if(cargado == 0 ):
+                        add +=1
+                        print(cat+ " | Nuevo producto | key: "+producto.key)
                         try:
                             picture_urls = producto.picture_urls[0].replace('"','')
                         except:
                             picture_urls = ""
+                        
                         vals.append((
                             producto.name,
                             producto.stock,
@@ -238,34 +217,58 @@ def HebraCat(tienda,tipo):
                             producto.seller,
                             url
                         ))
-                        #sql2 = 'INSERT IGNORE INTO tiendas_log ( store, category, keey,price,fecha) VALUES (%s,%s, %s,%s,NOW())'
-                        #queryInsert2(sql2,[(
-                        #    tipo,
-                        #    cat,
-                        #    producto.key,
-                        #    bp
-                        #)])
-                        
                         if( 100-(bp*100/np) > 30 ):
                             mensajes.append(producto.key)
                     else:
-                        valsu.append((
-                            producto.key
-                        ))
-                        
+                        print(cat+ " | Producto existente | key: "+producto.key)
+                        if(bp < r[9]):
+                            upd +=1
+                            try:
+                                picture_urls = producto.picture_urls[0].replace('"','')
+                            except:
+                                picture_urls = ""
+                            vals.append((
+                                producto.name,
+                                producto.stock,
+                                producto.key,
+                                np,
+                                op,
+                                bp,
+                                producto.sku,
+                                picture_urls,
+                                producto.seller,
+                                url
+                            ))
+                            #sql2 = 'INSERT IGNORE INTO tiendas_log ( store, category, keey,price,fecha) VALUES (%s,%s, %s,%s,NOW())'
+                            #queryInsert2(sql2,[(
+                            #    tipo,
+                            #    cat,
+                            #    producto.key,
+                            #    bp
+                            #)])
+                            
+                            if( 100-(bp*100/np) > 30 ):
+                                mensajes.append(producto.key)
+                        else:
+                            valsu.append((
+                                producto.key
+                            ))
+                            
 
-            if(len(vals)>0):
-                print(len(vals))
-                sql = "UPDATE tiendas SET name = %s, stock = %s, keey=%s, normal_price = %s, offer_price = %s, best_price = %s, sku = %s, picture_urls =%s, seller=%s, cargado = 1 , last_date = NOW() WHERE url = %s"
-                queryInsert(sql,vals)
-            if(len(valsu)>0):
-                print(len(valsu))
-                sql = "UPDATE tiendas SET last_date = NOW() WHERE url = %s"
-                queryInsert(sql,valsu)
-            if(len(mensajes) > 0 ):
-                print(len(mensajes))
-                for m in mensajes:
-                    enviar(m)
+                if(len(vals)>0):
+                    print(len(vals))
+                    sql = "UPDATE tiendas SET name = %s, stock = %s, keey=%s, normal_price = %s, offer_price = %s, best_price = %s, sku = %s, picture_urls =%s, seller=%s, cargado = 1 , last_date = NOW() WHERE url = %s"
+                    queryInsert(sql,vals)
+                if(len(valsu)>0):
+                    print(len(valsu))
+                    sql = "UPDATE tiendas SET last_date = NOW() WHERE url = %s"
+                    queryInsert(sql,valsu)
+                if(len(mensajes) > 0 ):
+                    print(len(mensajes))
+                    for m in mensajes:
+                        enviar(m)
+            else:
+                print("No hay registros")
 
 
     except KeyboardInterrupt:
