@@ -191,11 +191,10 @@ class Paris(Store):
     @classmethod
     def categories(cls):
         return [
-            
+            'Tablet',
             'Television',
             'Projector',
             'Notebook',
-            'Tablet',
             'Refrigerator',
             'Printer',
             'Oven',
