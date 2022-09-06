@@ -192,9 +192,9 @@ class Paris(Store):
     def categories(cls):
         return [
             
+            'Television',
             'Projector',
             'Notebook',
-            'Television',
             'Tablet',
             'Refrigerator',
             'Printer',
@@ -281,10 +281,26 @@ class Paris(Store):
                     if 'https' not in product_url:
                         product_url = 'https://www.paris.cl' + product_url
 
-                    seller = container.find('p', 'brand-product-plp').text
-                    name = container.find('span','ellipsis_text').text
-                    key = container.find('div', attrs={'class':'product-tile'})['data-itemid']
-                    picture_url = container.findAll('img', attrs={'class':'img-prod'})[0]["data-src"]
+                    try:
+                        seller = container.find('p', 'brand-product-plp').text
+                    except:
+                        seller = ""
+
+                    try:
+                        name = container.find('span','ellipsis_text').text
+                    except:
+                        name = ""
+                    
+                    try:
+                        key = container.find('div', attrs={'class':'product-tile'})['data-itemid']
+                    except:
+                        key = -1
+                    
+                    try:
+                        picture_url = container.findAll('img', attrs={'class':'img-prod'})[0]["data-src"]
+                    except:
+                        picture_url = ""
+
 
                     price_tags = container.findAll('div', 'price__text')
                     if len(price_tags) == 2:
@@ -297,9 +313,12 @@ class Paris(Store):
                         normal_price = Decimal(remove_words(price_text))
                         offer_price = normal_price
 
-                        price_tags2 = container.findAll('div', 'price__text-sm')
-                        if len(price_tags2) > 0:
-                            normal_price =  Decimal(remove_words(price_tags2[0].text))
+                        try:
+                            price_tags2 = container.findAll('div', 'price__text-sm')
+                            if len(price_tags2) > 0:
+                                normal_price =  Decimal(remove_words(price_tags2[0].text))
+                        except:
+                            pass    
                     else:
                         raise Exception('Invalid number of tags')
 
