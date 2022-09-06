@@ -134,7 +134,7 @@ def Hebra( identifier, tienda,n):
                 sql = "update tiendasv2 set best_price = %s , last_date = NOW() where url = %s"
                 val = (best_price,url)
                 queryInsert2(sql,val_add)
-                if( 100-(best_price*100/check[0][0]) > 30 ):
+                if( 100-(float(best_price)*100/float(check[0][0])) > 30 ):
                     mensajes.append(producto["key"])
 
 
