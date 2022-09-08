@@ -284,7 +284,7 @@ app.get("/getCarrito", (req, res) => {
     res.send(msj);
 });
 app.get("/apagar", (req, res) => {
-    process.exit(1)
+    process.exit(0)
 });
 app.listen(app.get("port"), () => 
   console.log("app running on port", app.get("port"))
