@@ -26,7 +26,7 @@ function LeerArchivo(){
 var cantidad = LeerArchivo();
 
 for(var m = 1; m <= cantidad ; m++){
-    monitores.push(5000+m)
+    monitores.push(puerto+m)
 }
 
 
