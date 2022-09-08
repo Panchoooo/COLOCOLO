@@ -10,7 +10,7 @@ var token = null ;
 var i = process.argv[2];
 var monitores = []
 var puerto = 4000
-
+var token = '5175295388:AAGkp3YHnJLW2NZOX2cAudw1qxWNPZHLRRE'
 var carrostxt = "";
 function LeerArchivo(){
     carrostxt = "";
@@ -25,29 +25,10 @@ function LeerArchivo(){
 
 var cantidad = LeerArchivo();
 
+for(var m = 1; m <= cantidad ; m++){
+    monitores.push(5000+m)
+}
 
-if( i == 1){
-    token = '5175295388:AAGkp3YHnJLW2NZOX2cAudw1qxWNPZHLRRE'
-   // token = '5173216820:AAEjDXKCK3VopsN8YjvujYC_iP_gscs-bDY' 
-    puerto = 5000;
-    for(var m = 1; m <= cantidad ; m++){
-        monitores.push(5000+m)
-    }
-}
-if( i == 2){
-    token = '5173216820:AAEjDXKCK3VopsN8YjvujYC_iP_gscs-bDY' 
-    puerto = 6000;
-    for(var m = 1; m <= cantidad ; m++){
-        monitores.push(6000+m)
-    }
-}
-if( i == 3){
-    token = '5109726161:AAEdv4kKJoFuN5Fyq_-GLtLB_KxKkcvO-Tg'
-    puerto = 7000;
-    for(var m = 1; m <= cantidad ; m++){
-        monitores.push(7000+m)
-    }
-}
 
 const bot = new TelegramBot(token, { polling: true })
 
