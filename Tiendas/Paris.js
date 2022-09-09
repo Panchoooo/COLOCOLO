@@ -245,7 +245,10 @@ async function fquery(qry,Producto) {
     try {
         return new Promise(function(resolve, reject) {
             con.query(qry, Producto, function(err,result) {
-                if(err)resolve(-1)
+                if(err){
+                    console.log(err)
+                    resolve(-1)
+                }
                 resolve(result);
             }); 
         })
