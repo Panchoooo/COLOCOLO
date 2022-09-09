@@ -259,6 +259,7 @@ async function getByCategory(category,category_path){
         }
         else if(page != 0 && (items.childElementCount == 0)){
             page = 0
+            return
         }
         else if(page != 0 && (items == undefined)){
             console.log('Error #2 con la categoria '+category+ ' | '+ category_url)
@@ -299,7 +300,7 @@ async function getByCategory(category,category_path){
             console.log('Items cargado de la categoria '+category+' | '+category_path+'  Pagina:'+page+' , Cantidad:'+  items.childElementCount+ ' , Cargados:'+Productos.length)
             page+=1;
         }
-        
+
     }
 }
 
