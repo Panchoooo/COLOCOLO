@@ -307,7 +307,7 @@ async function getByCategory(category,category_path){
     var Producto = null  
     var Productos = [] 
     var page = 0;
-    var limite = 3;
+    var limite = 201;
     while( page <= limite){
         if(page == limite){
             console.log("Se ha alcanzado el limite")
