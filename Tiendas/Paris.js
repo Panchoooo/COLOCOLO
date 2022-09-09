@@ -275,7 +275,7 @@ async function almacenar(Productos){
             }else{
                 //console.log("Producto nuevo "+Producto[2])
                 ra = await fquery('INSERT INTO tiendasv2 (store,category,keey,url,picture_url,category_url,seller,name,normal_price,offer_price,best_price,fecha) VALUES (?,?,?,?,?,?,?,?,?,?,?,NOW())  ',Productos[p])
-                if(Producto[10] > Producto[8] && ((100-Producto[10]*100/Producto[8])>30)){
+                if(Producto[10] < Producto[8] && ((100-Producto[10]*100/Producto[8])>30)){
                     await getBody("http://localhost:5000/send/"+Producto[2])
                 }
             }
