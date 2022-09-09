@@ -247,10 +247,8 @@ async function fquery(qry,Producto) {
         return new Promise(function(resolve, reject) {
             con.query(qry, Producto, function(err,result) {
                 if(err){
-                    console.log(err)
                     resolve(-1)
                 }
-
                 resolve(result);
             }); 
         })
@@ -276,7 +274,6 @@ async function almacenar(Productos){
             }else{
                 console.log("Producto nuevo "+Producto[2])
                 ra = await fquery('INSERT INTO tiendasv2 (store,category,keey,url,picture_url,category_url,seller,name,normal_price,offer_price,best_price,fecha) VALUES (?,?,?,?,?,?,?,?,?,?,?,NOW())  ',Productos[p])
-                console.log(ra)
                 if(Producto[10] > Producto[8] && ((100-Producto[10]*100/Producto[8])>30)){
                     getBody("http://localhost:5000/send/"+Producto[2])
                 }
