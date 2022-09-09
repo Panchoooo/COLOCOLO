@@ -10,6 +10,6 @@
     "start": "node MonitorCarro.js 15"
   },
   "engines": {
-    "node": "14.20.0"
+    "node": "14.x"
    }
 }
