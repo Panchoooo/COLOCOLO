@@ -217,16 +217,15 @@ async function add(  Producto){
     }
 }
 
-async function add2(Producto) {
+async function fquery(qry,Producto) {
     try {
         return new Promise(function(resolve, reject) {
-            con.query('INSERT INTO tiendasv2 (store,category,keey,url,picture_url,category_url,seller,name,normal_price,offer_price,best_price,fecha) VALUES (?,?,?,?,?,?,?,?,?,?,?,NOW())  ', Producto, function(err,result) {
-                if(err)reject(err)
+            con.query(qry, Producto, function(err,result) {
+                if(err)resolve(-1)
                 resolve(result);
             }); 
         })
     } catch (error) {
-     
         console.log('Error #3\n'+error)
         return undefined;
     }
@@ -260,11 +259,24 @@ async function getBody(url) {
 async function almacenar(Productos){
     console.log("Cantidad de productos a procesar :"+ Productos.length)
     for(var p = 0 ; p < Productos.length ; p++){
+        var Producto = Productos[p]
         try {
-            r = await add2(Productos[p])
+            rs = await fquery("SELECT best_price from tiendasv2 where url = ?",[Producto[3]])
+            if(rs.length>0 && rs[0].best_price > Producto[10] && ((100-Producto[10]*100/rs[0].best_price)>30) ){
+                console.log("Producto existente "+Producto[2])
+                ra = await fquery('UPDATE tiendasv2 SET best_price = ? WHERE keey = ?  ',[Producto[10],Producto[2]])
+                getBody("http://localhost:5000/send/"+Producto[2])
+            }else{
+                console.log("Producto nuevo "+Producto[2])
+                ra = await fquery('INSERT INTO tiendasv2 (store,category,keey,url,picture_url,category_url,seller,name,normal_price,offer_price,best_price,fecha) VALUES (?,?,?,?,?,?,?,?,?,?,?,NOW())  ',Productos[p])
+                if(Producto[10] > Producto[8] && ((100-Producto[10]*100/Producto[8])>30)){
+                    getBody("http://localhost:5000/send/"+Producto[2])
+                }
+            }
             //console.log(r)
+            
         } catch (error) {
-            //console.log('Error #4\n'+error)
+            console.log('Error #4\n'+error)
         }
     }
 }
@@ -293,7 +305,7 @@ async function getByCategory(category,category_path){
     var Producto = null  
     var Productos = [] 
     var page = 0;
-    var limite = 200;
+    var limite = 3;
     while( page <= limite){
         if(page == limite){
             console.log("Se ha alcanzado el limite")
