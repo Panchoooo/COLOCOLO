@@ -2,6 +2,15 @@ var request = require('request')
 const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 
+var store = "Paris"
+var mysql = require('mysql');
+var con = mysql.createConnection({
+    host: "db-mysql-nyc1-93755-do-user-12336633-0.b.db.ondigitalocean.com",
+    user: "diego",
+    password: "AVNS__QSFdINp_Fa9wILf0KO",
+    database: "tiendas",
+    port: "25060"
+  });
 
 
 var category_paths = [
@@ -197,6 +206,32 @@ var categories = [
     'GAMING_DESK'
 ]
 
+async function add(  Producto){
+    try{
+        //console.log(Producto[2])
+        con.query('INSERT INTO tiendasv2 (store,category,keey,url,picture_url,category_url,seller,name,normal_price,offer_price,best_price,fecha) VALUES (?,?,?,?,?,?,?,?,?,?,?,NOW())  on duplicate key update last_date = now() ', Producto, function(err,result) {
+            if(err)console.log(err)
+        });        
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+async function add2(Producto) {
+    try {
+        return new Promise(function(resolve, reject) {
+            con.query('INSERT INTO tiendasv2 (store,category,keey,url,picture_url,category_url,seller,name,normal_price,offer_price,best_price,fecha) VALUES (?,?,?,?,?,?,?,?,?,?,?,NOW())  on duplicate key update last_date = now() ', Producto, function(err,result) {
+                if(err)reject(err)
+                resolve(result);
+            }); 
+        })
+    } catch (error) {
+     
+        console.log('Error #3\n'+error)
+        return undefined;
+    }
+
+}
 
 async function getBody(url) {
     try {
@@ -207,6 +242,7 @@ async function getBody(url) {
         return new Promise(function(resolve, reject) {
             request.get(options, function(err, resp, body) {
             if (err) {
+                console.log('Error #5\n'+err)
                 reject(err);
             } else {
                 resolve(body);
@@ -223,11 +259,19 @@ async function getBody(url) {
 
 async function almacenar(Productos){
     console.log("Cantidad de productos a procesar :"+ Productos.length)
+    for(var p = 0 ; p < Productos.length ; p++){
+        try {
+            r = await add2(Productos[p])
+            //console.log(r)
+        } catch (error) {
+            console.log('Error #4\n'+error)
+        }
+    }
 }
 
 async function getByCategory(category,category_path){
 
-    console.log('Se ha iniciado la categoria '+category+ ' | '+category_path)
+    console.log('\nSe ha iniciado la categoria '+category+ ' | '+category_path+'')
     var path = 'https://www.paris.cl/';
 
     var category_url = null;
@@ -249,9 +293,14 @@ async function getByCategory(category,category_path){
     var Producto = null  
     var Productos = [] 
     var page = 0;
+    var limite = 2;
+    while( page <= limite){
+        if(page == limite){
+            console.log("Se ha alcanzado el limite")
+            await almacenar(Productos)
+            return
+        }    
 
-    while( page < 40){
-        
         // Request para obtener datos
         category_url = path+category_path+'/?sz=60&start='+(page * 40);
         response = await getBody(category_url);
@@ -281,7 +330,7 @@ async function getByCategory(category,category_path){
                 picture_urls = productodiv.getElementsByClassName('img-prod')[0].getAttribute('data-src')
                 key = productodiv.id;
                 url = path+item.getElementsByTagName('a')[0].href
-                name = item.getElementsByClassName('ellipsis_text')[0].textContent;
+                name = item.getElementsByClassName('ellipsis_text')[0].textContent.replace('"','');
                 seller = item.getElementsByClassName('brand-product-plp')[0].textContent;
 
                 // Atributos - Precios
@@ -300,7 +349,7 @@ async function getByCategory(category,category_path){
                 }
 
                 // Arreglo Producto
-                Producto = [key,url,picture_urls,category_url,seller,name,normal_price,offer_price,best_price];
+                Producto = [store,category,key,url,picture_urls,category_url,seller,name,normal_price,offer_price,best_price];
                 Productos.push(Producto)
             }
             console.log('Items cargado de la categoria '+category+' | '+category_path+'  Pagina:'+page+' , Cantidad:'+  items.childElementCount+ ' , Cargados:'+Productos.length)
@@ -311,18 +360,16 @@ async function getByCategory(category,category_path){
 }
 
 
-async function Monitoriar(categoria,asignadas){
+async function Monitoriar(categoria,asignada){
 
-    while(true){
-        for(var i = 0 ; asignadas.length; i++){
-            await getByCategory(categoria,asignadas[i])
-        };
-    }
+    for(var i = 0 ; i<asignada.length; i++){
+        await getByCategory(categoria,asignada[i])
+    };
 }
 
 async function LoadCategorias(){
 
-    for (var c = 0 ; categories.length; c++){
+    for (var c = 0 ; c<categories.length; c++){
         var categoria = categories[c];
         var asignadas = []
         category_paths.forEach(subcategoria => {
@@ -331,8 +378,12 @@ async function LoadCategorias(){
                 asignadas.push(subpath)
             }
         });
+
+        console.log("\n\nCargando categoria: "+categoria)
+        console.log("Subcategorias:")
+        console.log(asignadas)
         if(asignadas.length > 0){
-            await Monitoriar(categoria,asignadas)
+            Monitoriar(categoria,asignadas)
         }
     };
 
