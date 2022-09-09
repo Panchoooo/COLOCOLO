@@ -206,6 +206,30 @@ var categories = [
     'GAMING_DESK'
 ]
 
+async function getBody(url) {
+    try {
+        const options = {
+            url: url,
+            method: 'GET',
+        };
+        return new Promise(function(resolve, reject) {
+            request.get(options, function(err, resp, body) {
+            if (err) {
+                console.log('Error #5\n'+err)
+                reject(err);
+            } else {
+                resolve(body);
+            }
+            })
+        })
+    } catch (error) {
+     
+        console.log('Error #3\n'+error)
+        return undefined;
+    }
+
+}
+
 async function add(  Producto){
     try{
         //console.log(Producto[2])
@@ -232,30 +256,6 @@ async function fquery(qry,Producto) {
 
 }
 
-async function getBody(url) {
-    try {
-        const options = {
-            url: url,
-            method: 'GET',
-        };
-        return new Promise(function(resolve, reject) {
-            request.get(options, function(err, resp, body) {
-            if (err) {
-                console.log('Error #5\n'+err)
-                reject(err);
-            } else {
-                resolve(body);
-            }
-            })
-        })
-    } catch (error) {
-     
-        console.log('Error #3\n'+error)
-        return undefined;
-    }
-
-}
-
 async function almacenar(Productos){
     console.log("Cantidad de productos a procesar :"+ Productos.length)
     for(var p = 0 ; p < Productos.length ; p++){
@@ -263,13 +263,13 @@ async function almacenar(Productos){
         try {
             rs = await fquery("SELECT best_price from tiendasv2 where url = ?",[Producto[3]])
             if(rs.length>0   ){
-                //console.log("Producto existente "+Producto[2])
+                console.log("Producto existente "+Producto[2])
                 ra = await fquery('UPDATE tiendasv2 SET best_price = ? WHERE keey = ?  ',[Producto[10],Producto[2]])
                 if(rs[0].best_price > Producto[10] && ((100-Producto[10]*100/rs[0].best_price)>30)){
                     getBody("http://localhost:5000/send/"+Producto[2])
                 }
             }else{
-                //console.log("Producto nuevo "+Producto[2])
+                console.log("Producto nuevo "+Producto[2])
                 ra = await fquery('INSERT INTO tiendasv2 (store,category,keey,url,picture_url,category_url,seller,name,normal_price,offer_price,best_price,fecha) VALUES (?,?,?,?,?,?,?,?,?,?,?,NOW())  ',Productos[p])
                 if(Producto[10] > Producto[8] && ((100-Producto[10]*100/Producto[8])>30)){
                     getBody("http://localhost:5000/send/"+Producto[2])
@@ -307,7 +307,7 @@ async function getByCategory(category,category_path){
     var Producto = null  
     var Productos = [] 
     var page = 0;
-    var limite = 201;
+    var limite = 3;
     while( page <= limite){
         if(page == limite){
             console.log("Se ha alcanzado el limite")

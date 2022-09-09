@@ -1,7 +1,0 @@
-{
-  "apps" : [{
-    "name"        : "Server",
-    "script"      : "Paris.js",
-    "interpreter" : "nodejs"
-  }]
-}
