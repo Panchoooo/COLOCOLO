@@ -315,9 +315,10 @@ async function Monitoriar(categoria,asignadas){
     }
 }
 
-function LoadCategorias(){
+async function LoadCategorias(){
 
-    categories.forEach(categoria => {
+    for (var c = 0 ; categories.length; c++){
+        var categoria = categories[c];
         var asignadas = []
         category_paths.forEach(subcategoria => {
             var subpath = subcategoria[0]
@@ -326,9 +327,9 @@ function LoadCategorias(){
             }
         });
         if(asignadas.length > 0){
-            Monitoriar(categoria,asignadas)
+            await Monitoriar(categoria,asignadas)
         }
-    });
+    };
 
 }
 
