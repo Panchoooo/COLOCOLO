@@ -5,7 +5,13 @@ const delay = ms => new Promise(res => setTimeout(res, ms));
 
 var store = "Paris"
 var mysql = require('mysql');
-
+var con = mysql.createConnection({
+    host: "db-mysql-nyc1-93755-do-user-12336633-0.b.db.ondigitalocean.com",
+    user: "diego",
+    password: "AVNS__QSFdINp_Fa9wILf0KO",
+    database: "tiendas",
+    port: "25060"
+  });
 
 var category_paths = [
     ['electro/television', ['Television'], 'Electro > Televisión', 1],
@@ -237,14 +243,7 @@ async function add(  Producto){
 
 async function fquery(qry,Producto) {
     try {
-        var con = mysql.createConnection({
-            host: "db-mysql-nyc1-93755-do-user-12336633-0.b.db.ondigitalocean.com",
-            user: "diego",
-            password: "AVNS__QSFdINp_Fa9wILf0KO",
-            database: "tiendas",
-            port: "25060"
-          });
-        
+
         return new Promise(function(resolve, reject) {
             con.query(qry, Producto, function(err,result) {
                 if(err){
@@ -283,10 +282,8 @@ async function almacenar(Productos){
                 }
             }
             //console.log(r)
-            await delay(1000)
         } catch (error) {
             console.log('Error #4\n'+error)
-            await delay(1000)
         }
     }
 }
