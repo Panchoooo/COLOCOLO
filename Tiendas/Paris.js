@@ -1,6 +1,7 @@
 var request = require('request')
 const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
+const delay = ms => new Promise(res => setTimeout(res, ms));
 
 var store = "Paris"
 var mysql = require('mysql');
@@ -280,7 +281,7 @@ async function almacenar(Productos){
                 }
             }
             //console.log(r)
-            
+            await delay(100)
         } catch (error) {
             console.log('Error #4\n'+error)
         }
