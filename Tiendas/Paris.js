@@ -270,13 +270,13 @@ async function almacenar(Productos){
                 //console.log("Producto existente "+Producto[2])
                 ra = await fquery('UPDATE tiendasv2 SET best_price = ? WHERE keey = ?  ',[Producto[10],Producto[2]])
                 if(rs[0].best_price > Producto[10] && ((100-Producto[10]*100/rs[0].best_price)>30)){
-                    await getBody("http://localhost:5000/send/"+Producto[2])
+                    getBody("http://localhost:5000/send/"+Producto[2])
                 }
             }else{
                 //console.log("Producto nuevo "+Producto[2])
                 ra = await fquery('INSERT INTO tiendasv2 (store,category,keey,url,picture_url,category_url,seller,name,normal_price,offer_price,best_price,fecha) VALUES (?,?,?,?,?,?,?,?,?,?,?,NOW())  ',Productos[p])
                 if(Producto[10] < Producto[8] && ((100-Producto[10]*100/Producto[8])>30)){
-                    await getBody("http://localhost:5000/send/"+Producto[2])
+                    getBody("http://localhost:5000/send/"+Producto[2])
                 }
             }
             //console.log(r)
