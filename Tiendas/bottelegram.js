@@ -4,8 +4,9 @@ const TelegramBot = require('node-telegram-bot-api')
 const delay = ms => new Promise(res => setTimeout(res, ms));
 
 let users = ['-1001672119836','-1001665102492'];
-var token = "5703951768:AAEaYU2Jg3R76J1vWr2Us4U1a9BtsL6QOdc" ; 
-var puerto = 5000
+var i = process.argv[2];
+var token = null ; 
+var puerto = null
 /*
 var con = mysql.createConnection({
     host: "localhost",
@@ -20,6 +21,19 @@ var con = mysql.createConnection({
     database:"tiendas",
     port:"25060"
 })
+
+
+if( i == 1){
+     token = "5703951768:AAEaYU2Jg3R76J1vWr2Us4U1a9BtsL6QOdc" ; 
+   // token = '5173216820:AAEjDXKCK3VopsN8YjvujYC_iP_gscs-bDY' 
+    puerto = 4000;
+
+}
+if( i == 2){
+    token = '5350995896:AAHtDA-l1rBR6GfWxMMUuxrurJuARcqXhUo' 
+    puerto = 4001;
+
+}
 
 
 function upd(id){

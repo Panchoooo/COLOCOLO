@@ -269,14 +269,22 @@ async function almacenar(Productos){
             if(rs.length>0   ){
                 //console.log("Producto existente "+Producto[2])
                 ra = await fquery('UPDATE tiendasv2 SET best_price = ? WHERE keey = ?  ',[Producto[10],Producto[2]])
-                if(rs[0].best_price > Producto[10] && ((100-Producto[10]*100/rs[0].best_price)>30)){
+                var dif = 100-Producto[10]*100/rs[0].best_price
+                if(rs[0].best_price > Producto[10] && (dif>30)){
                     getBody("http://localhost:5000/send/"+Producto[2])
+                    if(dif > 58){
+                        getBody("http://localhost:5001/send/"+Producto[2])
+                    }
                 }
             }else{
                 //console.log("Producto nuevo "+Producto[2])
+                var dif = 100-Producto[10]*100/Producto[8]
                 ra = await fquery('INSERT INTO tiendasv2 (store,category,keey,url,picture_url,category_url,seller,name,normal_price,offer_price,best_price,fecha) VALUES (?,?,?,?,?,?,?,?,?,?,?,NOW())  ',Productos[p])
-                if(Producto[10] < Producto[8] && ((100-Producto[10]*100/Producto[8])>30)){
+                if(Producto[10] < Producto[8] && dif>30){
                     getBody("http://localhost:5000/send/"+Producto[2])
+                    if(dif > 58){
+                        getBody("http://localhost:5001/send/"+Producto[2])
+                    }
                 }
             }
             //console.log(r)
