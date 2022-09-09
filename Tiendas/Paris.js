@@ -289,7 +289,7 @@ async function almacenar(Productos){
 async function getByCategory(category,category_path){
 
     console.log('\nSe ha iniciado la categoria '+category+ ' | '+category_path+'')
-    var path = 'https://www.paris.cl/';
+    var path = 'https://www.paris.cl';
 
     var category_url = null;
     var response = null;
@@ -319,7 +319,7 @@ async function getByCategory(category,category_path){
         }    
 
         // Request para obtener datos
-        category_url = path+category_path+'/?sz=60&start='+(page * 40);
+        category_url = path+"/"+category_path+'/?sz=60&start='+(page * 40);
         response = await getBody(category_url);
         dom = new JSDOM(response);
         items = dom.window.document.getElementById('search-result-items'); // Div con los N productos
