@@ -5,16 +5,6 @@ const delay = ms => new Promise(res => setTimeout(res, ms));
 
 var store = "Paris"
 var mysql = require('mysql');
-var con = mysql.createConnection({
-    host: "db-mysql-nyc1-93755-do-user-12336633-0.b.db.ondigitalocean.com",
-    user: "diego",
-    password: "AVNS__QSFdINp_Fa9wILf0KO",
-    database: "tiendas",
-    port: "25060",
-    connectionLimit: 75,
-    queueLimit: 0,
-    waitForConnection: true
-  });
 
 
 var category_paths = [
@@ -247,12 +237,21 @@ async function add(  Producto){
 
 async function fquery(qry,Producto) {
     try {
+        var con = mysql.createConnection({
+            host: "db-mysql-nyc1-93755-do-user-12336633-0.b.db.ondigitalocean.com",
+            user: "diego",
+            password: "AVNS__QSFdINp_Fa9wILf0KO",
+            database: "tiendas",
+            port: "25060"
+          });
+        
         return new Promise(function(resolve, reject) {
             con.query(qry, Producto, function(err,result) {
                 if(err){
                     console.log(err)
                     resolve(-1)
                 }
+
                 resolve(result);
             }); 
         })
