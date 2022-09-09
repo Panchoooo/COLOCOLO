@@ -309,7 +309,7 @@ async function getByCategory(category,category_path){
     var Producto = null  
     var Productos = [] 
     var page = 0;
-    var limite = 201;
+    var limite = 2;
     while( page <= limite){
         if(page == limite){
             console.log("Se ha alcanzado el limite")
@@ -346,18 +346,18 @@ async function getByCategory(category,category_path){
                 picture_urls = productodiv.getElementsByClassName('img-prod')[0].getAttribute('data-src')
                 key = productodiv.id;
                 url = path+item.getElementsByTagName('a')[0].href
-                name = item.getElementsByClassName('ellipsis_text')[0].textContent.replace('"','');
+                name = item.getElementsByClassName('ellipsis_text')[0].textContent.replaceAll('"','');
                 seller = item.getElementsByClassName('brand-product-plp')[0].textContent;
 
                 // Atributos - Precios
                 price_tags = item.getElementsByClassName('price__text')
                 if(price_tags.length == 2){
-                    offer_price = parseFloat(price_tags[0].textContent.replace('\n','').replace('$','').replace('.',''));
-                    normal_price = parseFloat(price_tags[1].textContent.replace('\n','').replace('$','').replace('.',''));
+                    offer_price = parseFloat(price_tags[0].textContent.replaceAll('\n','').replaceAll('$','').replaceAll('.',''));
+                    normal_price = parseFloat(price_tags[1].textContent.replaceAll('\n','').replaceAll('$','').replaceAll('.',''));
                 }
                 else if(price_tags.length == 1){
-                    offer_price = parseFloat(price_tags[0].textContent.replace('\n','').replace('$','').replace('.',''));
-                    normal_price = parseFloat(price_tags[0].textContent.replace('\n','').replace('$','').replace('.',''));
+                    offer_price = parseFloat(price_tags[0].textContent.replaceAll('\n','').replaceAll('$','').replaceAll('.',''));
+                    normal_price = parseFloat(price_tags[0].textContent.replaceAll('\n','').replaceAll('$','').replaceAll('.',''));
                 }
                 best_price = offer_price;
                 if(offer_price > normal_price){
