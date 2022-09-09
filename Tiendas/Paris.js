@@ -2,6 +2,8 @@ var request = require('request')
 const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 
+
+
 var category_paths = [
     ['electro/television', ['Television'], 'Electro > Televisión', 1],
     ['electro/television/smart-tv', ['Television'],
@@ -219,6 +221,9 @@ async function getBody(url) {
 
 }
 
+async function almacenar(Productos){
+    console.log("Cantidad de productos a procesar :"+ Productos.length)
+}
 
 async function getByCategory(category,category_path){
 
@@ -248,7 +253,7 @@ async function getByCategory(category,category_path){
     while( page < 40){
         
         // Request para obtener datos
-        category_url = path+category_path+'/?sz=40&start='+(page * 40);
+        category_url = path+category_path+'/?sz=60&start='+(page * 40);
         response = await getBody(category_url);
         dom = new JSDOM(response);
         items = dom.window.document.getElementById('search-result-items'); // Div con los N productos
@@ -259,6 +264,7 @@ async function getByCategory(category,category_path){
         }
         else if(page != 0 && (items.childElementCount == 0)){
             page = 0
+            await almacenar(Productos)
             return
         }
         else if(page != 0 && (items == undefined)){
