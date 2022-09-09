@@ -247,6 +247,7 @@ async function fquery(qry,Producto) {
         return new Promise(function(resolve, reject) {
             con.query(qry, Producto, function(err,result) {
                 if(err){
+                    //console.log(err)
                     resolve(-1)
                 }
                 resolve(result);
@@ -352,12 +353,12 @@ async function getByCategory(category,category_path){
                 // Atributos - Precios
                 price_tags = item.getElementsByClassName('price__text')
                 if(price_tags.length == 2){
-                    offer_price = parseFloat(price_tags[0].textContent.replace('\n','').replace('$','').split('.','').join(''));
-                    normal_price = parseFloat(price_tags[1].textContent.replace('\n','').replace('$','').split('.','').join(''));
+                    offer_price = parseFloat(price_tags[0].textContent.trim().replace('$','').split('.').join(''));
+                    normal_price = parseFloat(price_tags[1].textContent.trim().replace('$','').split('.').join(''));
                 }
                 else if(price_tags.length == 1){
-                    offer_price = parseFloat(price_tags[0].textContent.replace('\n','').replace('$','').split('.','').join(''));
-                    normal_price = parseFloat(price_tags[0].textContent.replace('\n','').replace('$','').split('.','').join(''));
+                    offer_price = parseFloat(price_tags[0].textContent.trim().replace('$','').split('.').join(''));
+                    normal_price = parseFloat(price_tags[0].textContent.trim().replace('$','').split('.').join(''));
                 }
                 best_price = offer_price;
                 if(offer_price > normal_price){
