@@ -383,7 +383,7 @@ async function LoadCategorias(){
         console.log("Subcategorias:")
         console.log(asignadas)
         if(asignadas.length > 0){
-            Monitoriar(categoria,asignadas)
+            await Monitoriar(categoria,asignadas)
         }
     };
 
