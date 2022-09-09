@@ -283,9 +283,10 @@ async function almacenar(Productos){
                 }
             }
             //console.log(r)
-            await delay(100)
+            await delay(1000)
         } catch (error) {
             console.log('Error #4\n'+error)
+            await delay(1000)
         }
     }
 }
