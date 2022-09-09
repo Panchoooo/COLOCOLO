@@ -270,13 +270,13 @@ async function almacenar(Productos){
                 //console.log("Producto existente "+Producto[2])
                 ra = await fquery('UPDATE tiendasv2 SET best_price = ? WHERE keey = ?  ',[Producto[10],Producto[2]])
                 if(rs[0].best_price > Producto[10] && ((100-Producto[10]*100/rs[0].best_price)>30)){
-                    getBody("http://localhost:5000/send/"+Producto[2])
+                    await getBody("http://localhost:5000/send/"+Producto[2])
                 }
             }else{
                 //console.log("Producto nuevo "+Producto[2])
                 ra = await fquery('INSERT INTO tiendasv2 (store,category,keey,url,picture_url,category_url,seller,name,normal_price,offer_price,best_price,fecha) VALUES (?,?,?,?,?,?,?,?,?,?,?,NOW())  ',Productos[p])
                 if(Producto[10] > Producto[8] && ((100-Producto[10]*100/Producto[8])>30)){
-                    getBody("http://localhost:5000/send/"+Producto[2])
+                    await getBody("http://localhost:5000/send/"+Producto[2])
                 }
             }
             //console.log(r)
@@ -355,10 +355,19 @@ async function getByCategory(category,category_path){
                 if(price_tags.length == 2){
                     offer_price = parseFloat(price_tags[0].textContent.trim().replace('$','').split('.').join(''));
                     normal_price = parseFloat(price_tags[1].textContent.trim().replace('$','').split('.').join(''));
+                    var price_tags2 = item.getElementsByClassName('price__text-sm')
+                    if(price_tags2.length != 0){
+                        normal_price = parseFloat(price_tags2[0].textContent.trim().replace('$','').split('.').join(''));
+                    }
                 }
                 else if(price_tags.length == 1){
                     offer_price = parseFloat(price_tags[0].textContent.trim().replace('$','').split('.').join(''));
                     normal_price = parseFloat(price_tags[0].textContent.trim().replace('$','').split('.').join(''));
+
+                    var price_tags2 = item.getElementsByClassName('price__text-sm')
+                    if(price_tags2.length != 0){
+                        normal_price = parseFloat(price_tags2[0].textContent.trim().replace('$','').split('.').join(''));
+                    }
                 }
                 best_price = offer_price;
                 if(offer_price > normal_price){
