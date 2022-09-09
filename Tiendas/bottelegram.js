@@ -3,7 +3,7 @@ var mysql = require('mysql');
 const TelegramBot = require('node-telegram-bot-api')
 const delay = ms => new Promise(res => setTimeout(res, ms));
 
-let users = ['-1001672119836','-1001665102492'];
+let users = [];
 var i = process.argv[2];
 var token = null ; 
 var puerto = null
@@ -26,11 +26,15 @@ var con = mysql.createConnection({
 if( i == 1){
      token = "5703951768:AAEaYU2Jg3R76J1vWr2Us4U1a9BtsL6QOdc" ; 
    // token = '5173216820:AAEjDXKCK3VopsN8YjvujYC_iP_gscs-bDY' 
-    puerto = 5000;
+   
+   users = ['-1001672119836'];
+   puerto = 5000;
 
 }
 if( i == 2){
     token = '5350995896:AAHtDA-l1rBR6GfWxMMUuxrurJuARcqXhUo' 
+  users = ['-1001665102492'];
+
     puerto = 5001;
 
 }
@@ -115,9 +119,6 @@ async function select(){
                 //console.log(body)
                 try{
                     bot.sendMessage(users[0],body,{disable_web_page_preview:false,parse_mode:"HTML"})
-                    if(porcentaje >= 60){
-                        bot.sendMessage(users[1],body,{disable_web_page_preview:false,parse_mode:"HTML"})
-                    }
                 }
                 catch (error) {
                     console.log(error)
