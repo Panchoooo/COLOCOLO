@@ -26,12 +26,12 @@ var con = mysql.createConnection({
 if( i == 1){
      token = "5703951768:AAEaYU2Jg3R76J1vWr2Us4U1a9BtsL6QOdc" ; 
    // token = '5173216820:AAEjDXKCK3VopsN8YjvujYC_iP_gscs-bDY' 
-    puerto = 4000;
+    puerto = 5000;
 
 }
 if( i == 2){
     token = '5350995896:AAHtDA-l1rBR6GfWxMMUuxrurJuARcqXhUo' 
-    puerto = 4001;
+    puerto = 5001;
 
 }
 
