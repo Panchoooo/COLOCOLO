@@ -220,7 +220,7 @@ async function add(  Producto){
 async function add2(Producto) {
     try {
         return new Promise(function(resolve, reject) {
-            con.query('INSERT INTO tiendasv2 (store,category,keey,url,picture_url,category_url,seller,name,normal_price,offer_price,best_price,fecha) VALUES (?,?,?,?,?,?,?,?,?,?,?,NOW())  on duplicate key update last_date = now() ', Producto, function(err,result) {
+            con.query('INSERT INTO tiendasv2 (store,category,keey,url,picture_url,category_url,seller,name,normal_price,offer_price,best_price,fecha) VALUES (?,?,?,?,?,?,?,?,?,?,?,NOW())  ', Producto, function(err,result) {
                 if(err)reject(err)
                 resolve(result);
             }); 
