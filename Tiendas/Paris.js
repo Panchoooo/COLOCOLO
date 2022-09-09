@@ -346,18 +346,18 @@ async function getByCategory(category,category_path){
                 picture_urls = productodiv.getElementsByClassName('img-prod')[0].getAttribute('data-src')
                 key = productodiv.id;
                 url = path+item.getElementsByTagName('a')[0].href
-                name = item.getElementsByClassName('ellipsis_text')[0].textContent.replaceAll('"','');
+                name = item.getElementsByClassName('ellipsis_text')[0].textContent.replace('"','');
                 seller = item.getElementsByClassName('brand-product-plp')[0].textContent;
 
                 // Atributos - Precios
                 price_tags = item.getElementsByClassName('price__text')
                 if(price_tags.length == 2){
-                    offer_price = parseFloat(price_tags[0].textContent.replaceAll('\n','').replaceAll('$','').replaceAll('.',''));
-                    normal_price = parseFloat(price_tags[1].textContent.replaceAll('\n','').replaceAll('$','').replaceAll('.',''));
+                    offer_price = parseFloat(price_tags[0].textContent.replace('\n','').replace('$','').split('.','').join(''));
+                    normal_price = parseFloat(price_tags[1].textContent.replace('\n','').replace('$','').split('.','').join(''));
                 }
                 else if(price_tags.length == 1){
-                    offer_price = parseFloat(price_tags[0].textContent.replaceAll('\n','').replaceAll('$','').replaceAll('.',''));
-                    normal_price = parseFloat(price_tags[0].textContent.replaceAll('\n','').replaceAll('$','').replaceAll('.',''));
+                    offer_price = parseFloat(price_tags[0].textContent.replace('\n','').replace('$','').split('.','').join(''));
+                    normal_price = parseFloat(price_tags[0].textContent.replace('\n','').replace('$','').split('.','').join(''));
                 }
                 best_price = offer_price;
                 if(offer_price > normal_price){
