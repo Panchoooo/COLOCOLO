@@ -264,7 +264,7 @@ async function almacenar(Productos){
             r = await add2(Productos[p])
             //console.log(r)
         } catch (error) {
-            console.log('Error #4\n'+error)
+            //console.log('Error #4\n'+error)
         }
     }
 }
