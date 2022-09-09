@@ -11,7 +11,7 @@ var con = mysql.createConnection({
     password: "AVNS__QSFdINp_Fa9wILf0KO",
     database: "tiendas",
     port: "25060",
-    connectionLimit: 100,
+    connectionLimit: 75,
     queueLimit: 0,
     waitForConnection: true
   });
