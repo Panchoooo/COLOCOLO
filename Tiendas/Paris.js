@@ -10,7 +10,10 @@ var con = mysql.createConnection({
     user: "diego",
     password: "AVNS__QSFdINp_Fa9wILf0KO",
     database: "tiendas",
-    port: "25060"
+    port: "25060",
+    connectionLimit: 100,
+    queueLimit: 0,
+    waitForConnection: true
   });
 
 
