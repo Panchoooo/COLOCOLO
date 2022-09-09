@@ -263,45 +263,43 @@ async function getByCategory(category,category_path){
         else if(page != 0 && (items == undefined)){
             console.log('Error #2 con la categoria '+category+ ' | '+ category_url)
             return
+        }else{
+            for(var i = 0 ; i < items.childElementCount ; i++){
+
+                // Contenedores
+                item = items.children[i];
+                productodiv = item.getElementsByClassName('product-tile ')[0];
+
+                // Atributos - Generales
+                picture_urls = productodiv.getElementsByClassName('img-prod')[0].getAttribute('data-src')
+                key = productodiv.id;
+                url = path+item.getElementsByTagName('a')[0].href
+                name = item.getElementsByClassName('ellipsis_text')[0].textContent;
+                seller = item.getElementsByClassName('brand-product-plp')[0].textContent;
+
+                // Atributos - Precios
+                price_tags = item.getElementsByClassName('price__text')
+                if(price_tags.length == 2){
+                    offer_price = parseFloat(price_tags[0].textContent.replace('\n','').replace('$','').replace('.',''));
+                    normal_price = parseFloat(price_tags[1].textContent.replace('\n','').replace('$','').replace('.',''));
+                }
+                else if(price_tags.length == 1){
+                    offer_price = parseFloat(price_tags[0].textContent.replace('\n','').replace('$','').replace('.',''));
+                    normal_price = parseFloat(price_tags[0].textContent.replace('\n','').replace('$','').replace('.',''));
+                }
+                best_price = offer_price;
+                if(offer_price > normal_price){
+                    best_price = normal_price
+                }
+
+                // Arreglo Producto
+                Producto = [key,url,picture_urls,category_url,seller,name,normal_price,offer_price,best_price];
+                Productos.push(Producto)
+            }
+            console.log('Items cargado de la categoria '+category+' | '+category_path+'  Pagina:'+page+' , Cantidad:'+  items.childElementCount+ ' , Cargados:'+Productos.length)
+            page+=1;
         }
-
-
-        for(var i = 0 ; i < items.childElementCount ; i++){
-
-            // Contenedores
-            item = items.children[i];
-            productodiv = item.getElementsByClassName('product-tile ')[0];
-
-            // Atributos - Generales
-            picture_urls = productodiv.getElementsByClassName('img-prod')[0].getAttribute('data-src')
-            key = productodiv.id;
-            url = path+item.getElementsByTagName('a')[0].href
-            name = item.getElementsByClassName('ellipsis_text')[0].textContent;
-            seller = item.getElementsByClassName('brand-product-plp')[0].textContent;
-
-            // Atributos - Precios
-            price_tags = item.getElementsByClassName('price__text')
-            if(price_tags.length == 2){
-                offer_price = parseFloat(price_tags[0].textContent.replace('\n','').replace('$','').replace('.',''));
-                normal_price = parseFloat(price_tags[1].textContent.replace('\n','').replace('$','').replace('.',''));
-            }
-            else if(price_tags.length == 1){
-                offer_price = parseFloat(price_tags[0].textContent.replace('\n','').replace('$','').replace('.',''));
-                normal_price = parseFloat(price_tags[0].textContent.replace('\n','').replace('$','').replace('.',''));
-            }
-            best_price = offer_price;
-            if(offer_price > normal_price){
-                best_price = normal_price
-            }
-
-            // Arreglo Producto
-            Producto = [key,url,picture_urls,category_url,seller,name,normal_price,offer_price,best_price];
-            Productos.push(Producto)
-        }
-
-        console.log('Items cargado de la categoria '+category+' | '+category_path+'  Pagina:'+page+' , Cantidad:'+  items.childElementCount+ ' , Cargados:'+Productos.length)
-
-        page+=1;
+        
     }
 }
 
