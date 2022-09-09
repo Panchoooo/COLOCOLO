@@ -8,5 +8,8 @@
   },
   "scripts": {
     "start": "node MonitorCarro.js 15"
-  }
+  },
+  "engines": {
+    "node": "14.20.0"
+   }
 }
