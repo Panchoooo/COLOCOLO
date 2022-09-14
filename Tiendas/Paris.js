@@ -371,6 +371,11 @@ async function getByCategory(category,category_path){
                 }else{
                     continue
                 }
+
+                if(normal_price=='N/A'){
+                    continue
+                }
+
                 best_price = offer_price;
                 if(offer_price > normal_price){
                     best_price = normal_price
