@@ -235,6 +235,8 @@ async function fquery(qry,Producto) {
             con.query(qry, Producto, function(err,result) {
                 if(err){
                     console.log(err)
+                    console.log(Producto)
+
                     resolve(-1)
                 }
                 resolve(result);
