@@ -3,6 +3,7 @@ const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 const delay = ms => new Promise(res => setTimeout(res, ms));
 
+var limite = 201
 var store = "Paris"
 var mysql = require('mysql');
 var con = mysql.createConnection({
@@ -308,7 +309,6 @@ async function getByCategory(category,category_path){
     var Producto = null  
     var Productos = [] 
     var page = 0;
-    var limite = 201;
     while( page <= limite){
         if(page == limite){
             console.log("Se ha alcanzado el limite")
@@ -408,6 +408,8 @@ async function Monitoriar(categoria,asignada){
 }
 
 async function LoadCategorias(){
+
+    limite = await fquery('SELECT limite from parametros where id = ?',[1])[0].limite
 
     categories = await fquery('SELECT categoria from tienda_categorias WHERE store = ? and activo = 1 ORDER BY id desc',[store])
 
