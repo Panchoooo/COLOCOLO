@@ -277,7 +277,8 @@ async function almacenar(Productos){
                         getBody("http://localhost:5001/send/"+Producto[2])
                     }
                 }
-            }else{
+            }
+            else if(rs.length==0){
                 console.log("Producto nuevo "+Producto[2])
                 var dif = 100-Producto[10]*100/Producto[8]
                 ra = await fquery('INSERT INTO tiendasv2 (store,category,keey,url,picture_url,category_url,seller,name,normal_price,offer_price,best_price,fecha) VALUES (?,?,?,?,?,?,?,?,?,?,?,NOW())  ',Productos[p])
