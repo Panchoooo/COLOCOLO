@@ -345,7 +345,7 @@ async function getByCategory(category,category_path){
                     continue;
                 }
                 // Atributos - Generales
-                picture_urls = productodiv.getElementsByClassName('img-prod')[0].getAttribute('data-src')
+                picture_urls = productodiv.getElementsByClassName('img-prod')[0].getAttribute('data-src').split("?sw")[0]
                 url = path+item.getElementsByTagName('a')[0].href
                 name = item.getElementsByClassName('ellipsis_text')[0].textContent.replace('"','');
                 seller = item.getElementsByClassName('brand-product-plp')[0].textContent;
