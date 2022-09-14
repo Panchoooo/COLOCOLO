@@ -216,9 +216,34 @@ bot.onText(/\/addsubcat(.*)/,  (msg, match) =>{
     console.log(busqueda)
 
     if(busqueda.length==3){
-        fquery("INSERT INTO tienda_subcategorias (store,category,catkey,subcategory) values (?,?,?,?)",[busqueda[0],busqueda[1],busqueda[0]+"-"+busqueda[1],busqueda[2],1])
-        
-        bot.sendMessage(users[0],busqueda[0]+" | Categoria: "+busqueda[1]+" | Subcategoria: "+busqueda[2]+" insertada",{disable_web_page_preview:false,parse_mode:"HTML"})
+        fquery("INSERT INTO tienda_subcategorias (store,category,catkey,subcategory) values (?,?,?,?)",[busqueda[0],busqueda[1],busqueda[0]+"-"+busqueda[1],busqueda[2],1]);
+        bot.sendMessage(users[0],busqueda[0]+" | Categoria: "+busqueda[1]+" | Subcategoria: "+busqueda[2]+" insertada",{disable_web_page_preview:false,parse_mode:"HTML"});
+    }else{
+        bot.sendMessage(users[0],"Error formato",{disable_web_page_preview:false,parse_mode:"HTML"});
+
+    }
+});
+
+bot.onText(/\/getT(.*)/,  async (msg, match) =>{
+    const chatId = msg.chat.id;
+	var busqueda = match[1].slice(1,match[1].length).split(" ");
+    console.log(busqueda)
+
+    if(busqueda.length==1){
+        var categories = await fquery("SELECT categoria,activo from tienda_categorias where store = ?",[busqueda[0]]);
+        var body = "Información de la tienda "+busqueda[0]+"\n\n";
+
+        for (var c = 0 ; c<categories.length; c++){
+            var categoria = categories[c].categoria;
+            body+="Categoria: "+categoria+" | Activo : "+categories[c].activo+"\n";
+            var category_paths = await fquery('SELECT subcategory from tienda_subcategorias WHERE store = ? and category = ?',[busqueda[0],categoria])
+            category_paths.forEach(subcategoria => {
+                body+="- SubCategoria: "+subcategoria.subcategory+"\n";
+            });
+            body+="\n"
+        }
+        bot.sendMessage(users[0],body,{disable_web_page_preview:false,parse_mode:"HTML"});
+
     }else{
         bot.sendMessage(users[0],"Error formato",{disable_web_page_preview:false,parse_mode:"HTML"})
 
