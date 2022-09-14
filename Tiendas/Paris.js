@@ -425,6 +425,8 @@ async function LoadCategorias(){
             if(asignadas.length > 0){
                 await Monitoriar(categoria,asignadas)
             }
+
+            await fquery('UPDATE tienda_subcategorias SET last_date = NOW()',[])
         };
     }
     process.exit(0)
