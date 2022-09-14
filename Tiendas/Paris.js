@@ -368,6 +368,8 @@ async function getByCategory(category,category_path){
                     if(price_tags2.length != 0){
                         normal_price = parseFloat(price_tags2[0].textContent.trim().replace('$','').split('.').join(''));
                     }
+                }else{
+                    continue
                 }
                 best_price = offer_price;
                 if(offer_price > normal_price){
