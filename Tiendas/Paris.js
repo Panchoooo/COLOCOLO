@@ -408,33 +408,34 @@ async function Monitoriar(categoria,asignada){
 }
 
 async function LoadCategorias(){
-
-    limite = await fquery('SELECT limite from parametros where id = ?',[1])[0].limite
-
-    categories = await fquery('SELECT categoria from tienda_categorias WHERE store = ? and activo = 1 ORDER BY id desc',[store])
+    await delay(3000)
+    limite = await fquery('SELECT limite from parametros where id = ?',[1]);
+    console.log(limite[0].limite);
+    limite = limite[0].limite;
+    categories = await fquery('SELECT categoria from tienda_categorias WHERE store = ? and activo = 1 ORDER BY id desc',[store]);
 
     if(categories.length > 0){
         for (var c = 0 ; c<categories.length; c++){
             var categoria = categories[c].categoria;
             
-            category_paths = await fquery('SELECT subcategory from tienda_subcategorias WHERE store = ? and category = ?',[store,categoria])
+            category_paths = await fquery('SELECT subcategory from tienda_subcategorias WHERE store = ? and category = ?',[store,categoria]);
 
-            var asignadas = []
+            var asignadas = [];
             category_paths.forEach(subcategoria => {
-                asignadas.push(subcategoria.subcategory)
+                asignadas.push(subcategoria.subcategory);
             });
 
-            console.log("\n\nCargando categoria: "+categoria)
-            console.log("Subcategorias:")
-            console.log(asignadas)
+            console.log("\n\nCargando categoria: "+categoria);
+            console.log("Subcategorias:");
+            console.log(asignadas);
             if(asignadas.length > 0){
-                await Monitoriar(categoria,asignadas)
+                await Monitoriar(categoria,asignadas);
             }
 
-            await fquery('UPDATE tienda_subcategorias SET last_date = NOW()',[])
+            await fquery('UPDATE tienda_subcategorias SET last_date = NOW()',[]);
         };
     }
-    process.exit(0)
+    process.exit(0);
 
 }
 
