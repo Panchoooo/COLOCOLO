@@ -266,8 +266,9 @@ async function almacenar(Productos){
         var Producto = Productos[p]
         try {
             rs = await fquery('SELECT best_price from tiendasv2 where store = ? and keey = ?',[Producto[0],Producto[2]])
-            if(rs.length>0   ){
-                console.log("Producto existente "+Producto[2])
+            if(rs.length>0  && rs[0].best_price != Producto[10] ){
+                console.log("Actualizacion de Producto "+Producto[2])
+
                 ra = await fquery('UPDATE tiendasv2 SET best_price = ?,normal_price = ?, last_date = NOW() WHERE store = ? and keey = ?  ',[Producto[10],Producto[8],Producto[0],Producto[2]])
                 var dif = 100-Producto[10]*100/rs[0].best_price
                 if(rs[0].best_price > Producto[10] && (dif>30)){
