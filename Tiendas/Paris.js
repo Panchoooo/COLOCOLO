@@ -372,7 +372,7 @@ async function getByCategory(category,category_path){
                     continue
                 }
 
-                if(normal_price=='N/A'){
+                if(normal_price=='N/A' || normal_price== NaN){
                     continue
                 }
 
