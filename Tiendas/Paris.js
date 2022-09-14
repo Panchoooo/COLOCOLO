@@ -406,7 +406,7 @@ async function Monitoriar(categoria,asignada){
 
 async function LoadCategorias(){
 
-    categories = await fquery('SELECT categoria from tienda_categorias WHERE store = ? and activo = 1',[store])
+    categories = await fquery('SELECT categoria from tienda_categorias WHERE store = ? and activo = 1 ORDER BY id desc',[store])
 
     if(categories.length > 0){
         for (var c = 0 ; c<categories.length; c++){
