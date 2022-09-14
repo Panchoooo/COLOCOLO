@@ -210,6 +210,35 @@ bot.onText(/\/addcat(.*)/,  (msg, match) =>{
 
     }
 });
+
+bot.onText(/\/delcat(.*)/,  (msg, match) =>{
+    const chatId = msg.chat.id;
+	var busqueda = match[1].slice(1,match[1].length).split(" ");
+    console.log(busqueda)
+
+    if(busqueda.length==2){
+        fquery("Delete from tienda_categorias where store = ? and categoria = ?",[busqueda[0],busqueda[1],1])
+        bot.sendMessage(users[0],busqueda[0]+" | Categoria: "+busqueda[1]+" eliminada",{disable_web_page_preview:false,parse_mode:"HTML"})
+    }else{
+        bot.sendMessage(users[0],"Error formato",{disable_web_page_preview:false,parse_mode:"HTML"})
+
+    }
+});
+
+bot.onText(/\/delsubcat(.*)/,  (msg, match) =>{
+    const chatId = msg.chat.id;
+	var busqueda = match[1].slice(1,match[1].length).split(" ");
+    console.log(busqueda)
+
+    if(busqueda.length==3){
+        fquery("Delete from tienda_subcategorias where store = ? and category = ? and subcategory = ?",[busqueda[0],busqueda[1],busqueda[2]])
+        bot.sendMessage(users[0],busqueda[0]+" | Categoria: "+busqueda[1]+" eliminada",{disable_web_page_preview:false,parse_mode:"HTML"})
+    }else{
+        bot.sendMessage(users[0],"Error formato",{disable_web_page_preview:false,parse_mode:"HTML"})
+
+    }
+});
+
 bot.onText(/\/addsubcat(.*)/,  (msg, match) =>{
     const chatId = msg.chat.id;
 	var busqueda = match[1].slice(1,match[1].length).split(" ");

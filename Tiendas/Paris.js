@@ -427,6 +427,7 @@ async function LoadCategorias(){
             await Monitoriar(categoria,asignadas)
         }
     };
+    process.exit(0)
 
 }
 
