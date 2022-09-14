@@ -247,7 +247,7 @@ async function fquery(qry,Producto) {
         return new Promise(function(resolve, reject) {
             con.query(qry, Producto, function(err,result) {
                 if(err){
-                    //console.log(err)
+                    console.log(err)
                     resolve(-1)
                 }
                 resolve(result);
@@ -265,10 +265,10 @@ async function almacenar(Productos){
     for(var p = 0 ; p < Productos.length ; p++){
         var Producto = Productos[p]
         try {
-            rs = await fquery("SELECT best_price from tiendasv2 where url = ?",[Producto[3]])
+            rs = await fquery('SELECT best_price from tiendasv2 where store = ? and keey = ?',[Producto[0],Producto[2]])
             if(rs.length>0   ){
                 //console.log("Producto existente "+Producto[2])
-                ra = await fquery('UPDATE tiendasv2 SET best_price = ?,normal_price = ?, last_date = NOW() WHERE keey = ?  ',[Producto[10],Producto[8],Producto[2]])
+                ra = await fquery('UPDATE tiendasv2 SET best_price = ?,normal_price = ?, last_date = NOW() WHERE store = ? and keey = ?  ',[Producto[10],Producto[8],Producto[0],Producto[2]])
                 var dif = 100-Producto[10]*100/rs[0].best_price
                 if(rs[0].best_price > Producto[10] && (dif>30)){
                     getBody("http://localhost:5000/send/"+Producto[2])
@@ -406,14 +406,16 @@ async function Monitoriar(categoria,asignada){
 
 async function LoadCategorias(){
 
+    categories = await fquery('SELECT categoria from tienda_categorias WHERE store = ? and activo = 1',[store])
+
     for (var c = 0 ; c<categories.length; c++){
-        var categoria = categories[c];
+        var categoria = categories[c].categoria;
+        
+        category_paths = await fquery('SELECT subcategory from tienda_subcategorias WHERE store = ? and category = ?',[store,categoria])
+
         var asignadas = []
         category_paths.forEach(subcategoria => {
-            var subpath = subcategoria[0]
-            if( subcategoria[1].includes(categoria)){
-                asignadas.push(subpath)
-            }
+            asignadas.push(subcategoria.subcategory)
         });
 
         console.log("\n\nCargando categoria: "+categoria)
