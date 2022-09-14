@@ -223,31 +223,18 @@ async function getBody(url) {
             })
         })
     } catch (error) {
-     
         console.log('Error #3\n'+error)
         return undefined;
     }
 
 }
 
-async function add(  Producto){
-    try{
-        //console.log(Producto[2])
-        con.query('INSERT INTO tiendasv2 (store,category,keey,url,picture_url,category_url,seller,name,normal_price,offer_price,best_price,fecha) VALUES (?,?,?,?,?,?,?,?,?,?,?,NOW())  on duplicate key update last_date = now() ', Producto, function(err,result) {
-            if(err)console.log(err)
-        });        
-    } catch (error) {
-        console.log(error)
-    }
-}
-
 async function fquery(qry,Producto) {
     try {
-
         return new Promise(function(resolve, reject) {
             con.query(qry, Producto, function(err,result) {
                 if(err){
-                    //console.log(err)
+                    console.log(err)
                     resolve(-1)
                 }
                 resolve(result);
@@ -257,7 +244,6 @@ async function fquery(qry,Producto) {
         console.log('Error #3\n'+error)
         return undefined;
     }
-
 }
 
 async function almacenar(Productos){
@@ -324,8 +310,8 @@ async function getByCategory(category,category_path){
     while( page <= limite){
         if(page == limite){
             console.log("Se ha alcanzado el limite")
-            await almacenar(Productos)
-            return
+            //await almacenar(Productos)
+            return Productos
         }    
 
         // Request para obtener datos
@@ -336,16 +322,15 @@ async function getByCategory(category,category_path){
 
         if(page == 0 && (items == undefined || items.childElementCount == 0)){
             console.log('Error #1 con la categoria '+category+ ' | '+ category_url)
-            return
+            return -1
         }
         else if(page != 0 && (items.childElementCount == 0)){
             page = 0
-            await almacenar(Productos)
-            return
+            return Productos
         }
         else if(page != 0 && (items == undefined)){
             console.log('Error #2 con la categoria '+category+ ' | '+ category_url)
-            return
+            return -2
         }else{
             for(var i = 0 ; i < items.childElementCount ; i++){
 
@@ -402,7 +387,11 @@ async function getByCategory(category,category_path){
 async function Monitoriar(categoria,asignada){
 
     for(var i = 0 ; i<asignada.length; i++){
-        await getByCategory(categoria,asignada[i])
+        p = await getByCategory(categoria,asignada[i])
+        if(p!=1 && p!=2){
+            await almacenar(p)
+        }
+
     };
 }
 
