@@ -410,23 +410,25 @@ async function LoadCategorias(){
 
     categories = await fquery('SELECT categoria from tienda_categorias WHERE store = ? and activo = 1',[store])
 
-    for (var c = 0 ; c<categories.length; c++){
-        var categoria = categories[c].categoria;
-        
-        category_paths = await fquery('SELECT subcategory from tienda_subcategorias WHERE store = ? and category = ?',[store,categoria])
+    if(categories.length > 0){
+        for (var c = 0 ; c<categories.length; c++){
+            var categoria = categories[c].categoria;
+            
+            category_paths = await fquery('SELECT subcategory from tienda_subcategorias WHERE store = ? and category = ?',[store,categoria])
 
-        var asignadas = []
-        category_paths.forEach(subcategoria => {
-            asignadas.push(subcategoria.subcategory)
-        });
+            var asignadas = []
+            category_paths.forEach(subcategoria => {
+                asignadas.push(subcategoria.subcategory)
+            });
 
-        console.log("\n\nCargando categoria: "+categoria)
-        console.log("Subcategorias:")
-        console.log(asignadas)
-        if(asignadas.length > 0){
-            await Monitoriar(categoria,asignadas)
-        }
-    };
+            console.log("\n\nCargando categoria: "+categoria)
+            console.log("Subcategorias:")
+            console.log(asignadas)
+            if(asignadas.length > 0){
+                await Monitoriar(categoria,asignadas)
+            }
+        };
+    }
     process.exit(0)
 
 }
