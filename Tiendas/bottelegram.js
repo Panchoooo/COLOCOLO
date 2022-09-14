@@ -38,6 +38,14 @@ if( i == 2){
     puerto = 5001;
 
 }
+if( i == 3){
+    token = '5175295388:AAGkp3YHnJLW2NZOX2cAudw1qxWNPZHLRRE' 
+  users = ['-1001578014454'];
+
+    puerto = 5001;
+
+}
+
 
 
 
@@ -168,24 +176,55 @@ async function wsp(msj){
     }
 }
 
+async function fquery(qry,Producto) {
+    try {
+
+        return new Promise(function(resolve, reject) {
+            con.query(qry, Producto, function(err,result) {
+                if(err){
+                    console.log(err)
+                    resolve(-1)
+                }
+                resolve(result);
+            }); 
+        })
+    } catch (error) {
+        console.log('Error #3\n'+error)
+        return undefined;
+    }
+
+}
 
 
-bot.onText(/\/register/, (msg, match) => {
-    const chatId = msg.chat.id
-    console.log(chatId)
-    var flag = 0;
-    for(var i = 0 ; i< users.length ; i++){
-        if(users[i] == chatId){
-            bot.sendMessage(chatId, 'Ya estas registrado !.')
-            flag = 1;
-        }
+bot.onText(/\/addcat(.*)/,  (msg, match) =>{
+    const chatId = msg.chat.id;
+	var busqueda = match[1].slice(1,match[1].length).split(" ");
+    console.log(busqueda)
+
+    if(busqueda.length==2){
+        fquery("INSERT INTO tienda_categorias (store,categoria,activo) values (?,?,?)",[busqueda[0],busqueda[1],1])
+        
+        bot.sendMessage(users[0],busqueda[0]+" | Categoria: "+busqueda[1]+" insertada",{disable_web_page_preview:false,parse_mode:"HTML"})
+    }else{
+        bot.sendMessage(users[0],"Error formato",{disable_web_page_preview:false,parse_mode:"HTML"})
+
     }
-    if(flag==0){
-        users.push(chatId)
-        console.log('user registered')
-        bot.sendMessage(chatId, 'Done.')
+});
+bot.onText(/\/addsubcat(.*)/,  (msg, match) =>{
+    const chatId = msg.chat.id;
+	var busqueda = match[1].slice(1,match[1].length).split(" ");
+    console.log(busqueda)
+
+    if(busqueda.length==3){
+        fquery("INSERT INTO tienda_subcategorias (store,category,catkey,subcategory) values (?,?,?,?)",[busqueda[0],busqueda[1],busqueda[0]+"-"+busqueda[1],busqueda[2],1])
+        
+        bot.sendMessage(users[0],busqueda[0]+" | Categoria: "+busqueda[1]+" | Subcategoria: "+busqueda[2]+" insertada",{disable_web_page_preview:false,parse_mode:"HTML"})
+    }else{
+        bot.sendMessage(users[0],"Error formato",{disable_web_page_preview:false,parse_mode:"HTML"})
+
     }
-})
+});
+
 
 bot.onText(/\/apagar(.*)/, (msg, match) =>{
     const chatId = msg.chat.id;
@@ -250,6 +289,7 @@ app.get("/send/:id", (req, res) => {
     ids.push(id)
     res.send("Enviado !")
 });
+
 
 app.listen(app.get("port"), () => 
   console.log("app running on port", app.get("port"))
