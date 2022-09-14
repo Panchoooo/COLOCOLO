@@ -40,20 +40,6 @@ if( i == 2){
 }
 
 
-function upd(id){
-    try 
-    {
-        con.query('UPDATE tiendas SET avisado = 1, fecha = now()  WHERE id ='+id, function(err,result) {
-            if(err) throw err
-        });
-    } catch (error) {
-        console.log(error)
-    }
-}
-
-
-
-
 
 const formatter = new Intl.NumberFormat('en', { style: 'currency', currency: 'USD' })
 
@@ -76,7 +62,7 @@ async function select(){
                     var url = result[i].url
                     var picture_urls = result[i].picture_urls
 
-                    var ofertaPrice = result[i].offer_price
+                    var ofertaPrice = result[i].best_price
                     var normalPrice = result[i].normal_price
                     
 

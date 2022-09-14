@@ -171,9 +171,9 @@ var category_paths = [
 ]
 
 var categories = [
+    'Projector',
     'Tablet',
     'Television',
-    'Projector',
     'Notebook',
     'Refrigerator',
     'Printer',
@@ -268,7 +268,7 @@ async function almacenar(Productos){
             rs = await fquery("SELECT best_price from tiendasv2 where url = ?",[Producto[3]])
             if(rs.length>0   ){
                 //console.log("Producto existente "+Producto[2])
-                ra = await fquery('UPDATE tiendasv2 SET best_price = ? WHERE keey = ?  ',[Producto[10],Producto[2]])
+                ra = await fquery('UPDATE tiendasv2 SET best_price = ?,normal_price = ?, last_date = NOW() WHERE keey = ?  ',[Producto[10],Producto[8],Producto[2]])
                 var dif = 100-Producto[10]*100/rs[0].best_price
                 if(rs[0].best_price > Producto[10] && (dif>30)){
                     getBody("http://localhost:5000/send/"+Producto[2])
@@ -350,10 +350,13 @@ async function getByCategory(category,category_path){
                 // Contenedores
                 item = items.children[i];
                 productodiv = item.getElementsByClassName('product-tile ')[0];
+                key = productodiv.id;
 
+                if( Productos.includes(key)){
+                    continue;
+                }
                 // Atributos - Generales
                 picture_urls = productodiv.getElementsByClassName('img-prod')[0].getAttribute('data-src')
-                key = productodiv.id;
                 url = path+item.getElementsByTagName('a')[0].href
                 name = item.getElementsByClassName('ellipsis_text')[0].textContent.replace('"','');
                 seller = item.getElementsByClassName('brand-product-plp')[0].textContent;
