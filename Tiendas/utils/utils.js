@@ -103,7 +103,7 @@ async function getConfigTienda(store){
     var params = await fquery(con,'SELECT limite from parametros where store = ?',[store]);
     var limite = params[0].limite;
 
-    categories = await fquery(con,'SELECT categoria from tienda_categorias WHERE store = ? and activo = 1 ORDER BY id desc',[store]);
+    var categories = await fquery(con,'SELECT categoria from tienda_categorias WHERE store = ? and activo = 1 ORDER BY id desc',[store]);
     var total = 0;
     var categoriesdict = {}
     if(categories.length > 0){
@@ -130,7 +130,9 @@ async function almacenar(con,Productos){
         try {
             rs = await fquery(con,'SELECT best_price from tiendasv2 where store = ? and keey = ?',[Producto[0],Producto[2]]);
             if(rs.length>0  && rs[0].best_price != Producto[10] ){
-                //console.log("Actualizacion de Producto "+Producto[2])
+                console.log("Actualizacion de Producto "+Producto[2])
+                console.log(rs[0].best_price)
+                console.log(Producto[10])
                 ra = await fquery(con,'INSERT INTO tiendas_log (store,keey,price,fecha) VALUES (?,?,?,NOW())  ',[Producto[0],Producto[2],rs[0].best_price]);
                 ra = await fquery(con,'UPDATE tiendasv2 SET best_price = ?,normal_price = ?, last_date = NOW() WHERE store = ? and keey = ?  ',[Producto[10],Producto[8],Producto[0],Producto[2]]);
                 var dif = 100-Producto[10]*100/rs[0].best_price;
