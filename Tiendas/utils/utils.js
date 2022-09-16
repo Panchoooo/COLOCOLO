@@ -44,19 +44,12 @@ async function requestUtils(url,data,method) {
     try {
         var options = {
             'method': 'POST',
-            'url': 'https://apps.lider.cl/catalogo/bff/category',
+            'url': url,
             'headers': {
               'Content-Type': 'application/json',
               'Cookie': 'TS018b674b=01538efd7c5788056cc1ddf4c7c21a201794b991b542e025b1881767c6baabcdca120a1c1fd5bc324ebea15e62f7764ecb2609771b'
             },
-            body: JSON.stringify({
-              "categories": "Decohogar/Menaje_Cocina",
-              "page": 1,
-              "facets": [],
-              "sortBy": "",
-              "hitsPerPage": 1000
-            })
-          
+            body: data
           };
         return new Promise(function(resolve, reject) {
             request.post(options, function(err, resp, body) {

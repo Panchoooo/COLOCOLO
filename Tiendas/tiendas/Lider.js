@@ -53,7 +53,6 @@ async function getBySubCategory(category,category_path,limite){
             if(Productos.includes(productos[p]['sku'])){
                 continue;
             }
-
             var url = "https://www.lider.cl/catalogo/product/sku/"+productos[p]['sku'];
 
             var price_container = productos[p]['price'];
