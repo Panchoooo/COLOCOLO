@@ -375,14 +375,15 @@ async function getByCategory(category,category_path){
                     continue;
                 }
 
-                if(normal_price=='N/A' || isNaN(normal_price)){
-                    console.log(url)
-                    continue;
-                }
+
 
                 best_price = offer_price;
                 if(offer_price > normal_price){
                     best_price = normal_price;
+                }
+                if(best_price=='N/A' || isNaN(best_price)){
+                    console.log(url)
+                    continue;
                 }
 
                 // Arreglo Producto
