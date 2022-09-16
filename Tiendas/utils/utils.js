@@ -110,7 +110,7 @@ async function getConfigTienda(store){
         for (var c = 0 ; c<categories.length; c++){
             total = 0;
             var categoria = categories[c].categoria;
-            category_paths = await fquery(con,'SELECT subcategory from tienda_subcategorias WHERE store = ? and category = ?',[store,categoria]);
+            category_paths = await fquery(con,'SELECT subcategory from tienda_subcategorias WHERE store = ? and category = ? and activo = 1',[store,categoria]);
             var asignadas = [];
             category_paths.forEach(subcategoria => {
                 asignadas.push(subcategoria.subcategory);
