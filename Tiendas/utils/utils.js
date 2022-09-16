@@ -131,10 +131,10 @@ async function almacenar(con,Productos){
             rs = await fquery(con,'SELECT best_price from tiendasv2 where store = ? and keey = ?',[Producto[0],Producto[2]]);
             if(rs.length>0  && rs[0].best_price > Producto[10]-delta ){
                 console.log("Actualizacion de Producto ");
-                console.log("rs");
-                console.log(rs);
+                console.log(Producto[2]);
+                //console.log(rs);
                 ra = await fquery(con,'INSERT INTO tiendas_log (store,keey,price,fecha) VALUES (?,?,?,NOW())  ',[Producto[0],Producto[2],rs[0].best_price]);
-                console.log("params:"+[Producto[10],Producto[8],Producto[0],Producto[2]]);
+                //console.log("params:"+[Producto[10],Producto[8],Producto[0],Producto[2]]);
                 ra = await fquery(con,'UPDATE tiendasv2 SET best_price = ?,normal_price = ?, last_date = NOW() WHERE store = ? and keey = ?  ',[Producto[10],Producto[8],Producto[0],Producto[2]]);
                 var dif = 100-Producto[10]*100/rs[0].best_price;
                 var dif2 = 100-Producto[10]*100/Producto[8];
@@ -172,7 +172,6 @@ async function getByCategory(con,store,categoria,asignada,func,limite){
         if(p!=1 && p!=2){
             await almacenar(con,p);
             total += p.length;
-            
             await fquery(con,'UPDATE tienda_subcategorias SET last_date = NOW(), cantidad = ? WHERE store = ? AND category = ? AND subcategory = ? ',[p.length,store,categoria,asignada[i]]);
         }
     };
@@ -197,7 +196,6 @@ async function Monitoriar (store,func){
         await fquery(con,'UPDATE tienda_categorias SET last_date = NOW(), cantidad = ? WHERE store = ? AND categoria = ? ',[totalc,store,categoria]);
     }
 
-    console.log(totalg)
     process.exit(0);
     return;
 }
