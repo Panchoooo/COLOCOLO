@@ -260,9 +260,10 @@ async function almacenar(Productos){
                 ra = await fquery('INSERT INTO tiendas_log (store,keey,price,fecha) VALUES (?,?,?,NOW())  ',[Producto[0],Producto[2],rs[0].best_price]);
                 ra = await fquery('UPDATE tiendasv2 SET best_price = ?,normal_price = ?, last_date = NOW() WHERE store = ? and keey = ?  ',[Producto[10],Producto[8],Producto[0],Producto[2]]);
                 var dif = 100-Producto[10]*100/rs[0].best_price;
-                if(rs[0].best_price > Producto[10] && (dif>30)){
+                var dif2 = 100-Producto[10]*100/Producto[8];
+                if( (rs[0].best_price > Producto[10] && (dif>30)) || ( Producto[10] < Producto[8] && (dif2>30) ) ){
                     getBody("http://localhost:5000/send/"+Producto[2]);
-                    if(dif > 58){
+                    if(dif > 58 || dif2 > 58){
                         getBody("http://localhost:5001/send/"+Producto[2]);
                     }
                 }
