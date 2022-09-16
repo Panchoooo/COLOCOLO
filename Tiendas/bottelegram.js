@@ -62,7 +62,7 @@ async function select(){
         var qry = "SELECT * from tiendasv2 WHERE keey = ?";
         var result = await fquery(qry,[id]);
 
-        var qry2 = "SELECT * from tiendas_log WHERE keey = ? order by fecha desc";
+        var qry2 = "SELECT * from tiendas_log WHERE keey = ? order by fecha desc LIMIT 5";
         var result_log = await fquery(qry2,[id]);
 
 
