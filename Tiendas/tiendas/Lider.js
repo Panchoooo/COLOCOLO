@@ -73,7 +73,6 @@ async function getBySubCategory(category,category_path,limite){
             }
 
             Producto = [store,category,productos[p]['sku'],url,productos[p]['images']['defaultImage'],null,null,productos[p]['displayName'],normal_price,offer_price,best_price];
-            await utils.fquery(con,"DELETE FROM tiendasv2 WHERE keey = ?",[productos[p]['ID']]);
             Productos.push(Producto);
         }
         
