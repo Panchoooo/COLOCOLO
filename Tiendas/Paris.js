@@ -432,7 +432,7 @@ async function LoadCategorias(){
                 await Monitoriar(categoria,asignadas);
             }
 
-            await fquery('UPDATE tienda_subcategorias SET last_date = NOW()',[]);
+            await fquery('UPDATE tienda_categorias SET last_date = NOW() WHERE store = ? AND categoria = ?',[store,categoria]);
         };
     }
     process.exit(0);
