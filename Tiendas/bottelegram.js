@@ -103,10 +103,7 @@ async function select(){
 
 
             }
-            if(store == "Lider"){
-                picture_urls = picture_urls.split("https://images.lider.cl")[2];
-                picture_urls = "https://images.lider.cl/"+picture_urls;
-            }
+            
 
             var log = "";
             if(result_log.length > 0){
