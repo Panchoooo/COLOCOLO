@@ -162,13 +162,15 @@ async function almacenar(con,Productos){
 
 // Funcion que utiliza la funcion de la Tienda que obtiene productos y luego almacena
 // func utilizada en cada subcategoria asignada a las categorias de la tienda
-async function getByCategory(con,categoria,asignada,func,limite){
+async function getByCategory(con,store,categoria,asignada,func,limite){
     var total = 0;
     for(var i = 0 ; i<asignada.length; i++){
         p = await func(categoria,asignada[i],limite);
         if(p!=1 && p!=2){
             await almacenar(con,p);
             total += p.length;
+            
+            await fquery(con,'UPDATE tienda_subcategorias SET last_date = NOW(), cantidad = ? WHERE store = ? AND categoria = ? AND subcategoria = ? ',[p.length,store,categoria,asignada[i]]);
         }
     };
     return total
@@ -187,7 +189,7 @@ async function Monitoriar (store,func){
     var totalc = 0;
     for (const [categoria, asignadas] of Object.entries(categories)) {
         console.log(categoria, asignadas);
-        totalc = await getByCategory(con,categoria,asignadas,func,limite);
+        totalc = await getByCategory(store,con,categoria,asignadas,func,limite);
         totalg += totalc;
         await fquery(con,'UPDATE tienda_categorias SET last_date = NOW(), cantidad = ? WHERE store = ? AND categoria = ? ',[totalc,store,categoria]);
     }
