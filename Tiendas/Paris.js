@@ -372,6 +372,7 @@ async function getByCategory(category,category_path){
                         normal_price = parseFloat(price_tags2[0].textContent.trim().replace('$','').split('.').join(''));
                     }
                 }else{
+                    console.log("Check tipo 1 "+url);
                     continue;
                 }
 
@@ -381,7 +382,7 @@ async function getByCategory(category,category_path){
                 }
 
                 if(best_price=='N/A' || isNaN(best_price)){
-                    console.log(url);
+                    console.log("Check tipo 2 "+url);
                     continue;
                 }
                 else if(normal_price=='N/A' || isNaN(normal_price)){
