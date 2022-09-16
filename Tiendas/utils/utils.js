@@ -189,7 +189,7 @@ async function Monitoriar (store,func){
     var totalc = 0;
     for (const [categoria, asignadas] of Object.entries(categories)) {
         console.log(categoria, asignadas);
-        totalc = await getByCategory(store,con,categoria,asignadas,func,limite);
+        totalc = await getByCategory(con,store,categoria,asignadas,func,limite);
         totalg += totalc;
         await fquery(con,'UPDATE tienda_categorias SET last_date = NOW(), cantidad = ? WHERE store = ? AND categoria = ? ',[totalc,store,categoria]);
     }
