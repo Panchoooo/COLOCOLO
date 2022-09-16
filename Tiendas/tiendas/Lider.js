@@ -28,7 +28,7 @@ async function getBySubCategory(category,category_path,limite){
         'discount_asc',
         'discount_desc',
     ]
-    for( var s = 0 ; sorters.length; s++){
+    for( var s = 0 ; s<sorters.length; s++){
 
         var data = JSON.stringify({
             "categories": "Decohogar/Menaje_Cocina",
@@ -61,8 +61,7 @@ async function getBySubCategory(category,category_path,limite){
             Productos.push(Producto);
         }
         
-        console.log('Items cargado de la categoria '+category+' | '+category_path+'  Pagina:'+page+' , Cantidad:'+  productos.length);
-        page+=1;
+        console.log('Items cargado de la categoria '+category+' | '+category_path+'  Sort:'+sorters[s]+' , Cantidad:'+  productos.length);
     }
     
     console.log(Productos.length)
