@@ -49,10 +49,11 @@ async function getBySubCategory(category,category_path,limite){
             console.log("ERROR")
         }
         var productos = data['products'];
-        for(var p = 0; p < data['products'].length || p < 3; p++){
+        for(var p = 0; p < data['products'].length ; p++){
             if(Productos.includes(productos[p]['sku'])){
                 continue;
             }
+
             var url = "https://www.lider.cl/catalogo/product/sku/"+productos[p]['sku'];
 
             var price_container = productos[p]['price'];
