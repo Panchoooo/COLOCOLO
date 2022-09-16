@@ -6,9 +6,14 @@ var store = "Lider";
 async function main(){
     await utils.Monitoriar(store,getBySubCategory);
 }
-main()
 
+main()
+//getBySubCategory("Decohogar","Decohogar/Decoración/Alfombras",1);
 async function getBySubCategory(category,category_path,limite){
+    var config = await utils.getConfigTienda(store);
+    var con = config[0];
+    var limite = config[1];
+    var categories = config[2];
 
     console.log('\nSe ha iniciado la categoria '+category+ ' | '+category_path+'');
     var path = 'https://apps.lider.cl/catalogo/bff/category';
@@ -44,13 +49,13 @@ async function getBySubCategory(category,category_path,limite){
             console.log("ERROR")
         }
         var productos = data['products'];
-        for(var p = 0; p < 5; p++){
+        for(var p = 0; p < data['products'].length; p++){
             var url = "https://www.lider.cl/catalogo/product/sku/"+productos[p]['sku'];
 
-            var normal_price = parseFloat(productos[p]['BasePriceReference'].trim().replace('$','').split('.').join('')); 
-            var offer_price = parseFloat(productos[p]['BasePriceSales'].trim().replace('$','').split('.').join(''));
+            var normal_price = parseFloat(productos[p]['BasePriceReference']); 
+            var offer_price = parseFloat(productos[p]['BasePriceSales']);
             if(productos[p]['BasePriceTLMC'] != 0){
-                offer_price = parseFloat(productos[p]['BasePriceTLMC'].trim().replace('$','').split('.').join(''));
+                offer_price = parseFloat(productos[p]['BasePriceTLMC']);
             };
             var best_price = offer_price;
             if(offer_price>normal_price){
@@ -58,6 +63,7 @@ async function getBySubCategory(category,category_path,limite){
             }
 
             Producto = [store,category,productos[p]['ID'],url,productos[p]['images']['defaultImage'],null,null,productos[p]['displayName'],normal_price,offer_price,best_price];
+            await utils.fquery(con,"DELETE FROM tiendasv2 WHERE keey = ?",[productos[p]['ID']]);
             Productos.push(Producto);
         }
         
