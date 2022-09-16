@@ -64,6 +64,7 @@ async function getBySubCategory(category,category_path,limite){
         console.log('Items cargado de la categoria '+category+' | '+category_path+'  Sort:'+sorters[s]+' , Cantidad:'+  productos.length);
     }
     
-    console.log(Productos.length)
+    console.log(Productos.length);
+    return Productos;
 }
 
