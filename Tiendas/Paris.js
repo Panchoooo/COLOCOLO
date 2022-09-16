@@ -415,7 +415,7 @@ async function Monitoriar(categoria,asignada){
 
 async function LoadCategorias(){
     await delay(3000)
-    var params = await fquery('SELECT limite from parametros where id = ?',[1]);
+    var params = await fquery('SELECT limite from parametros where store = ?',[store]);
     console.log(params[0].limite);
     limite = params[0].limite;
     categories = await fquery('SELECT categoria from tienda_categorias WHERE store = ? and activo = 1 ORDER BY id desc',[store]);
