@@ -398,13 +398,15 @@ async function getByCategory(category,category_path){
 
 async function Monitoriar(categoria,asignada){
 
+    var total = 0;
     for(var i = 0 ; i<asignada.length; i++){
         p = await getByCategory(categoria,asignada[i]);
         if(p!=1 && p!=2){
             await almacenar(p);
+            total += p.length;
         }
-
     };
+    return total
 }
 
 async function LoadCategorias(){
@@ -413,11 +415,11 @@ async function LoadCategorias(){
     console.log(limite[0].limite);
     limite = limite[0].limite;
     categories = await fquery('SELECT categoria from tienda_categorias WHERE store = ? and activo = 1 ORDER BY id desc',[store]);
-
+    var total = 0;
     if(categories.length > 0){
         for (var c = 0 ; c<categories.length; c++){
+            total = 0;
             var categoria = categories[c].categoria;
-            
             category_paths = await fquery('SELECT subcategory from tienda_subcategorias WHERE store = ? and category = ?',[store,categoria]);
 
             var asignadas = [];
@@ -429,10 +431,10 @@ async function LoadCategorias(){
             console.log("Subcategorias:");
             console.log(asignadas);
             if(asignadas.length > 0){
-                await Monitoriar(categoria,asignadas);
+                total = await Monitoriar(categoria,asignadas);
             }
 
-            await fquery('UPDATE tienda_categorias SET last_date = NOW() WHERE store = ? AND categoria = ?',[store,categoria]);
+            await fquery('UPDATE tienda_categorias SET last_date = NOW() WHERE store = ? AND categoria = ? and cantidad = ?',[store,categoria,total]);
         };
     }
     process.exit(0);
