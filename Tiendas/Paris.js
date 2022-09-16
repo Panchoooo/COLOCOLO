@@ -376,6 +376,7 @@ async function getByCategory(category,category_path){
                 }
 
                 if(normal_price=='N/A' || isNaN(normal_price)){
+                    console.log(url)
                     continue;
                 }
 
@@ -411,9 +412,9 @@ async function Monitoriar(categoria,asignada){
 
 async function LoadCategorias(){
     await delay(3000)
-    limite = await fquery('SELECT limite from parametros where id = ?',[1]);
-    console.log(limite[0].limite);
-    limite = limite[0].limite;
+    var params = await fquery('SELECT limite from parametros where id = ?',[1]);
+    console.log(params[0].limite);
+    limite = params[0].limite;
     categories = await fquery('SELECT categoria from tienda_categorias WHERE store = ? and activo = 1 ORDER BY id desc',[store]);
     var total = 0;
     if(categories.length > 0){
