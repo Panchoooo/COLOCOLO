@@ -145,7 +145,7 @@ async function almacenar(con,Productos){
             else if(rs.length==0){
                 //console.log("Producto nuevo "+Producto[2])
                 var dif = 100-Producto[10]*100/Producto[8];
-                ra = await fquery(con,'INSERT INTO tiendasv2 (store,category,keey,url,picture_url,category_url,seller,name,normal_price,offer_price,best_price,fecha) VALUES (?,?,?,?,?,?,?,?,?,?,?,NOW())  ',Productos[p]);
+                ra = await fquery(con,'INSERT INTO tiendasv2 (store,category,keey,url,picture_url,category_url,seller,name,normal_price,offer_price,best_price,fecha,last_date) VALUES (?,?,?,?,?,?,?,?,?,?,?,NOW(),NOW())  ',Productos[p]);
                 if(Producto[10] < Producto[8] && dif>30){
                     getBody("http://localhost:5000/send/"+Producto[2]);
                     if(dif > 58){
