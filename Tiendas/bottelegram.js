@@ -8,6 +8,7 @@ var i = process.argv[2];
 var token = null ; 
 var puerto = null;
 var msj = "" ;
+var f = true;
 /*
 var con = mysql.createConnection({
     host: "localhost",
@@ -44,6 +45,7 @@ if( i == 3){
   users = ['-1001578014454'];
 
     puerto = 5002;
+    f = false;
 
 }
 
@@ -375,7 +377,10 @@ app.get("/apagar", (req, res) => {
 
 app.use(express.static('public'));
 
-check_ids();
+if(f){
+    check_ids();
+}
+
 
 async function check_ids(){
     console.log("Enviar mensajes");

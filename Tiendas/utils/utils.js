@@ -1,6 +1,7 @@
 var request = require('request')
 const fs = require('fs');
 var mysql = require('mysql');
+const delay = ms => new Promise(res => setTimeout(res, ms));
 
 // Obtiene info del archivo parametros.txt 
 function getOptions(){
@@ -101,7 +102,7 @@ async function almacenar(con,Productos){
 
 // Funcion que genera conexion a bdd y obtiene caracteristicas de la tienda 
 // in: store | out:con,limite,categories
-async function initTienda(store){
+async function getConfigTienda(store){
     var options = getOptions(); // bdd
     var con = mysql.createConnection({
         host: options["host"],
@@ -112,7 +113,7 @@ async function initTienda(store){
       });
 
     var params = await fquery(con,'SELECT limite from parametros where store = ?',[store]);
-    limite = params[0].limite;
+    var limite = params[0].limite;
 
     categories = await fquery(con,'SELECT categoria from tienda_categorias WHERE store = ? and activo = 1 ORDER BY id desc',[store]);
     var total = 0;
@@ -133,4 +134,37 @@ async function initTienda(store){
 
 }
 
-module.exports = { getBody,getOptions,fquery,almacenar,initTienda };
+async function getByCategory(con,categoria,asignada,func,limite){
+    var total = 0;
+    for(var i = 0 ; i<asignada.length; i++){
+        p = await func(categoria,asignada[i],limite);
+        if(p!=1 && p!=2){
+            await almacenar(con,p);
+            total += p.length;
+        }
+    };
+    return total
+}
+
+async function Monitoriar (store,func){
+    var config = await getConfigTienda(store);
+    var con = config[0];
+    var limite = config[1];
+    var categories = config[2];
+   
+    var totalg = 0;
+    var totalc = 0;
+    for (const [categoria, asignadas] of Object.entries(categories)) {
+        console.log(categoria, asignadas);
+        totalc = await getByCategory(con,categoria,asignadas,func,limite);
+        totalg += totalc;
+        await fquery(con,'UPDATE tienda_categorias SET last_date = NOW(), cantidad = ? WHERE store = ? AND categoria = ? ',[totalc,store,categoria]);
+    }
+
+    console.log(totalg)
+    process.exit(0);
+    return;
+}
+
+
+module.exports = {delay, getBody, getOptions, fquery, almacenar, getConfigTienda, getByCategory,Monitoriar};

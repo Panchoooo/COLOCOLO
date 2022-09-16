@@ -1,49 +1,15 @@
-var request = require('request')
 const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
-const delay = ms => new Promise(res => setTimeout(res, ms));
-var mysql = require('mysql');
-const utils = require("./utils.js");
+const utils = require("../utils/utils.js");
 
 var store = "Paris";
-var category_paths = [];
-var categories = [];
-var limite = 0;
-var con = null;
-
-async function main (){
-    config = await utils.initTienda(store);
-    con = config[0];
-    limite = config[1];
-    categories = config[2];
-   
-    var totalg = 0;
-    var totalc = 0;
-    for (const [categoria, asignadas] of Object.entries(categories)) {
-        console.log(categoria, asignadas);
-        totalc = await Monitoriar(categoria,asignadas);
-        totalg += totalc;
-        await utils.fquery(con,'UPDATE tienda_categorias SET last_date = NOW(), cantidad = ? WHERE store = ? AND categoria = ? ',[totalc,store,categoria]);
-    }
-
-    console.log(totalg)
-    process.exit(0);
-    return;
+async function main(){
+    await utils.Monitoriar(store,getBySubCategory);
 }
+main()
 
-async function Monitoriar(categoria,asignada){
-    var total = 0;
-    for(var i = 0 ; i<asignada.length; i++){
-        p = await getByCategory(categoria,asignada[i]);
-        if(p!=1 && p!=2){
-            await utils.almacenar(con,p);
-            total += p.length;
-        }
-    };
-    return total
-}
 
-async function getByCategory(category,category_path){
+async function getBySubCategory(category,category_path,limite){
 
     console.log('\nSe ha iniciado la categoria '+category+ ' | '+category_path+'');
     var path = 'https://www.paris.cl';
@@ -158,4 +124,3 @@ async function getByCategory(category,category_path){
     }
 }
 
-main();
