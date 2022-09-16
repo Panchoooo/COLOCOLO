@@ -50,6 +50,9 @@ async function getBySubCategory(category,category_path,limite){
         }
         var productos = data['products'];
         for(var p = 0; p < data['products'].length || p < 3; p++){
+            if(Productos.includes(productos[p]['sku'])){
+                continue;
+            }
             console.log(productos[p]['price'])
             var url = "https://www.lider.cl/catalogo/product/sku/"+productos[p]['sku'];
 
@@ -70,7 +73,7 @@ async function getBySubCategory(category,category_path,limite){
                 best_price = normal_price;
             }
 
-            Producto = [store,category,productos[p]['ID'],url,productos[p]['images']['defaultImage'],null,null,productos[p]['displayName'],normal_price,offer_price,best_price];
+            Producto = [store,category,productos[p]['sku'],url,productos[p]['images']['defaultImage'],null,null,productos[p]['displayName'],normal_price,offer_price,best_price];
             await utils.fquery(con,"DELETE FROM tiendasv2 WHERE keey = ?",[productos[p]['ID']]);
             Productos.push(Producto);
         }
