@@ -2,7 +2,7 @@ var request = require('request')
 const fs = require('fs');
 var mysql = require('mysql');
 const delay = ms => new Promise(res => setTimeout(res, ms));
-
+var delta = 5;
 // Obtiene info del archivo parametros.txt 
 function getOptions(){
     options = {}
@@ -129,12 +129,10 @@ async function almacenar(con,Productos){
         var Producto = Productos[p];
         try {
             rs = await fquery(con,'SELECT best_price from tiendasv2 where store = ? and keey = ?',[Producto[0],Producto[2]]);
-            if(Producto[2] == "1000000000769"){
-                console.log("p:"+Producto[10])
-            }
-            if(rs.length>0  && rs[0].best_price != Producto[10] ){
-                console.log("Actualizacion de Producto ")
-                console.log("rs"+rs[0].best_price)
+            if(rs.length>0  && rs[0].best_price > Producto[10]-delta ){
+                console.log("Actualizacion de Producto ");
+                console.log("rs");
+                console.log(rs);
                 ra = await fquery(con,'INSERT INTO tiendas_log (store,keey,price,fecha) VALUES (?,?,?,NOW())  ',[Producto[0],Producto[2],rs[0].best_price]);
                 console.log("params:"+[Producto[10],Producto[8],Producto[0],Producto[2]]);
                 ra = await fquery(con,'UPDATE tiendasv2 SET best_price = ?,normal_price = ?, last_date = NOW() WHERE store = ? and keey = ?  ',[Producto[10],Producto[8],Producto[0],Producto[2]]);

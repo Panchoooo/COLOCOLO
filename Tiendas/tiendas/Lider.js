@@ -49,7 +49,7 @@ async function getBySubCategory(category,category_path,limite){
             console.log("ERROR")
         }
         var productos = data['products'];
-        for(var p = 0; p < data['products'].length ; p++){
+        for(var p = 0; p < data['products'].length || p<2; p++){
             if(Productos.includes(productos[p]['sku'])){
                 continue;
             }
@@ -73,6 +73,9 @@ async function getBySubCategory(category,category_path,limite){
             }
 
             Producto = [store,category,productos[p]['sku'],url,productos[p]['images']['defaultImage'],null,null,productos[p]['displayName'],normal_price,offer_price,best_price];
+            
+            if(productos[p]['sku']== '1000000000769'){
+            console.log(Producto)}
             Productos.push(Producto);
         }
         
