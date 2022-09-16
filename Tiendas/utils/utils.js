@@ -170,7 +170,7 @@ async function getByCategory(con,store,categoria,asignada,func,limite){
             await almacenar(con,p);
             total += p.length;
             
-            await fquery(con,'UPDATE tienda_subcategorias SET last_date = NOW(), cantidad = ? WHERE store = ? AND categoria = ? AND subcategoria = ? ',[p.length,store,categoria,asignada[i]]);
+            await fquery(con,'UPDATE tienda_subcategorias SET last_date = NOW(), cantidad = ? WHERE store = ? AND category = ? AND subcategory = ? ',[p.length,store,categoria,asignada[i]]);
         }
     };
     return total
