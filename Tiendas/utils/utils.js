@@ -16,7 +16,7 @@ function getOptions(){
     return options;
 }
 
-// Handler para requests
+// Handler para requests GET simple
 async function getBody(url) {
     try {
         const options = {
@@ -39,7 +39,42 @@ async function getBody(url) {
     }
 
 }
-  
+// Handler para requests GET simple
+async function requestUtils(url,data,method) {
+    try {
+        var options = {
+            'method': 'POST',
+            'url': 'https://apps.lider.cl/catalogo/bff/category',
+            'headers': {
+              'Content-Type': 'application/json',
+              'Cookie': 'TS018b674b=01538efd7c5788056cc1ddf4c7c21a201794b991b542e025b1881767c6baabcdca120a1c1fd5bc324ebea15e62f7764ecb2609771b'
+            },
+            body: JSON.stringify({
+              "categories": "Decohogar/Menaje_Cocina",
+              "page": 1,
+              "facets": [],
+              "sortBy": "",
+              "hitsPerPage": 1000
+            })
+          
+          };
+        return new Promise(function(resolve, reject) {
+            request.post(options, function(err, resp, body) {
+            if (err) {
+                console.log('Error #5\n'+err);
+                reject(err);
+            } else {
+                resolve(body);
+            }
+            })
+        })
+    } catch (error) {
+        console.log('Error #3\n'+error)
+        return undefined;
+    }
+
+} 
+
 // Handler para querys
 async function fquery(con,qry,Producto) {
     try {
@@ -60,6 +95,39 @@ async function fquery(con,qry,Producto) {
     }
 }
 
+// Funcion que genera conexion a bdd y obtiene caracteristicas de la tienda 
+// in: store | out:con,limite,categories
+async function getConfigTienda(store){
+    var options = getOptions(); // bdd
+    var con = mysql.createConnection({
+        host: options["host"],
+        user: options["user"],
+        password: options["password"],
+        database: options["database"],
+        port:options["port"]
+      });
+
+    var params = await fquery(con,'SELECT limite from parametros where store = ?',[store]);
+    var limite = params[0].limite;
+
+    categories = await fquery(con,'SELECT categoria from tienda_categorias WHERE store = ? and activo = 1 ORDER BY id desc',[store]);
+    var total = 0;
+    var categoriesdict = {}
+    if(categories.length > 0){
+        for (var c = 0 ; c<categories.length; c++){
+            total = 0;
+            var categoria = categories[c].categoria;
+            category_paths = await fquery(con,'SELECT subcategory from tienda_subcategorias WHERE store = ? and category = ?',[store,categoria]);
+            var asignadas = [];
+            category_paths.forEach(subcategoria => {
+                asignadas.push(subcategoria.subcategory);
+            });
+            categoriesdict[categoria]=asignadas;
+        };
+    }
+    return [con,limite,categoriesdict];
+
+}
 
 // Funcion que recibe una conexion y productos con sus parametros para ser almacenados o actualizados.
 async function almacenar(con,Productos){
@@ -99,41 +167,8 @@ async function almacenar(con,Productos){
     }
 }
 
-
-// Funcion que genera conexion a bdd y obtiene caracteristicas de la tienda 
-// in: store | out:con,limite,categories
-async function getConfigTienda(store){
-    var options = getOptions(); // bdd
-    var con = mysql.createConnection({
-        host: options["host"],
-        user: options["user"],
-        password: options["password"],
-        database: options["database"],
-        port:options["port"]
-      });
-
-    var params = await fquery(con,'SELECT limite from parametros where store = ?',[store]);
-    var limite = params[0].limite;
-
-    categories = await fquery(con,'SELECT categoria from tienda_categorias WHERE store = ? and activo = 1 ORDER BY id desc',[store]);
-    var total = 0;
-    var categoriesdict = {}
-    if(categories.length > 0){
-        for (var c = 0 ; c<categories.length; c++){
-            total = 0;
-            var categoria = categories[c].categoria;
-            category_paths = await fquery(con,'SELECT subcategory from tienda_subcategorias WHERE store = ? and category = ?',[store,categoria]);
-            var asignadas = [];
-            category_paths.forEach(subcategoria => {
-                asignadas.push(subcategoria.subcategory);
-            });
-            categoriesdict[categoria]=asignadas;
-        };
-    }
-    return [con,limite,categoriesdict];
-
-}
-
+// Funcion que utiliza la funcion de la Tienda que obtiene productos y luego almacena
+// func utilizada en cada subcategoria asignada a las categorias de la tienda
 async function getByCategory(con,categoria,asignada,func,limite){
     var total = 0;
     for(var i = 0 ; i<asignada.length; i++){
@@ -146,6 +181,9 @@ async function getByCategory(con,categoria,asignada,func,limite){
     return total
 }
 
+// Funcion main que obtiene la configuracion de la tienda, sus categorias y inicia el monitoreo
+// Recibe la funcion auxiliar respectiva a la tienda para obtener los productos
+// Responsabilidad del codigo de cada tienda retornar los productos con el formato respectivo.
 async function Monitoriar (store,func){
     var config = await getConfigTienda(store);
     var con = config[0];
@@ -167,4 +205,4 @@ async function Monitoriar (store,func){
 }
 
 
-module.exports = {delay, getBody, getOptions, fquery, almacenar, getConfigTienda, getByCategory,Monitoriar};
+module.exports = {delay, getBody, requestUtils, getOptions, fquery, almacenar, getConfigTienda, getByCategory,Monitoriar};
