@@ -47,10 +47,10 @@ async function getBySubCategory(category,category_path,limite){
         for(var p = 0; p < 5; p++){
             var url = "https://www.lider.cl/catalogo/product/sku/"+productos[p]['sku'];
 
-            var normal_price = productos[p]['BasePriceReference'];
-            var offer_price = productos[p]['BasePriceSales'];
+            var normal_price = parseFloat(productos[p]['BasePriceReference'].trim().replace('$','').split('.').join('')); 
+            var offer_price = parseFloat(productos[p]['BasePriceSales'].trim().replace('$','').split('.').join(''));
             if(productos[p]['BasePriceTLMC'] != 0){
-                offer_price = productos[p]['BasePriceTLMC'];
+                offer_price = parseFloat(productos[p]['BasePriceTLMC'].trim().replace('$','').split('.').join(''));
             };
             var best_price = offer_price;
             if(offer_price>normal_price){
