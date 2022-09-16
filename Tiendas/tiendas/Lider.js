@@ -52,7 +52,6 @@ async function getBySubCategory(category,category_path,limite){
         for(var p = 0; p < data['products'].length; p++){
             var url = "https://www.lider.cl/catalogo/product/sku/"+productos[p]['sku'];
 
-            console.log(productos[p])
             var normal_price = parseFloat(productos[p]['price']['BasePriceReference']); 
             var offer_price = parseFloat(productos[p]['price']['BasePriceSales']);
             if(productos[p]['BasePriceTLMC'] != 0){
