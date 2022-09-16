@@ -3,8 +3,8 @@ const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 const delay = ms => new Promise(res => setTimeout(res, ms));
 
-var limite = 201
-var store = "Paris"
+var limite = 201;
+var store = "Paris";
 var mysql = require('mysql');
 var con = mysql.createConnection({
     host: "db-mysql-nyc1-93755-do-user-12336633-0.b.db.ondigitalocean.com",
@@ -169,7 +169,7 @@ var category_paths = [
      'Muebles > Oficina > Sillas de Escritorio', 1],
     ['tecnologia/gamers/escritorios-gamer/', ['GAMING_DESK'],
      'Tecno > Gamer > Escritorios Gamer', 1]
-]
+];
 
 var categories = [
     'Projector',
@@ -205,7 +205,7 @@ var categories = [
     'CellAccesory',
     'GAMING_CHAIR',
     'GAMING_DESK'
-]
+];
 
 async function getBody(url) {
     try {
@@ -216,7 +216,7 @@ async function getBody(url) {
         return new Promise(function(resolve, reject) {
             request.get(options, function(err, resp, body) {
             if (err) {
-                console.log('Error #5\n'+err)
+                console.log('Error #5\n'+err);
                 reject(err);
             } else {
                 resolve(body);
@@ -235,59 +235,59 @@ async function fquery(qry,Producto) {
         return new Promise(function(resolve, reject) {
             con.query(qry, Producto, function(err,result) {
                 if(err){
-                    console.log(err)
-                    console.log(Producto)
+                    console.log(err);
+                    console.log(Producto);
 
-                    resolve(-1)
+                    resolve(-1);
                 }
                 resolve(result);
             }); 
         })
     } catch (error) {
-        console.log('Error #3\n'+error)
+        console.log('Error #3\n'+error);
         return undefined;
     }
 }
 
 async function almacenar(Productos){
-    console.log("Cantidad de productos a procesar :"+ Productos.length)
+    console.log("Cantidad de productos a procesar :"+ Productos.length);
     for(var p = 0 ; p < Productos.length ; p++){
-        var Producto = Productos[p]
+        var Producto = Productos[p];
         try {
-            rs = await fquery('SELECT best_price from tiendasv2 where store = ? and keey = ?',[Producto[0],Producto[2]])
+            rs = await fquery('SELECT best_price from tiendasv2 where store = ? and keey = ?',[Producto[0],Producto[2]]);
             if(rs.length>0  && rs[0].best_price != Producto[10] ){
                 //console.log("Actualizacion de Producto "+Producto[2])
 
-                ra = await fquery('UPDATE tiendasv2 SET best_price = ?,normal_price = ?, last_date = NOW() WHERE store = ? and keey = ?  ',[Producto[10],Producto[8],Producto[0],Producto[2]])
-                var dif = 100-Producto[10]*100/rs[0].best_price
+                ra = await fquery('UPDATE tiendasv2 SET best_price = ?,normal_price = ?, last_date = NOW() WHERE store = ? and keey = ?  ',[Producto[10],Producto[8],Producto[0],Producto[2]]);
+                var dif = 100-Producto[10]*100/rs[0].best_price;
                 if(rs[0].best_price > Producto[10] && (dif>30)){
-                    getBody("http://localhost:5000/send/"+Producto[2])
+                    getBody("http://localhost:5000/send/"+Producto[2]);
                     if(dif > 58){
-                        getBody("http://localhost:5001/send/"+Producto[2])
+                        getBody("http://localhost:5001/send/"+Producto[2]);
                     }
                 }
             }
             else if(rs.length==0){
                 //console.log("Producto nuevo "+Producto[2])
-                var dif = 100-Producto[10]*100/Producto[8]
-                ra = await fquery('INSERT INTO tiendasv2 (store,category,keey,url,picture_url,category_url,seller,name,normal_price,offer_price,best_price,fecha) VALUES (?,?,?,?,?,?,?,?,?,?,?,NOW())  ',Productos[p])
+                var dif = 100-Producto[10]*100/Producto[8];
+                ra = await fquery('INSERT INTO tiendasv2 (store,category,keey,url,picture_url,category_url,seller,name,normal_price,offer_price,best_price,fecha) VALUES (?,?,?,?,?,?,?,?,?,?,?,NOW())  ',Productos[p]);
                 if(Producto[10] < Producto[8] && dif>30){
-                    getBody("http://localhost:5000/send/"+Producto[2])
+                    getBody("http://localhost:5000/send/"+Producto[2]);
                     if(dif > 58){
-                        getBody("http://localhost:5001/send/"+Producto[2])
+                        getBody("http://localhost:5001/send/"+Producto[2]);
                     }
                 }
             }
             //console.log(r)
         } catch (error) {
-            console.log('Error #4\n'+error)
+            console.log('Error #4\n'+error);
         }
     }
 }
 
 async function getByCategory(category,category_path){
 
-    console.log('\nSe ha iniciado la categoria '+category+ ' | '+category_path+'')
+    console.log('\nSe ha iniciado la categoria '+category+ ' | '+category_path+'');
     var path = 'https://www.paris.cl';
 
     var category_url = null;
@@ -311,9 +311,9 @@ async function getByCategory(category,category_path){
     var page = 0;
     while( page <= limite){
         if(page == limite){
-            console.log("Se ha alcanzado el limite")
+            console.log("Se ha alcanzado el limite");
             //await almacenar(Productos)
-            return Productos
+            return Productos;
         }    
 
         // Request para obtener datos
@@ -323,15 +323,15 @@ async function getByCategory(category,category_path){
         items = dom.window.document.getElementById('search-result-items'); // Div con los N productos
 
         if(page == 0 && (items == undefined || items.childElementCount == 0)){
-            console.log('Error #1 con la categoria '+category+ ' | '+ category_url)
+            console.log('Error #1 con la categoria '+category+ ' | '+ category_url);
             return -1
         }
         else if(page != 0 && (items.childElementCount == 0)){
-            page = 0
-            return Productos
+            page = 0;
+            return Productos;
         }
         else if(page != 0 && (items == undefined)){
-            console.log('Error #2 con la categoria '+category+ ' | '+ category_url)
+            console.log('Error #2 con la categoria '+category+ ' | '+ category_url);
             return -2
         }else{
             for(var i = 0 ; i < items.childElementCount ; i++){
@@ -345,20 +345,20 @@ async function getByCategory(category,category_path){
                     continue;
                 }
                 // Atributos - Generales
-                picture_urls = productodiv.getElementsByClassName('img-prod')[0].getAttribute('data-src').split("?sw=")[0]
-                url = item.getElementsByTagName('a')[0].href
+                picture_urls = productodiv.getElementsByClassName('img-prod')[0].getAttribute('data-src').split("?sw=")[0];
+                url = item.getElementsByTagName('a')[0].href;
                 if(!item.getElementsByTagName('a')[0].href.includes('https://www.paris.cl')){
-                    url = path+item.getElementsByTagName('a')[0].href
+                    url = path+item.getElementsByTagName('a')[0].href;
                 }
                 name = item.getElementsByClassName('ellipsis_text')[0].textContent.replace('"','');
                 seller = item.getElementsByClassName('brand-product-plp')[0].textContent;
 
                 // Atributos - Precios
-                price_tags = item.getElementsByClassName('price__text')
+                price_tags = item.getElementsByClassName('price__text');
                 if(price_tags.length == 2){
                     offer_price = parseFloat(price_tags[0].textContent.trim().replace('$','').split('.').join(''));
                     normal_price = parseFloat(price_tags[1].textContent.trim().replace('$','').split('.').join(''));
-                    var price_tags2 = item.getElementsByClassName('price__text-sm')
+                    var price_tags2 = item.getElementsByClassName('price__text-sm');
                     if(price_tags2.length != 0){
                         normal_price = parseFloat(price_tags2[0].textContent.trim().replace('$','').split('.').join(''));
                     }
@@ -367,28 +367,28 @@ async function getByCategory(category,category_path){
                     offer_price = parseFloat(price_tags[0].textContent.trim().replace('$','').split('.').join(''));
                     normal_price = parseFloat(price_tags[0].textContent.trim().replace('$','').split('.').join(''));
 
-                    var price_tags2 = item.getElementsByClassName('price__text-sm')
+                    var price_tags2 = item.getElementsByClassName('price__text-sm');
                     if(price_tags2.length != 0){
                         normal_price = parseFloat(price_tags2[0].textContent.trim().replace('$','').split('.').join(''));
                     }
                 }else{
-                    continue
+                    continue;
                 }
 
                 if(normal_price=='N/A' || isNaN(normal_price)){
-                    continue
+                    continue;
                 }
 
                 best_price = offer_price;
                 if(offer_price > normal_price){
-                    best_price = normal_price
+                    best_price = normal_price;
                 }
 
                 // Arreglo Producto
                 Producto = [store,category,key,url,picture_urls,category_url,seller,name,normal_price,offer_price,best_price];
-                Productos.push(Producto)
+                Productos.push(Producto);
             }
-            console.log('Items cargado de la categoria '+category+' | '+category_path+'  Pagina:'+page+' , Cantidad:'+  items.childElementCount+ ' , Cargados:'+Productos.length)
+            console.log('Items cargado de la categoria '+category+' | '+category_path+'  Pagina:'+page+' , Cantidad:'+  items.childElementCount+ ' , Cargados:'+Productos.length);
             page+=1;
         }
 
@@ -399,9 +399,9 @@ async function getByCategory(category,category_path){
 async function Monitoriar(categoria,asignada){
 
     for(var i = 0 ; i<asignada.length; i++){
-        p = await getByCategory(categoria,asignada[i])
+        p = await getByCategory(categoria,asignada[i]);
         if(p!=1 && p!=2){
-            await almacenar(p)
+            await almacenar(p);
         }
 
     };
@@ -439,4 +439,4 @@ async function LoadCategorias(){
 
 }
 
-LoadCategorias()
+LoadCategorias();
