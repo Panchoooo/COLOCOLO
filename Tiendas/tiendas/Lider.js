@@ -36,7 +36,7 @@ async function getBySubCategory(category,category_path,limite){
     for( var s = 0 ; s<sorters.length; s++){
 
         var data = JSON.stringify({
-            "categories": "Decohogar/Menaje_Cocina",
+            "categories": category_path,
             "page": 1,
             "facets": [],
             "sortBy": sorters[s],
