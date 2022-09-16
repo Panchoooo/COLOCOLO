@@ -129,7 +129,7 @@ async function almacenar(con,Productos){
         var Producto = Productos[p];
         try {
             rs = await fquery(con,'SELECT best_price from tiendasv2 where store = ? and keey = ?',[Producto[0],Producto[2]]);
-            if(Producto[2] = "1000000000769"){
+            if(Producto[2] == "1000000000769"){
                 console.log("p:"+Producto[10])
             }
             if(rs.length>0  && rs[0].best_price != Producto[10] ){
