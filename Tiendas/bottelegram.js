@@ -108,7 +108,7 @@ async function select(){
 
             var log = "";
             if(result_log.length > 0){
-                log = "\n\nPrecios anteriores ⚖️\n"
+                log = "\n\nHistorial de ofertas ⚖️\n"
                 for(var rl = 0; rl < result_log.length ; rl++){
                     var p = new Intl.NumberFormat('en', { style: 'currency', currency: 'USD' }).format(result_log[rl].price).split(".")[0].replace(",",".");
                     var f = new Date(result_log[rl].fecha)
