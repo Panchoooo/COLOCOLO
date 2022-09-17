@@ -2,10 +2,10 @@ const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 const utils = require("../utils/utils.js");
 
-var store = "Paris";
+var store = "Ripley";
 async function main(){
     var a = 0;
-    while(a == 1){
+    while(a == 0){
         await utils.Monitoriar(store,getBySubCategory);
     }
 }
