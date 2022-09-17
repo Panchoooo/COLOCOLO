@@ -1,19 +1,17 @@
-const jsdom = require('jsdom');
-const { JSDOM } = jsdom;
 const utils = require("../utils/utils.js");
 
 var store = "Lider";
 async function main(){
-    await utils.Monitoriar(store,getBySubCategory);
+    var a = 0;
+    while(a == 1){
+        await utils.Monitoriar(store,getBySubCategory);
+    }
 }
-
 main()
+
+
 //getBySubCategory("Decohogar","Decohogar/Decoración/Alfombras",1);
 async function getBySubCategory(category,category_path,limite){
-    var config = await utils.getConfigTienda(store);
-    var con = config[0];
-    var limite = config[1];
-    var categories = config[2];
 
     console.log('\nSe ha iniciado la categoria '+category+ ' | '+category_path+'');
     var path = 'https://apps.lider.cl/catalogo/bff/category';
@@ -80,7 +78,6 @@ async function getBySubCategory(category,category_path,limite){
         console.log('Items cargado de la categoria '+category+' | '+category_path+'  Sort:'+sorters[s]+' , Cantidad:'+  productos.length);
     }
     
-    console.log(Productos.length);
     return Productos;
 }
 

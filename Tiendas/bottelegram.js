@@ -69,6 +69,7 @@ async function select(){
         try {
             var body = "";
             for(var i = 0; i < result.length ; i++){
+                
                 var name = result[i].name;
                 var store = result[i].store;
                 var url = result[i].url;

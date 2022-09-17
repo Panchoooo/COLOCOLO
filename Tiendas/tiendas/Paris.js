@@ -4,9 +4,13 @@ const utils = require("../utils/utils.js");
 
 var store = "Paris";
 async function main(){
-    await utils.Monitoriar(store,getBySubCategory);
+    var a = 0;
+    while(a == 1){
+        await utils.Monitoriar(store,getBySubCategory);
+    }
 }
 main()
+
 
 
 async function getBySubCategory(category,category_path,limite){
