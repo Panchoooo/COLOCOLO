@@ -1,6 +1,4 @@
 run:
-	git pull
-	pm2 delete all
 	
 	pm2 start bottelegram.js  --name "Telegram Free" -- 1
 	pm2 start bottelegram.js  --name "Telegram Vip" -- 2
