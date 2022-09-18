@@ -1,4 +1,5 @@
 const utils = require("../utils/utils.js");
+var mysql = require('mysql');
 
 var store = "Lider";
 var options = utils.getOptions(); // bdd

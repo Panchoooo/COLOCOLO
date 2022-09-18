@@ -1,6 +1,5 @@
 var request = require('request')
 const fs = require('fs');
-var mysql = require('mysql');
 const delay = ms => new Promise(res => setTimeout(res, ms));
 var delta = 5;
 // Obtiene info del archivo parametros.txt 

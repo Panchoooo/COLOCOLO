@@ -1,5 +1,6 @@
 const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
+var mysql = require('mysql');
 const utils = require("../utils/utils.js");
 
 var store = "Paris";

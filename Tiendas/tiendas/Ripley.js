@@ -1,4 +1,5 @@
 const jsdom = require('jsdom');
+var mysql = require('mysql');
 const { JSDOM } = jsdom;
 const utils = require("../utils/utils.js");
 var store = "Ripley";
