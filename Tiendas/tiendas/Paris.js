@@ -3,10 +3,18 @@ const { JSDOM } = jsdom;
 const utils = require("../utils/utils.js");
 
 var store = "Paris";
+var options = utils.getOptions(); // bdd
+var con = mysql.createConnection({
+    host: options["host"],
+    user: options["user"],
+    password: options["password"],
+    database: options["database"],
+    port:options["port"]
+  });
 async function main(){
     var a = 0;
     while(a == 0){
-        await utils.Monitoriar(store,getBySubCategory);
+        await utils.Monitoriar(con,store,getBySubCategory);
     }
 }
 main()

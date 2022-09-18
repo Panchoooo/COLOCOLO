@@ -99,34 +99,32 @@ async function fquery(con,qry,Producto) {
 
 // Funcion que genera conexion a bdd y obtiene caracteristicas de la tienda 
 // in: store | out:con,limite,categories
-async function getConfigTienda(store){
-    var options = getOptions(); // bdd
-    var con = mysql.createConnection({
-        host: options["host"],
-        user: options["user"],
-        password: options["password"],
-        database: options["database"],
-        port:options["port"]
-      });
+async function getConfigTienda(con,store){
 
-    var params = await fquery(con,'SELECT limite from parametros where store = ?',[store]);
-    var limite = params[0].limite;
-
-    var categories = await fquery(con,'SELECT categoria from tienda_categorias WHERE store = ? and activo = 1 ORDER BY id desc',[store]);
-    var total = 0;
-    var categoriesdict = {}
-    if(categories.length > 0){
-        for (var c = 0 ; c<categories.length; c++){
-            total = 0;
-            var categoria = categories[c].categoria;
-            category_paths = await fquery(con,'SELECT subcategory from tienda_subcategorias WHERE store = ? and category = ? and activo = 1',[store,categoria]);
-            var asignadas = [];
-            category_paths.forEach(subcategoria => {
-                asignadas.push(subcategoria.subcategory);
-            });
-            categoriesdict[categoria]=asignadas;
-        };
+    try {
+        var params = await fquery(con,'SELECT limite from parametros where store = ?',[store]);
+        var limite = params[0].limite;
+    
+        var categories = await fquery(con,'SELECT categoria from tienda_categorias WHERE store = ? and activo = 1 ORDER BY id desc',[store]);
+        var total = 0;
+        var categoriesdict = {}
+        if(categories.length > 0){
+            for (var c = 0 ; c<categories.length; c++){
+                total = 0;
+                var categoria = categories[c].categoria;
+                category_paths = await fquery(con,'SELECT subcategory from tienda_subcategorias WHERE store = ? and category = ? and activo = 1',[store,categoria]);
+                var asignadas = [];
+                category_paths.forEach(subcategoria => {
+                    asignadas.push(subcategoria.subcategory);
+                });
+                categoriesdict[categoria]=asignadas;
+            };
+        }
+    } catch (error) {
+        
+        console.log(error)
     }
+
     return [con,limite,categoriesdict];
 
 }
@@ -197,11 +195,13 @@ async function getByCategory(con,store,categoria,asignada,func,limite){
 // Funcion main que obtiene la configuracion de la tienda, sus categorias y inicia el monitoreo
 // Recibe la funcion auxiliar respectiva a la tienda para obtener los productos
 // Responsabilidad del codigo de cada tienda retornar los productos con el formato respectivo.
-async function Monitoriar (store,func){
-    var config = await getConfigTienda(store);
+async function Monitoriar (con,store,func){
+    var config = await getConfigTienda(con,store);
     var con = config[0];
     var limite = config[1];
     var categories = config[2];
+
+    console.log(categories)
    
     var totalc = 0;
     for (const [categoria, asignadas] of Object.entries(categories)) {
