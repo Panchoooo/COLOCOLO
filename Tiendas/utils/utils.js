@@ -200,7 +200,8 @@ async function Monitoriar (con,store,func){
     var limite = config[1];
     var categories = config[2];
 
-    console.log(categories)
+    console.log("Categorias ");
+    console.log(categories);
    
     var totalc = 0;
     for (const [categoria, asignadas] of Object.entries(categories)) {
