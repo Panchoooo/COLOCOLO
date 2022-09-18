@@ -28,7 +28,7 @@ async function getBody(url) {
             'url': url,
             'headers': {
                 'Cookie': '__cf_bm=sYeqKezt6cjVgRt9MRPvvkIayoB4vhhV653c9Drz97Y-1663454961-0-ASBAjlbo8HldEKCMI5QnZLDv0q/2v49pkwcFOK3CTpN0mGRX5wJoK4ihqPtEhdpUpIWmEmXY7uZZCJ6lL9JQPQ0=',
-              'User-Agent': 'PostmanRuntime/7.29.2',
+              'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko)',
             }
           };
         return new Promise(function(resolve, reject) {
