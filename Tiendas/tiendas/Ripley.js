@@ -90,6 +90,8 @@ async function getBySubCategory(category,category_path,limite){
         else if(items != undefined && page != 0 &&  items.childElementCount==0){
             break;
         }else{
+            console.log(response);
+
             console.log("Error con la categoria "+category+" | "+category_path);
             break;
         }
