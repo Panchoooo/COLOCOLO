@@ -7,3 +7,5 @@ run:
 	pm2 start Monitor.js --no-autorestart --name "Monitor-5" -- 5 4000
 	pm2 start Monitor.js --no-autorestart --name "Monitor-6" -- 6 4000
 	pm2 start Monitor.js --no-autorestart --name "Monitor-7" -- 7 4000
+	pm2 start Monitor.js --no-autorestart --name "Monitor-8" -- 8 4000
+	pm2 start Monitor.js --no-autorestart --name "Monitor-9" -- 9 4000
