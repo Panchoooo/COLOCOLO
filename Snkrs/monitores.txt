@@ -5,6 +5,3 @@ Jordan 1;0;1;71667
 Jordan 1;0;1;71668
 Jordan 1;0;1;71669
 Jordan 1;0;1;71670
-Jordan 1;0;1;71698
-Jordan 1;0;1;71699
-Jordan 1;0;1;71700
