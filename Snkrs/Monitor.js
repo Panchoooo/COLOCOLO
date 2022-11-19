@@ -29,25 +29,25 @@ function LeerArchivo(i){
     const allFileContents = fs.readFileSync('monitores.txt', 'utf-8');
     allFileContents.split(/\r?\n/).forEach((line,index) =>  {
         if(index == parseInt(i)-1 ){
-            producto = line.split(";")
+            producto = line.split(";");
         }
     });
-    return producto
+    return producto;
 }
 async function change_monitor(i,puertobot){
     monitor = i;
     puerto = parseInt(puertobot)+parseInt(i);
     portbot = puertobot;
-    skus = []
+    skus = [];
     var producto = LeerArchivo(i)
     nombre_producto = producto[0];
     flag_tipo = producto[1];
     if(flag_tipo == 0){
-        skus = [parseInt(producto[3])]
+        skus = [parseInt(producto[3])];
         limite_sku = parseInt(producto[2]);
     }
     if(flag_tipo == 1){
-        skus = producto[2].split(",").map(x => +x)
+        skus = producto[2].split(",").map(x => +x);
     }
 }
 function añadirtxt(str,nombre_archivo){
@@ -59,7 +59,7 @@ function añadirtxt(str,nombre_archivo){
 async function PageAdd(sku,page){
     try {
         await page.goto("https://nikeclprod.myvtex.com/checkout/cart/add?sku="+sku+"&qty=1&seller=1&redirect=false&sc=1",{waitUntil: 'networkidle2'});
-        console.log(sku)
+        console.log(sku);
     } catch (error) {
     }
 }
@@ -71,7 +71,7 @@ async function Addsku(inicio,page){
         })
         return c
     } catch (error) {
-        console.log("Fallo al agregar...",error)
+        console.log("Fallo al agregar...",error);
     }
 }
 async function CargarCarro(){
@@ -81,7 +81,7 @@ async function CargarCarro(){
         if(flag_tipo == 0 || flag_tipo == 2){
             for(var i = 0 ; i<limite_sku;i){
                 var sku = parseInt(skus[0])+i;
-                var r = await Addsku(sku,page)
+                var r = await Addsku(sku,page);
                 if(r == 0){
                     i++
                     totalProductos+=1;
@@ -93,7 +93,7 @@ async function CargarCarro(){
         }
         if(flag_tipo == 1){
             for(var i = 0 ; i<skus.length;i++){
-                var r = await Addsku(sku,page)
+                var r = await Addsku(sku,page);
                 if(r == 0){
                     i++
                     totalProductos+=1;
@@ -122,10 +122,10 @@ async function CheckCargado(inicio) {
             var wea = [];
             var elementos = document.getElementsByClassName('folder');
             var flag_weas = 0;
-            var comp = '<items>'
+            var comp = '<items>';
             for(var i = 0 ; i<elementos.length ; i++){
                 if(elementos[i].textContent.slice(0,comp.length) == comp && flag_weas == 1){
-                    wea.push(elementos[i].textContent)
+                    wea.push(elementos[i].textContent);
                 }
                 if(elementos[i].textContent.slice(0,comp.length) == comp && flag_weas == 0){
                     flag_weas = 1;
@@ -164,14 +164,14 @@ async function CheckCarro(page){
         var wea = [];
         var elementos = document.getElementsByClassName('folder');
         var flag_weas = 0;
-        var comp = '<items>'
+        var comp = '<items>';
         for(var i = 0 ; i<elementos.length ; i++){
             if(elementos[i].textContent.slice(0,comp.length) == comp ){
                 if(flag_weas == 1){
-                    wea.push(elementos[i].textContent)
-                    break
+                    wea.push(elementos[i].textContent);
+                    break;
                 }
-                flag_weas = 1
+                flag_weas = 1;
             }
         }
         return wea;
@@ -190,11 +190,11 @@ async function CheckCarro(page){
                     var name =  "'"+ordenes[i]["name"]+"'";
                     if(available == "available" ){
                         flag_aviso = 1;
-                        enviarMSJ(name,sku)
-                        carro_aux.push([name,true,sku])        
+                        enviarMSJ(name,sku);
+                        carro_aux.push([name,true,sku])        ;
                     }
                     else{
-                        carro_aux.push([name,false,sku])        
+                        carro_aux.push([name,false,sku])    ;    
                     }
                     elementos+=1;
                 //    añadirtxt(sku+" | "+name+" | "+available+"\n",monitor+".txt")
@@ -207,7 +207,7 @@ async function CheckCarro(page){
     }
 
     if(flag_aviso  == 1  ){
-        OpenRequest(carro_aux)
+        OpenRequest(carro_aux);
         //await delay(1000)
         flag_aviso = 0;
     }
@@ -215,10 +215,9 @@ async function CheckCarro(page){
 
     //añadirtxt("\n\n",monitor+".txt")
     last_fecha = getDate();
-
-    carrito = carro_aux
-    console.log("Monitor: " + monitor + " | Ultimo check : "+ last_date);
-    console.log("Elementos actuales: " + carrito.length + " | "+ elementos)
+    carrito = carro_aux;
+    //console.log("Monitor: " + monitor + " | Ultimo check : "+ last_date);
+    //console.log("Elementos actuales: " + carrito.length + " | "+ elementos)
     if(carrito.length == 0){
         return 0;
     }
@@ -238,12 +237,12 @@ async function CheckCarro(page){
     console.log("Monitor: "+monitor+" | Puerto: "+puerto+ " | PuertoBot: "+portbot+" Nombre:"+nombre_producto+" | Limite: "+limite_sku)
     var flag_encontre = await CheckCargado(skus[0]);
     while(flag_encontre != 1){
-        console.log("Sku "+skus[0]+" no disponible aun "+ flag_encontre)
-        await delay(10000)
-        flag_encontre = await CheckCargado(skus[0])
+        console.log("Sku "+skus[0]+" no disponible aun "+ flag_encontre);
+        await delay(10000);
+        flag_encontre = await CheckCargado(skus[0]);
     }
-    await enviarMSJ(nombre_producto,skus[0])
-    await CargarCarro(page)
+    await enviarMSJ(nombre_producto,skus[0]);
+    await CargarCarro(page);
 
     var end = 0;
     while(end != -1){
@@ -251,7 +250,7 @@ async function CheckCarro(page){
             result = await CheckCarro(page);
         } catch (error) {
             await delay(1000)
-            console.log("Error general",error)  
+            console.log("Error general",error)  ;
         }
     }
 })();
