@@ -229,7 +229,7 @@ async function CheckCarro(page){
 (async () => {
 
     browser = await puppeteer.launch({
-        headless: true,
+        headless: false,
         args: ['--user-agent=<user_agent_string>','--no-sandbox','--disable-setuid-sandbox']
     });
     const page = await browser.newPage();
