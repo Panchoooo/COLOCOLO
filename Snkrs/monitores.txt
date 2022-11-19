@@ -1,15 +1,1 @@
-Syracuse;0;1;60422
-Syracuse;0;1;60423
-Syracuse;0;1;60424
-Syracuse;0;1;60425
-Syracuse;0;1;60426
-Syracuse;0;1;60427
-Syracuse;0;1;60428
-Kentucky;0;1;60400
-Kentucky;0;1;60401
-Kentucky;0;1;60402
-Kentucky;0;1;60403
-Kentucky;0;1;60404
-Kentucky;0;1;60405
-Kentucky;0;1;60406
-DiegoPuto;0;1;69237
+Syracuse;0;1;69238
