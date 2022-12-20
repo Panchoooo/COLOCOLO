@@ -8,5 +8,4 @@ run:
 	pm2 start Monitor.js --no-autorestart --name "Monitor-7" -- 7 4000
 	pm2 start Monitor.js --no-autorestart --name "Monitor-8" -- 8 4000
 	pm2 start Monitor.js --no-autorestart --name "Monitor-9" -- 9 4000
-	pm2 start Monitor.js --no-autorestart --name "Monitor-10" -- 10 4000
 	pm2 start bottelegram.js 

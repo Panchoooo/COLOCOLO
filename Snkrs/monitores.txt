@@ -7,4 +7,3 @@ Naranjas;0;1;73275
 Naranjas;0;1;73280
 Naranjas;0;1;73274
 Naranjas;0;1;73274
-Calcetas;0;1;69237
