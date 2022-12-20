@@ -190,7 +190,7 @@ async function CheckCarro(page){
                     var name =  "'"+ordenes[i]["name"]+"'";
                     if(available == "available" ){
                         flag_aviso = 1;
-                        enviarMSJ(name,sku);
+                        //enviarMSJ(name,sku);
                         carro_aux.push([name,true,sku])        ;
                     }
                     else{
