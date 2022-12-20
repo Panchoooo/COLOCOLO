@@ -1,3 +1,8 @@
+Naranjas;0;1;73281
+Naranjas;0;1;73284
+Naranjas;0;1;73272
+Naranjas;0;1;73283
+Naranjas;0;1;73276
 Naranjas;0;1;73278
 Naranjas;0;1;73273
 Naranjas;0;1;73277
