@@ -129,7 +129,7 @@ async function CheckCarro(cookie){
       flag_aviso = 0;
   }
   last_fecha = getDate();
-  console.log(last_fecha)
+  //console.log(last_fecha)
   carrito = carro_aux;
   return 1;
 }
