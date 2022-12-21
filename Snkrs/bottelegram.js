@@ -8,7 +8,7 @@ const TelegramBot = require('node-telegram-bot-api')
 let users = ['-1001578014454'];
 var token = null ; 
 var i = process.argv[2];
-var monitores = []
+var monitores = [6000]
 var puerto = 4000
 var token = '5175295388:AAGkp3YHnJLW2NZOX2cAudw1qxWNPZHLRRE'
 var carrostxt = "";
@@ -126,7 +126,8 @@ async function getCarros(id){
 }
 async function getCarro(indice,id){
 
-    var monitor = monitores[indice-1]
+    var monitor = monitores[indice]
+    //var monitor = monitores[indice-1]
     var options = {
         'method': 'GET',
         'url': 'http://localhost:'+monitor+'/getCarrito',
