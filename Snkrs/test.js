@@ -273,3 +273,8 @@ function OpenRequest(skus){
 
   }
 }
+
+
+function crearURL(sku,cantidad){
+  return "https://nike.cl/checkout/cart/add?sku="+sku+"&qty="+cantidad+"&seller=1&redirect=false&sc=1";
+}
